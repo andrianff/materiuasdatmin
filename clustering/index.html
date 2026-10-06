@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bahan Belajar UAS Data Mining – Analisis Cluster (Clustering)</title>
+<meta name="description" content="Ringkasan lengkap Pertemuan 9 Data Mining: Analisis Klaster, Hierarki (AGNES, DIANA, Linkage), Partisi (K-Means, PAM, CLARA), K Optimal (Elbow, Silhouette, Gap Stat), Advanced Methods (DBSCAN, Fuzzy, Model-based).">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="katex/katex.min.css">
+<style>
+:root{
+  --bg:#0b1020;--panel:#131a30;--panel2:#1a2342;--line:#27315a;--tx:#e6e9f5;--mut:#9aa6cf;
+  --a:#5ea2ff;--b:#2dd4bf;--c:#fbbf24;--d:#f43f5e;--p:#a855f7;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(1200px 600px at 80% -10%,#1e2f7555,transparent),var(--bg);color:var(--tx);font:16px/1.75 Inter,system-ui,sans-serif}
+aside{position:fixed;inset:0 auto 0 0;width:280px;background:#0d1433f0;backdrop-filter:blur(12px);border-right:1px solid var(--line);padding:24px 18px;overflow-y:auto;z-index:20}
+aside h2{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--a);margin:0 0 14px}
+aside a{display:block;color:var(--mut);text-decoration:none;padding:7px 12px;border-radius:8px;font-size:13.5px;transition:.2s;line-height:1.4;margin:2px 0}
+aside a:hover,aside a.on{background:var(--panel2);color:#fff;transform:translateX(3px);font-weight:600}
+aside .sep{height:1px;background:var(--line);margin:14px 0}
+aside .btn-note{display:block;background:linear-gradient(135deg,#c0392b,#e05252);color:#fff!important;text-align:center;padding:10px 14px;border-radius:10px;font-weight:700;margin-top:10px;box-shadow:0 4px 16px #e0525244}
+main{margin-left:280px;max-width:1040px;padding:40px 48px 120px}
+.hero{padding:40px;border-radius:24px;background:linear-gradient(135deg,#1d4ed8,#0ea5e9 45%,#059669);box-shadow:0 24px 64px #0ea5e933;margin-bottom:34px;position:relative;overflow:hidden}
+.hero h1{margin:0 0 10px;font-size:36px;line-height:1.2;font-weight:800;color:#fff}
+.hero p{margin:0;font-size:16px;color:#f0fdf4;opacity:.95}
+.tags{margin-top:16px;display:flex;flex-wrap:wrap;gap:8px}
+.tags span{background:#ffffff26;backdrop-filter:blur(6px);border-radius:99px;padding:4px 14px;font-size:13px;font-weight:500;color:#fff}
+section{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:32px 36px;margin-bottom:28px;box-shadow:0 10px 30px #00000030}
+h2.t{margin:0 0 16px;font-size:26px;font-weight:800;background:linear-gradient(90deg,var(--a),var(--b));-webkit-background-clip:text;background-clip:text;color:transparent;display:flex;align-items:center;gap:10px}
+h3{margin:26px 0 10px;font-size:19px;color:var(--c);font-weight:700}
+h4{margin:18px 0 8px;font-size:16px;color:var(--b);font-weight:600}
+p{margin:10px 0}
+li{margin:6px 0}
+b,strong{color:#fff}
+em{color:#93c5fd}
+.box{border-radius:14px;padding:16px 20px;margin:16px 0;border:1px solid}
+.def{background:#5ea2ff12;border-color:#5ea2ff44}
+.formula{background:#2dd4bf12;border-color:#2dd4bf44;text-align:center;overflow-x:auto}
+.formula .lbl{display:block;text-align:left;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--b);font-weight:700;margin-bottom:4px}
+.tip{background:#fbbf2414;border-color:#fbbf2455}
+.tip:before{content:"💡 Tips UAS STIS: ";font-weight:800;color:var(--c)}
+.warn{background:#f43f5e14;border-color:#f43f5e55}
+.warn:before{content:"⚠️ Perhatian / Jebakan Ujian: ";font-weight:800;color:var(--d)}
+figure{margin:22px 0;text-align:center}
+figure img{max-width:100%;border-radius:14px;border:1px solid var(--line);background:#fff;cursor:zoom-in;transition:.25s;box-shadow:0 8px 24px #00000044}
+figure img:hover{transform:scale(1.015);box-shadow:0 12px 36px #00000088}
+figcaption{font-size:13.5px;color:var(--mut);margin-top:8px}
+table{border-collapse:collapse;margin:16px auto;width:100%;font-size:14.5px}
+th,td{border:1px solid var(--line);padding:8px 14px;text-align:center}
+th{background:var(--panel2);color:var(--a);font-weight:700}
+tr:nth-child(even) td{background:#ffffff05}
+td.l{text-align:left}
+.ok{color:var(--b);font-weight:700}.no{color:var(--d);font-weight:700}
+code{font-family:'JetBrains Mono',monospace;background:#00000055;padding:2px 7px;border-radius:6px;font-size:.88em;color:#fde047}
+ol.steps{counter-reset:s;list-style:none;padding:0}
+ol.steps>li{counter-increment:s;position:relative;padding:12px 14px 12px 54px;background:var(--panel2);border:1px solid var(--line);border-radius:14px;margin:10px 0}
+ol.steps>li:before{content:counter(s);position:absolute;left:14px;top:12px;width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--a),var(--b));color:#041426;font-weight:800;display:grid;place-items:center;font-size:14px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.card{background:var(--panel2);border-radius:14px;padding:16px 20px;border:1px solid var(--line)}
+details{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:12px 18px;margin:12px 0}
+summary{cursor:pointer;font-weight:700;color:var(--a);user-select:none}
+#lb{position:fixed;inset:0;background:#000000e6;display:none;place-items:center;z-index:999;cursor:zoom-out;padding:20px}
+#lb img{max-width:95vw;max-height:95vh;border-radius:10px;box-shadow:0 0 40px #000}
+.katex-display{overflow-x:auto;overflow-y:hidden;margin:.6em 0}
+.katex{font-size:1.12em}
+@media(max-width:960px){aside{display:none}main{margin:0;padding:20px}.grid2{grid-template-columns:1fr}}
+@media print{aside{display:none}main{margin:0}body{background:#fff;color:#000}section{break-inside:avoid}}
+</style>
+</head>
+<body>
+
+<aside>
+<h2>Daftar Isi</h2>
+<a href="#intro">1. Pendahuluan & Konsep</a>
+<a href="#syarat">2. Syarat Analisis Klaster</a>
+<a href="#jarak">3. Ukuran Jarak Lengkap</a>
+<a href="#pilih-jarak">4. Panduan Pemilihan Jarak</a>
+<div class="sep"></div>
+<a href="#hierarki">5. Hierarchical Models</a>
+<a href="#linkage">6. Lima Fungsi Linkage</a>
+<a href="#dendrogram">7. Dendrogram & Cut Tree</a>
+<div class="sep"></div>
+<a href="#kmeans">8. K-Means Clustering</a>
+<a href="#pam">9. K-Medoids (PAM)</a>
+<a href="#clara">10. CLARA (Big Data)</a>
+<div class="sep"></div>
+<a href="#k-opt">11. Estimasi K Optimal</a>
+<a href="#advanced">12. Advanced & Other Methods</a>
+<a href="#simulasi">13. Contoh Soal Hitung Manual</a>
+<a href="#tabel-komparasi">14. Matriks Perbandingan</a>
+<a href="#checklist">15. Checklist UAS STIS</a>
+<div class="sep"></div>
+<a class="btn-note" href="catatan.html">📝 Buka Versi Catatan Kertas →</a>
+</aside>
+
+<main>
+<header class="hero">
+<h1>Analisis Klaster (Clustering)<br>Hierarki · Partisi · K-Optimal · Advanced</h1>
+<p>Bahan Belajar UAS Data Mining — Pertemuan 9 (Politeknik Statistika STIS)</p>
+<div class="tags">
+<span>Unsupervised Learning</span>
+<span>Intracluster Similarity</span>
+<span>Intercluster Dissimilarity</span>
+<span>AGNES vs DIANA</span>
+<span>Hartigan-Wong K-Means</span>
+<span>PAM &amp; CLARA</span>
+<span>Elbow &amp; Silhouette</span>
+<span>DBSCAN</span>
+</div>
+</header>
+
+<!-- 1 -->
+<section id="intro">
+<h2 class="t">1. Pendahuluan & Konsep Dasar</h2>
+<div class="box def">
+<b>Cluster Analysis (Analisis Klaster)</b> adalah salah satu teknik analisis data eksploratori (<em>Exploratory Data Analysis / EDA</em>) di mana sekumpulan pengamatan dibagi menjadi beberapa kelompok berbeda (<em>clusters</em>) sehingga objek di dalam kelompok yang sama memiliki karakteristik serupa.
+</div>
+
+<h3>Tujuan Utama Analisis Klaster</h3>
+<p>Membangun kelompok/kelas/klaster dengan memastikan dua kondisi dualitas:</p>
+<div class="grid2">
+<div class="card" style="border-left:4px solid var(--b)">
+<b>1. Intracluster Similarity (Maksimal)</b><br>
+Dalam satu kelompok/klaster, objek-objek pengamatan harus <b>semirip mungkin</b> satu sama lain (jarak kecil, kohesi tinggi).
+</div>
+<div class="card" style="border-left:4px solid var(--d)">
+<b>2. Intercluster Dissimilarity (Maksimal)</b><br>
+Antar kelompok/klaster yang berbeda, objek-objek pengamatan sebisa mungkin <b>seberbeda mungkin</b> (jarak besar, separasi tinggi).
+</div>
+</div>
+
+<figure>
+<img src="img/slide-03.jpg" alt="Intracluster vs Intercluster" id="fig-intro">
+<figcaption>Gambar 1: Konsep Intracluster Similarity (kuning, dalam klaster) dan Intercluster Dissimilarity (hijau, antar klaster) [Source: Stats and R]</figcaption>
+</figure>
+
+<h3>Analogi: Introverts vs Extroverts</h3>
+<figure>
+<img src="img/slide-04.jpg" alt="Introverts vs Extroverts">
+<figcaption>Gambar 2: Analogi pengelompokan orang: kemiripan karakteristik internal grup (introvert saling mirip) dan ketidaksamaan antar kelompok (introvert vs extrovert).</figcaption>
+</figure>
+
+<h3>Karakteristik Unsupervised Learning</h3>
+<ul>
+<li>Clustering termasuk ke dalam ranah <b>Unsupervised Learning</b> karena <b>tidak ada informasi label kelas target</b> ($y$) dalam data latih.</li>
+<li>Oleh karena itu, clustering adalah bentuk <b><em>learning by observation</em></b> (belajar melalui pengamatan struktur alami data), bukan <em>learning by examples</em> (supervised).</li>
+</ul>
+
+<h3>Aplikasi & Kegunaan Clustering</h3>
+<ul>
+<li><b>Aplikasi Luas:</b> Business intelligence (segmentasi pasar &amp; nasabah), image pattern recognition, web search result clustering, bioinformatika (analisis ekspresi gen / microarrays), security &amp; fraud detection, analisis spasial.</li>
+<li><b>Data Mining:</b> Mengetahui sebaran data, mengamati karakteristik setiap cluster, memfokuskan analisis lanjutan pada segmen tertentu.</li>
+<li><b>Data Segmentation:</b> Mempartisi kumpulan data besar ke dalam subgrup homogen.</li>
+<li><b>Outlier Detection:</b> Mengidentifikasi objek yang berada jauh dari klaster mana pun (dapat mewakili anomali, penipuan, atau kasus unik yang sangat berharga).</li>
+</ul>
+</section>
+
+<!-- 2 -->
+<section id="syarat">
+<h2 class="t">2. Syarat-Syarat Analisis Klaster dalam Data Mining</h2>
+<p>Dalam konteks Big Data dan Data Mining modern, sebuah algoritma klaster yang handal dituntut memenuhi syarat-syarat berikut:</p>
+<table>
+<tr><th style="width:25%">Syarat</th><th>Deskripsi &amp; Implikasinya</th></tr>
+<tr><td><b>Scalability</b></td><td class="l">Algoritma harus dapat menangani jutaan baris data secara efisien. Mengambil sampel kecil dapat menyebabkan hasil yang bias.</td></tr>
+<tr><td><b>Menangani Berbagai Atribut</b></td><td class="l">Mampu bekerja tidak hanya pada data numerik (interval/rasio), tetapi juga biner, nominal/kategorikal, ordinal, atau data campuran.</td></tr>
+<tr><td><b>Menemukan Bentuk Arbitrer (Arbitrary Shapes)</b></td><td class="l">Klaster alami dapat berbentuk bulan sabit, cincin konsentris, spiral, atau memanjang. Algoritma berbasis jarak Euclidean/Manhattan (seperti K-Means) cenderung <b>hanya menemukan klaster sferis (spherical/bulat)</b>. Metode density-based (DBSCAN) mampu mengatasi batasan ini.</td></tr>
+<tr><td><b>Minimal Domain Knowledge</b></td><td class="l">Tidak membutuhkan pengguna memasukkan banyak parameter rumit yang sulit ditebak (seperti menentukan jumlah $K$ secara manual).</td></tr>
+<tr><td><b>Tahan terhadap Noise &amp; Outlier</b></td><td class="l">Mampu membedakan titik data yang valid dari data noisy, error, atau outlier tanpa merusak posisi pusat klaster.</td></tr>
+<tr><td><b>Insensitif terhadap Urutan Input</b></td><td class="l">Hasil klaster tidak boleh berubah hanya karena baris dataset diacak urutannya.</td></tr>
+<tr><td><b>Menangani Dimensi Tinggi</b></td><td class="l">Mampu mengatasi fenomena <em>Curse of Dimensionality</em> (di mana semua jarak antar titik menjadi relatif homogen pada dimensi sangat tinggi).</td></tr>
+<tr><td><b>Constraint-Based Clustering</b></td><td class="l">Mampu mengakomodir batasan-batasan bisnis nyata (misalnya kapasitas maksimal klaster, batasan geografis).</td></tr>
+<tr><td><b>Interpretability &amp; Usability</b></td><td class="l">Hasil partisi harus mudah ditafsirkan, masuk akal secara substansi domain, dan dapat ditindaklanjuti.</td></tr>
+</table>
+</section>
+
+<!-- 3 -->
+<section id="jarak">
+<h2 class="t">3. Ukuran Jarak (Distance Metrics) Lengkap</h2>
+<p>Pemilihan ukuran jarak adalah <b>fondasi paling krusial</b> dalam clustering karena rumus jarak yang dipilih menentukan apakah dua objek dianggap "mirip" atau tidak.</p>
+
+<h3>A. Ukuran Jarak Klasik (Geometric)</h3>
+<p>Dua vektor berdimensi $n$: $\mathbf{x} = (x_1, x_2, \dots, x_n)$ dan $\mathbf{y} = (y_1, y_2, \dots, y_n)$. Dihitung dengan fungsi <code>dist()</code> di R base.</p>
+
+<div class="box formula">
+<span class="lbl">1. Euclidean Distance ($L_2$ norm) — Jarak Garis Lurus Terpendek</span>
+$$d_{euc}(\mathbf{x}, \mathbf{y}) = \sqrt{\sum_{i=1}^n (x_i - y_i)^2}$$
+</div>
+
+<div class="box formula">
+<span class="lbl">2. Manhattan Distance ($L_1$ norm / City Block / Taxicab) — Jumlah Selisih Mutlak</span>
+$$d_{man}(\mathbf{x}, \mathbf{y}) = \sum_{i=1}^n |x_i - y_i|$$
+</div>
+
+<div class="box tip">
+Manhattan distance <b>jauh lebih robust terhadap outlier</b> dibandingkan Euclidean distance karena selisih tidak dikuadratkan, sehingga nilai ekstrem tidak teramplifikasi berlebihan!
+</div>
+
+<figure>
+<img src="img/slide-07.jpg" alt="Ukuran Jarak Klasik">
+<figcaption>Gambar 3: Rumus Euclidean &amp; Manhattan distance dari Slide 7.</figcaption>
+</figure>
+
+<h3>B. Ukuran Jarak Berbasis Korelasi (Correlation-Based Distances)</h3>
+<p>Diakses via <code>get_dist()</code> di package <code>factoextra</code>. Nilai korelasi $r \in [-1, 1]$ diubah menjadi jarak $d \in [0, 2]$ dengan prinsip: <b>semakin berkorelasi kuat ($r \to 1$), jaraknya semakin mendekati 0</b>.</p>
+
+<div class="box formula">
+<span class="lbl">3. Pearson Correlation Distance (Derajat Hubungan Linear Dua Profil)</span>
+$$d_{cor}(\mathbf{x}, \mathbf{y}) = 1 - \frac{\sum_{i=1}^n (x_i - \bar{x})(y_i - \bar{y})}{\sqrt{\sum_{i=1}^n (x_i - \bar{x})^2 \sum_{i=1}^n (y_i - \bar{y})^2}}$$
+</div>
+
+<div class="box formula">
+<span class="lbl">4. Eisen Cosine Correlation Distance (Eisen et al., 1998)</span>
+$$d_{eisen}(\mathbf{x}, \mathbf{y}) = 1 - \frac{\left|\sum_{i=1}^n x_i y_i\right|}{\sqrt{\sum_{i=1}^n x_i^2 \sum_{i=1}^n y_i^2}}$$
+<div style="font-size:13.5px;color:var(--mut);margin-top:4px">Bentuk khusus dari korelasi Pearson dengan mean vektor dianggap nol ($\bar{x} = 0, \bar{y} = 0$). Mengukur nilai mutlak kosinus sudut kedua vektor.</div>
+</div>
+
+<div class="box formula">
+<span class="lbl">5. Spearman Correlation Distance (Korelasi Berdasarkan Ranking Nilai)</span>
+$$d_{spear}(\mathbf{x}, \mathbf{y}) = 1 - \frac{\sum_{i=1}^n (x'_i - \bar{x}')(y'_i - \bar{y}')}{\sqrt{\sum_{i=1}^n (x'_i - \bar{x}')^2 \sum_{i=1}^n (y'_i - \bar{y}')^2}}$$
+<div style="font-size:13.5px;color:var(--mut);margin-top:4px">Di mana $x'_i = \text{rank}(x_i)$ dan $y'_i = \text{rank}(y_i)$. Mengukur kemonotonan hubungan antar variabel tanpa mengasumsikan linearitas.</div>
+</div>
+
+<div class="box formula">
+<span class="lbl">6. Kendall Correlation Distance (Berdasarkan Konkordansi Pasangan)</span>
+$$d_{kend}(\mathbf{x}, \mathbf{y}) = 1 - \frac{n_c - n_d}{\frac{1}{2}n(n-1)}$$
+<div style="font-size:13.5px;color:var(--mut);margin-top:4px">Di mana $n_c$: jumlah pasangan konkordan (arah ranking sama), $n_d$: jumlah pasangan diskordan (arah ranking berlawanan), $\frac{1}{2}n(n-1)$: total pasangan yang mungkin.</div>
+</div>
+
+<figure>
+<img src="img/slide-08.jpg" alt="Ukuran Jarak Korelasi">
+<figcaption>Gambar 4: Empat ukuran jarak berbasis korelasi dari Slide 8 (Pearson, Eisen Cosine, Spearman, Kendall).</figcaption>
+</figure>
+</section>
+
+<!-- 4 -->
+<section id="pilih-jarak">
+<h2 class="t">4. Tipe Jarak Mana yang Harus Dipilih?</h2>
+<p>Ini adalah materi konsep yang <b>sangat sering diujikan di soal analisis/teori</b>!</p>
+
+<div class="grid2">
+<div class="card">
+<h4 style="color:var(--a)">Kapan Menggunakan Jarak Euclidean?</h4>
+<ul>
+<li>Software statistik biasanya memakai <b>Euclidean sebagai default</b>.</li>
+<li>Cocok ketika <b>magnitudo absolut</b> variabel penting.</li>
+<li>Observasi dengan nilai fitur tinggi akan mengelompok bersama observasi bernilai tinggi; observasi bernilai rendah bersama yang rendah.</li>
+<li><i>Contoh:</i> Mengelompokkan daerah berdasarkan tingkat kemiskinan dan pengangguran (besaran angka mencerminkan status riil).</li>
+</ul>
+</div>
+<div class="card">
+<h4 style="color:var(--b)">Kapan Menggunakan Jarak Berbasis Korelasi?</h4>
+<ul>
+<li>Cocok jika kita ingin mengelompokkan observasi yang memiliki <b>profil/tren keseluruhan yang sama</b>, <u>terlepas dari berapa besarannya</u>.</li>
+<li>Dua objek dianggap mirip jika pola fluktuasi fiturnya berkorelasi tinggi, meski nilai absolutnya berjauhan di ruang Euclidean.</li>
+<li>Jarak antara dua objek bernilai <b>0 ketika berkorelasi sempurna ($r = 1$)</b>.</li>
+<li><i>Contoh klasik:</i> Analisis data <b>ekspresi gen (gene expression)</b> di bioinformatika atau preferensi tren pelanggan.</li>
+</ul>
+</div>
+</div>
+
+<div class="box tip">
+Jika ingin menggunakan jarak berbasis korelasi pada K-Means, data harus <b>distandarisasi ke dalam z-score</b> terlebih dahulu ($z = \frac{x - \bar{x}}{s}$).
+</div>
+</section>
+
+<!-- 5 -->
+<section id="hierarki">
+<h2 class="t">5. Model Hirarki (Hierarchical Models)</h2>
+<p>Mengelompokkan objek-objek data ke dalam suatu struktur hirarki pohon klaster yang bertingkat. Hasilnya tidak memerlukan spesifikasi awal jumlah klaster $K$.</p>
+
+<h3>Dua Pendekatan Utama: AGNES vs DIANA</h3>
+<figure>
+<img src="img/slide-12.jpg" alt="AGNES vs DIANA">
+<figcaption>Gambar 5: Perbandingan AGNES (Bottom-Up) vs DIANA (Top-Down) dari Slide 12.</figcaption>
+</figure>
+
+<div class="grid2">
+<div class="card" style="border-top:4px solid var(--a)">
+<b>AGNES (Agglomerative Nesting) — BOTTOM-UP</b>
+<ul>
+<li>Mulai dari $N$ klaster individu (setiap objek dianggap sebagai satu klaster tersendiri).</li>
+<li>Secara iteratif, pada setiap tahap <b>dua klaster yang paling mirip (jarak terpendek) digabungkan</b> menjadi satu klaster baru.</li>
+<li>Proses berlanjut hingga akhirnya semua objek tergabung dalam <b>satu klaster besar tunggal</b>.</li>
+<li>Metode paling populer di software statistik.</li>
+</ul>
+</div>
+<div class="card" style="border-top:4px solid var(--c)">
+<b>DIANA (Divisive Analysis) — TOP-DOWN</b>
+<ul>
+<li>Mulai dari <b>satu klaster raksasa</b> yang memuat seluruh objek data.</li>
+<li>Secara iteratif, pada setiap langkah klaster dipecah-pecah menjadi sub-klaster yang lebih kecil berdasarkan ketidaksamaan terbesar.</li>
+<li>Proses berlanjut hingga setiap objek terpisah menjadi klaster masing-masing (berisi 1 objek).</li>
+<li>Kompleksitas komputasinya cenderung lebih berat dibanding AGNES.</li>
+</ul>
+</div>
+</div>
+
+<h3>Langkah-Langkah Algoritma Hirarki (AGNES)</h3>
+<ol class="steps">
+<li><b>Siapkan data:</b> Bersihkan dan standarisasi data bila skala variabel berbeda.</li>
+<li><b>Hitung matriks jarak dissimilarity:</b> Hitung jarak berpasangan antar seluruh objek (misal matriks $N \times N$ Euclidean).</li>
+<li><b>Gunakan fungsi linkage:</b> Kelompokkan objek/klaster terdekat menjadi struktur pohon berdasarkan aturan linkage yang dipilih.</li>
+<li><b>Visualisasi Dendrogram:</b> Gambar pohon dan tentukan tinggi pemotongan (<em>cut-tree</em>) untuk menentukan partisi final $k$ klaster.</li>
+</ol>
+</section>
+
+<!-- 6 -->
+<section id="linkage">
+<h2 class="t">6. Lima Fungsi Linkage (Ukuran Jarak Antar-Klaster)</h2>
+<p>Ketika dua klaster masing-masing memiliki lebih dari 1 objek, bagaimana cara mengukur jarak antara Klaster $C_1$ dan Klaster $C_2$? Inilah peran fungsi <b>Linkage</b>!</p>
+
+<figure>
+<img src="img/slide-14.jpg" alt="Fungsi Linkage">
+<figcaption>Gambar 6: Lima fungsi linkage dari Slide 14.</figcaption>
+</figure>
+
+<table>
+<tr><th style="width:20%">Metode Linkage</th><th style="width:35%">Definisi Matematis</th><th>Karakteristik &amp; Sifat di Ujian</th></tr>
+<tr>
+<td><b>Single Linkage</b><br>(Nearest Neighbor)</td>
+<td class="l">$$d(C_1, C_2) = \min_{x \in C_1, y \in C_2} d(x, y)$$<br>Jarak <b>minimum</b> dari semua pasangan elemen.</td>
+<td class="l"><span class="ok">Mampu mendeteksi klaster non-elliptical</span>.<br><span class="no">Kelemahan fatal: Rentan Chaining Effect</span> (efek rantai: titik perantara menghubungkan dua klaster yang sebenarnya terpisah).</td>
+</tr>
+<tr>
+<td><b>Complete Linkage</b><br>(Furthest Neighbor)</td>
+<td class="l">$$d(C_1, C_2) = \max_{x \in C_1, y \in C_2} d(x, y)$$<br>Jarak <b>maksimum</b> dari semua pasangan elemen.</td>
+<td class="l">Menghasilkan klaster yang <b>kompak dan berdiameter serupa</b>. Menghindari efek rantai, tetapi sensitif terhadap outlier.</td>
+</tr>
+<tr>
+<td><b>Average Linkage</b><br>(UPGMA)</td>
+<td class="l">$$d(C_1, C_2) = \frac{1}{|C_1||C_2|} \sum_{x \in C_1} \sum_{y \in C_2} d(x, y)$$<br><b>Rata-rata</b> seluruh pasangan elemen.</td>
+<td class="l">Kompromi yang sangat baik antara Single dan Complete Linkage. Lebih tahan terhadap noise dan outlier.</td>
+</tr>
+<tr>
+<td><b>Centroid Linkage</b><br>(UPGMC)</td>
+<td class="l">$$d(C_1, C_2) = d(\mu_1, \mu_2)$$<br>Jarak antara <b>titik pusat (centroid)</b> klaster 1 dan klaster 2.</td>
+<td class="l">Mudah dipahami secara intuitif, namun dapat mengalami anomali <em>inversion</em> (dendrogram melengkung ke bawah).</td>
+</tr>
+<tr>
+<td><b>Ward's Method</b><br>(Minimum Variance)</td>
+<td class="l">Meminimumkan kenaikan <b>total variasi dalam klaster (SSE)</b> saat digabung:
+$$\Delta \text{SSE} = \frac{|C_1||C_2|}{|C_1| + |C_2|} \|\mu_1 - \mu_2\|^2$$</td>
+<td class="l"><b>Metode yang paling sering direkomendasikan &amp; dipakai dalam praktik!</b> Cenderung menghasilkan klaster dengan ukuran jumlah anggota yang seimbang dan sangat padat (kompak).</td>
+</tr>
+</table>
+</section>
+
+<!-- 7 -->
+<section id="dendrogram">
+<h2 class="t">7. Dendrogram & Cara Memotong Pohon (Cut Tree)</h2>
+<div class="box def">
+<b>Dendrogram</b> adalah visualisasi pohon bercabang yang menggambarkan urutan dan jarak penggabungan bertingkat dari setiap objek hingga menjadi satu kesatuan.
+</div>
+<ul>
+<li><b>Sumbu Vertikal (Height / Jarak):</b> Menunjukkan jarak dissimilarity saat dua klaster digabung. Semakin tinggi garis horizontal penghubung, semakin besar perbedaan antara kedua klaster yang digabung.</li>
+<li><b>Sumbu Horisontal:</b> Mewakili label setiap individu/observasi data.</li>
+</ul>
+
+<figure>
+<img src="img/slide-15.jpg" alt="Dendrogram Cut">
+<figcaption>Gambar 7: Dendrogram hasil <code>fviz_dend()</code> dengan simulasi pemotongan pohon pada ketinggian berbeda.</figcaption>
+</figure>
+
+<div class="box tip">
+<b>Aturan Memotong Pohon (Cut Tree):</b>
+<ul>
+<li>Jika kita memotong pada garis vertikal yang memiliki "ruang lompatan tinggi" (vertical gap) terpanjang, partisi klaster yang terbentuk biasanya paling stabil alami.</li>
+<li>Pada Gambar 7:
+  <ul>
+    <li>Potong di atas ($\text{Height} \approx 9$) $\to$ Terbentuk <b>2 klaster</b> besar.</li>
+    <li>Potong di bawah ($\text{Height} \approx 4.5$) $\to$ Terbentuk <b>4 klaster</b> yang lebih spesifik.</li>
+  </ul>
+</li>
+</ul>
+</div>
+</section>
+
+<!-- 8 -->
+<section id="kmeans">
+<h2 class="t">8. Partitioning Model: K-Means Clustering</h2>
+<p>K-Means adalah algoritma partisi paling fundamental dan paling banyak digunakan di industri.</p>
+
+<h3>Konsep Dasar & Fungsi Objektif Hartigan-Wong</h3>
+<p>K-Means mempartisi $N$ observasi ke dalam $K$ klaster sedemikian rupa sehingga <b>total variasi intra-cluster (Total Within-Cluster Variation / Within-Cluster Sum of Squares - WSS)</b> diminimalkan.</p>
+
+<div class="box formula">
+<span class="lbl">Fungsi Objektif SSE / Total Withinss (Hartigan &amp; Wong, 1979)</span>
+$$\text{tot.withinss} = \sum_{k=1}^K W(C_k) = \sum_{k=1}^K \sum_{x_i \in C_k} \|x_i - \mu_k\|^2$$
+<div style="font-size:14px;color:var(--mut);margin-top:4px">
+Di mana $C_k$ adalah klaster ke-$k$, dan $\mu_k$ adalah centroid (titik rata-rata) klaster $C_k$:
+$$\mu_k = \frac{1}{|C_k|} \sum_{x_i \in C_k} x_i$$
+</div>
+</div>
+
+<figure>
+<img src="img/slide-17.jpg" alt="K-Means Hartigan Wong">
+<figcaption>Gambar 8: Formula total within-cluster sum of squares dari Slide 17.</figcaption>
+</figure>
+
+<h3>Langkah-Langkah Algoritma K-Means</h3>
+<figure>
+<img src="img/slide-18.jpg" alt="Algoritma K-means">
+<figcaption>Gambar 9: 5 Langkah resmi algoritma K-Means dari Slide 18.</figcaption>
+</figure>
+
+<ol class="steps">
+<li><b>Tentukan jumlah cluster ($K$):</b> Ditentukan terlebih dahulu oleh analis/pengguna.</li>
+<li><b>Inisialisasi Pusat Awal:</b> Algoritma memilih secara acak $K$ objek dari dataset sebagai pusat klaster awal (<em>initial means / centroids</em>).</li>
+<li><b>Assignment Step (Tahap Penugasan):</b> Tetapkan setiap observasi $x_i$ ke centroid terdekat berdasarkan jarak Euclidean:
+$$c_i = \arg\min_k \|x_i - \mu_k\|^2$$
+<i>Catatan:</i> Jika ingin menggunakan jarak korelasi, data wajib distandarisasi ke skor-z terlebih dahulu.</li>
+<li><b>Centroid Update (Pembaruan Pusat):</b> Hitung kembali koordinat centroid untuk setiap klaster dengan menghitung nilai rata-rata baru dari semua titik yang menjadi anggotanya:
+$$\mu_k = \frac{1}{|C_k|}\sum_{x_i \in C_k} x_i$$</li>
+<li><b>Iterasi &amp; Konvergensi:</b> Ulangi langkah 3 dan 4 secara bolak-balik sampai penetapan anggota klaster tidak berubah lagi (konvergen) atau batas maksimum iterasi tercapai (di software R, default <code>iter.max = 10</code>).</li>
+</ol>
+
+<h3>Kelebihan & Kekurangan K-Means (Materi Wajib Ujian!)</h3>
+<figure>
+<img src="img/slide-20.jpg" alt="Kelebihan dan Kekurangan K-means">
+<figcaption>Gambar 10: Rangkuman Kelebihan, Kekurangan, dan Solusi K-Means dari Slide 20.</figcaption>
+</figure>
+
+<table>
+<tr><th>Aspek</th><th>Detail Penjelasan</th><th>Solusi Resmi</th></tr>
+<tr>
+<td><b>Kelebihan</b></td>
+<td class="l">
+1. Algoritma sangat sederhana, intuitif, dan sangat cepat.<br>
+2. Sangat efisien dalam menangani dataset berskala besar (kompleksitas waktu linier $O(t \cdot k \cdot n)$).
+</td>
+<td class="l">—</td>
+</tr>
+<tr>
+<td><b>Kekurangan 1:<br>Harus Tentukan $K$</b></td>
+<td class="l">Mengasumsikan prior knowledge tentang data; analis dipaksa memilih $K$ di awal tanpa tahu struktur asli data.</td>
+<td class="l">Hitung K-Means untuk rentang nilai $K$ (misal $K = 2 \dots 10$), lalu evaluasi dengan metode <b>Elbow, Silhouette, atau Gap Statistic</b>.</td>
+</tr>
+<tr>
+<td><b>Kekurangan 2:<br>Sensitif Inisialisasi</b></td>
+<td class="l">Pemilihan acak titik awal yang buruk dapat menjebak algoritma ke <b>local optima</b>, menghasilkan partisi berbeda di tiap run.</td>
+<td class="l">Jalankan algoritma beberapa kali dengan inisialisasi berbeda (parameter <code>nstart &gt; 1</code> di R, mis. <code>nstart = 25</code>). Pilih run dengan <b>total withinss terendah</b>.</td>
+</tr>
+<tr>
+<td><b>Kekurangan 3:<br>Sensitif Outlier</b></td>
+<td class="l">Karena menggunakan nilai mean (rata-rata), satu titik outlier ekstrem dapat menarik centroid menjauh dari posisi sebenarnya.</td>
+<td class="l">Gunakan algoritma <b>K-Medoids / PAM</b> yang berbasis objek nyata (medoid) alih-alih mean.</td>
+</tr>
+<tr>
+<td><b>Kekurangan 4:<br>Bentuk Sferis</b></td>
+<td class="l">Hanya efektif untuk klaster berbentuk bola/lingkaran (spherical). Gagal total pada klaster non-convex/berbentuk arbitrer.</td>
+<td class="l">Gunakan algoritma berbasis densitas seperti <b>DBSCAN</b>.</td>
+</tr>
+<tr>
+<td><b>Kekurangan 5:<br>Order Sensitive</b></td>
+<td class="l">Sensitif terhadap urutan pembacaan baris data dalam beberapa implementasi.</td>
+<td class="l">Pengacakan dataset dan evaluasi kestabilan klaster.</td>
+</tr>
+</table>
+</section>
+
+<!-- 9 -->
+<section id="pam">
+<h2 class="t">9. K-Medoids / PAM (Partitioning Around Medoids)</h2>
+<p>K-Medoids dicetuskan oleh <b>Kaufman &amp; Rousseeuw (1990)</b> sebagai alternatif K-Means yang <b>jauh lebih robust terhadap noise dan outlier</b>.</p>
+
+<figure>
+<img src="img/slide-23.jpg" alt="Algoritma PAM">
+<figcaption>Gambar 11: Algoritma PAM dari Slide 23.</figcaption>
+</figure>
+
+<h3>Apa itu Medoid?</h3>
+<div class="box def">
+<b>Medoid</b> adalah objek nyata di dalam suatu klaster yang memiliki <b>rata-rata perbedaan (dissimilarity) paling kecil</b> terhadap seluruh anggota lain di klaster tersebut. Medoid adalah <u>titik paling sentral</u> dan bertindak sebagai perwakilan representatif klaster.
+</div>
+
+<h3>Mengapa PAM Lebih Robust?</h3>
+<ul>
+<li>K-Means memakai <b>mean</b> (bisa berupa titik imajiner yang terdistorsi jauh oleh outlier).</li>
+<li>PAM memakai <b>medoid aktual</b> (objek nyata di dataset) dan meminimalkan jumlah jarak absolut (mirip prinsip median).</li>
+<li>Algoritma PAM dapat dijalankan dengan matriks dissimilarity berbasis <b>Euclidean maupun Manhattan</b>. Manhattan distance memberikan hasil yang paling robust terhadap outlier.</li>
+</ul>
+
+<h3>Langkah Algoritma PAM (Slide 23)</h3>
+<ol class="steps">
+<li><b>Pilih $k$ objek</b> untuk menjadi medoid awal (bisa acak atau ditentukan).</li>
+<li><b>Hitung matriks dissimilarity</b> antar semua objek jika belum tersedia.</li>
+<li><b>Tetapkan setiap objek</b> ke medoid terdekatnya berdasarkan matriks jarak.</li>
+<li><b>Swap Step (Pencarian Medoid Baru):</b> Untuk setiap klaster, uji apakah mengganti medoid dengan objek non-medoid lain dapat menurunkan rata-rata dissimilarity seluruh anggota klaster. Jika ada objek yang menurunkan koefisien dissimilarity paling besar, jadikan objek tersebut sebagai medoid baru.</li>
+<li><b>Iterasi:</b> Jika setidaknya ada satu medoid yang berubah, ulangi langkah 3. Jika tidak ada lagi medoid yang berubah, algoritma selesai!</li>
+</ol>
+
+<h3>Fungsi di R</h3>
+<ul>
+<li>Fungsi <code>pam()</code> dari package <code>cluster</code>: <code>pam(x, k, metric = "euclidean", stand = FALSE)</code>. Output: medoids dan vektor assignment cluster.</li>
+<li>Fungsi <code>pamk()</code> dari package <code>fpc</code>: kelebihannya <b>tidak memerlukan spesifikasi manual jumlah $K$</b> oleh pengguna (dapat mengestimasi $K$ otomatis!).</li>
+<li>Visualisasi hasil klaster: <code>fviz_cluster(pam.res)</code> dari package <code>factoextra</code>.</li>
+</ul>
+</section>
+
+<!-- 10 -->
+<section id="clara">
+<h2 class="t">10. CLARA (Clustering Large Applications)</h2>
+<p>Meskipun PAM sangat robust, algoritma PAM memiliki kelemahan besar: <b>membutuhkan memori $O(N^2)$ dan waktu komputasi yang berat</b> pada dataset besar karena harus menghitung matriks jarak semua pasangan objek.</p>
+
+<figure>
+<img src="img/slide-25.jpg" alt="CLARA Algorithm">
+<figcaption>Gambar 12: Algoritma CLARA dari Slide 25.</figcaption>
+</figure>
+
+<div class="box def">
+<b>CLARA (Clustering Large Applications, Kaufman &amp; Rousseeuw, 1990)</b> adalah ekstensi dari metode K-Medoids yang dirancang khusus untuk menangani <b>dataset berukuran raksasa (Big Data)</b> guna menghemat memori RAM dan mempercepat waktu komputasi.
+</div>
+
+<h3>Mekanisme Kerja CLARA: Sampling Strategy</h3>
+<p>Alih-alih mencari medoid pada keseluruhan dataset $N$, CLARA mengambil <b>sampel kecil berukuran tetap (<code>sampsize</code>)</b> secara acak dan menerapkan algoritma PAM pada sampel tersebut.</p>
+
+<ol class="steps">
+<li><b>Random Sampling:</b> Split dataset secara acak ke dalam beberapa subset sampel berukuran tetap (default <code>sampsize = 40 + 2k</code>).</li>
+<li><b>Jalankan PAM pada Sampel:</b> Terapkan PAM pada subset sampel untuk menghasilkan $k$ objek medoid optimal dari sampel tersebut. Lalu petakan <u>seluruh objek dari dataset lengkap</u> ke medoid terdekat.</li>
+<li><b>Hitung Ukuran Goodness:</b> Hitung rata-rata atau total ketidaksamaan (dissimilarity) dari seluruh observasi dataset terhadap medoid terdekatnya.</li>
+<li><b>Pilih Subset Terbaik:</b> Ulangi proses ini beberapa kali (default 5 sampel). Pertahankan sub-dataset/medoid yang menghasilkan total dissimilarity paling minimal. Partisi akhir menggunakan medoid terbaik tersebut.</li>
+</ol>
+</section>
+
+<!-- 11 -->
+<section id="k-opt">
+<h2 class="t">11. Estimasi Jumlah Klaster Optimal ($K$ Optimal)</h2>
+<p>Bagaimana menentukan nilai $K$ terbaik secara objektif? Slide membaginya menjadi 2 kategori utama:</p>
+
+<figure>
+<img src="img/slide-26.jpg" alt="Skema Estimasi K Optimal">
+<figcaption>Gambar 13: Taksonomi Metode Penentuan K Optimal: Metode Direct vs Metode Tes Statistik.</figcaption>
+</figure>
+
+<div class="grid3">
+<!-- Elbow -->
+<div class="card">
+<h4 style="color:var(--a)">1. Elbow Method (Direct)</h4>
+<p>Mengevaluasi total <b>Within-Cluster Sum of Squares (WSS)</b> sebagai fungsi dari jumlah klaster $k$.</p>
+<figure><img src="img/slide-27.jpg" alt="Elbow plot"></figure>
+<ul>
+<li>Nilai WSS akan selalu turun seiring bertambahnya $k$.</li>
+<li>Cari titik <b>"siku" (elbow/knee)</b> di mana penurunan WSS melambat secara drastis.</li>
+<li>Menambahkan klaster setelah siku tidak lagi meningkatkan partisi secara signifikan.</li>
+<li><i>Kelemahan:</i> Terkadang kurva sangat mulus sehingga lokasi siku ambigu/subjektif.</li>
+</ul>
+<code>fviz_nbclust(data, kmeans, method="wss")</code>
+</div>
+
+<!-- Silhouette -->
+<div class="card">
+<h4 style="color:var(--b)">2. Average Silhouette (Direct)</h4>
+<p>Mengukur seberapa baik setiap titik terletak di dalam klasternya dibandingkan klaster tetangga.</p>
+<figure><img src="img/slide-28.jpg" alt="Silhouette plot"></figure>
+<div class="box formula" style="font-size:13.5px;padding:8px">
+$$s(i) = \frac{b(i) - a(i)}{\max(a(i), b(i))}$$
+</div>
+<ul>
+<li>$a(i)$: rata-rata jarak $i$ ke titik lain di klaster yang sama (kohesi).</li>
+<li>$b(i)$: rata-rata jarak terendah $i$ ke titik di klaster tetangga terdekat (separasi).</li>
+<li>Nilai $s(i) \in [-1, 1]$. Nilai mendekati 1 menandakan titik terklaster sangat baik.</li>
+<li><b>$K$ optimal = nilai $k$ yang MEMAKSIMALKAN Average Silhouette Width</b>.</li>
+</ul>
+<code>fviz_nbclust(data, kmeans, method="silhouette")</code>
+</div>
+
+<!-- Gap Stat -->
+<div class="card">
+<h4 style="color:var(--c)">3. Gap Statistic (Statistik)</h4>
+<p>Dapat diterapkan pada metode clustering apa pun (Tibshirani et al., 2001).</p>
+<figure><img src="img/slide-29.jpg" alt="Gap Stat plot"></figure>
+<ul>
+<li>Membandingkan total variasi intra-cluster data asli $\log(W_k)$ dengan nilai ekspektasi di bawah distribusi referensi nol seragam (data tanpa struktur klaster).</li>
+<li>$$\text{Gap}(k) = E^*_n\{\log(W_k)\} - \log(W_k)$$</li>
+<li><b>$K$ optimal = nilai $k$ yang MEMAKSIMALKAN Gap Statistic</b> (menghasilkan nilai Gap terbesar).</li>
+</ul>
+<code>fviz_nbclust(data, kmeans, method="gap_stat", nboot=500)</code>
+</div>
+</div>
+</section>
+
+<!-- 12 -->
+<section id="advanced">
+<h2 class="t">12. Advanced & Other Clustering Methods</h2>
+
+<div class="grid2">
+<div class="card">
+<h4 style="color:var(--a)">1. Hierarchical K-Means (`hkmeans`)</h4>
+<ul>
+<li>Pendekatan <b>hybrid</b> untuk memperbaiki hasil clustering K-Means.</li>
+<li>Menggabungkan kelebihan Hierarki (tidak butuh inisialisasi acak) dan K-Means (cepat dan partisi optimal).</li>
+<li>Dijalankan dengan fungsi <code>hkmeans()</code> di package <code>factoextra</code>.</li>
+</ul>
+</div>
+
+<div class="card">
+<h4 style="color:var(--b)">2. Fuzzy Clustering (Soft Clustering)</h4>
+<ul>
+<li>Berbeda dari hard clustering (di mana 1 titik hanya milik 1 klaster pasti).</li>
+<li>Setiap titik memiliki <b>koefisien derajat keanggotaan</b> (membership $u_{ik} \in [0, 1]$) untuk setiap klaster.</li>
+<li>Titik di pusat memiliki nilai keanggotaan tinggi, sedangkan titik di perbatasan memiliki derajat terbagi antar klaster.</li>
+<li>Algoritma paling populer: <b>Fuzzy C-Means (FCM)</b>.</li>
+<li>Di R: fungsi <code>fanny()</code> di package <code>cluster</code> (FANNY = <em>Fuzzy Analysis Clustering</em>).</li>
+</ul>
+</div>
+
+<div class="card">
+<h4 style="color:var(--c)">3. Model-Based Clustering</h4>
+<ul>
+<li>Data dipandang berasal dari campuran dua atau lebih distribusi probabilitas (misal <em>Gaussian Mixture Models / GMM</em>).</li>
+<li>Mencari model distribusi yang paling pas (fit) dengan data dan mengestimasi jumlah klaster optimal via kriteria BIC/AIC.</li>
+<li>Dapat digunakan untuk univariat maupun multivariat.</li>
+<li>Di R: fungsi <code>Mclust()</code> di package <code>mclust</code>.</li>
+</ul>
+</div>
+
+<div class="card">
+<h4 style="color:var(--d)">4. DBSCAN (Density-Based Clustering)</h4>
+<ul>
+<li>Dicetuskan oleh <b>Ester et al. (1996)</b>.</li>
+<li>Mengelompokkan data berdasarkan <b>kepadatan spasial (density)</b>. Titik dalam area padat dikelompokkan bersama.</li>
+<li><b>Keunggulan Utama:</b>
+  <ol>
+    <li>Dapat mengidentifikasi klaster dengan <b>bentuk arbitrer</b> (cincin, elips, bulan sabit), tidak harus lingkaran/sferis.</li>
+    <li>Sangat tahan terhadap <b>noise dan outlier</b> (titik di area renggang langsung dilabeli sebagai noise).</li>
+    <li><b>Tidak mengharuskan pengguna menentukan jumlah $K$ di awal</b>.</li>
+  </ol>
+</li>
+<li>Di R: package <code>fpc</code> atau <code>dbscan</code>.</li>
+</ul>
+</div>
+</div>
+
+<figure>
+<img src="img/slide-34.jpg" alt="K-means vs DBSCAN" id="fig-dbscan">
+<figcaption>Gambar 14: Perbandingan K-Means vs DBSCAN dari Slide 34. Pada data berbentuk cincin konsentris, K-Means gagal memisahkan cincin (terpotong secara sektoral), sedangkan DBSCAN berhasil memetakan dua cincin sebagai klaster yang utuh!</figcaption>
+</figure>
+
+<h3>Metode Klaster Lainnya (Slide 33)</h3>
+<table>
+<tr><th>Metode</th><th>Penemu / Konsep</th><th>Jenis Data</th><th>Package R</th></tr>
+<tr>
+<td><b>K-Modes</b></td>
+<td>Huang (1997). Mengganti pusat rata-rata (mean) dengan <b>modus</b> (mode) dan menggunakan ukuran kecocokan kategori.</td>
+<td>Data Kategorikal (Nominal)</td>
+<td><code>klaR</code></td>
+</tr>
+<tr>
+<td><b>K-Prototypes</b></td>
+<td>Penggabungan K-Means (untuk atribut numerik) dan K-Modes (untuk atribut kategorikal).</td>
+<td>Data Campuran (Mixed: Numerik + Kategori)</td>
+<td><code>clustMixType</code></td>
+</tr>
+<tr>
+<td><b>Ensemble Clustering</b></td>
+<td>Menggabungkan sejumlah pengelompokan yang berbeda menjadi satu konsensus tunggal yang lebih robust dan stabil.</td>
+<td>Konsensus Multi-partisi</td>
+<td><code>diceR</code></td>
+</tr>
+</table>
+</section>
+
+<!-- 13 -->
+<section id="simulasi">
+<h2 class="t">13. Contoh Soal Hitung Manual Khas Ujian STIS</h2>
+<p>Soal tipe hitungan manual di UAS STIS sering meminta mahasiswa menghitung 1 iterasi K-Means atau menghitung matriks jarak.</p>
+
+<details open>
+<summary>Contoh 1: Iterasi K-Means Manual (2 Dimensi, K = 2)</summary>
+<div style="margin-top:10px">
+<p><b>Soal:</b> Diberikan 4 data observasi 2D: $A(1, 1)$, $B(2, 1)$, $C(4, 3)$, $D(5, 4)$. Tetapkan $K=2$. Misalkan centroid awal dipilih $m_1 = A(1, 1)$ dan $m_2 = B(2, 1)$. Lakukan 1 iterasi K-Means (Assignment &amp; Centroid Update)!</p>
+
+<p><b>Langkah 1: Hitung Jarak Euclidean ke Tiap Centroid</b></p>
+<table>
+<tr><th>Titik</th><th>Koordinat</th><th>$d(x, m_1)$ ke $(1,1)$</th><th>$d(x, m_2)$ ke $(2,1)$</th><th>Klaster Baru</th></tr>
+<tr><td>A</td><td>(1, 1)</td><td>$\sqrt{(1-1)^2 + (1-1)^2} = \mathbf{0}$</td><td>$\sqrt{(1-2)^2 + (1-1)^2} = 1$</td><td><b>Klaster 1</b></td></tr>
+<tr><td>B</td><td>(2, 1)</td><td>$\sqrt{(2-1)^2 + (1-1)^2} = 1$</td><td>$\sqrt{(2-2)^2 + (1-1)^2} = \mathbf{0}$</td><td><b>Klaster 2</b></td></tr>
+<tr><td>C</td><td>(4, 3)</td><td>$\sqrt{(4-1)^2 + (3-1)^2} = \sqrt{9+4} = \sqrt{13} \approx 3.61$</td><td>$\sqrt{(4-2)^2 + (3-1)^2} = \sqrt{4+4} = \sqrt{8} \approx \mathbf{2.83}$</td><td><b>Klaster 2</b></td></tr>
+<tr><td>D</td><td>(5, 4)</td><td>$\sqrt{(5-1)^2 + (4-1)^2} = \sqrt{16+9} = \sqrt{25} = 5$</td><td>$\sqrt{(5-2)^2 + (4-1)^2} = \sqrt{9+9} = \sqrt{18} \approx \mathbf{4.24}$</td><td><b>Klaster 2</b></td></tr>
+</table>
+
+<p><b>Langkah 2: Hasil Partisi Klaster Baru</b></p>
+<ul>
+<li>Klaster 1: $\{A\}$</li>
+<li>Klaster 2: $\{B, C, D\}$</li>
+</ul>
+
+<p><b>Langkah 3: Centroid Update (Pusat Baru)</b></p>
+<ul>
+<li>$m_1^{baru} = A = (1, 1)$</li>
+<li>$m_2^{baru} = \left(\frac{2+4+5}{3}, \frac{1+3+4}{3}\right) = \left(\frac{11}{3}, \frac{8}{3}\right) \approx (3.67, 2.67)$</li>
+</ul>
+</div>
+</details>
+
+<details>
+<summary>Contoh 2: Perbedaan Single Linkage vs Complete Linkage</summary>
+<div style="margin-top:10px">
+<p>Misalkan Klaster $C_1 = \{A(0,0), B(1,0)\}$ dan Klaster $C_2 = \{C(4,0), D(6,0)\}$.</p>
+<ul>
+<li>Jarak pasangan elemen:
+  <ul>
+    <li>$d(A,C) = |0-4| = 4$</li>
+    <li>$d(A,D) = |0-6| = 6$</li>
+    <li>$d(B,C) = |1-4| = 3$</li>
+    <li>$d(B,D) = |1-6| = 5$</li>
+  </ul>
+</li>
+<li><b>Single Linkage:</b> $\min(4, 6, 3, 5) = \mathbf{3}$ (jarak terdekat antar anggota, yaitu pasangan $B-C$).</li>
+<li><b>Complete Linkage:</b> $\max(4, 6, 3, 5) = \mathbf{6}$ (jarak terjauh antar anggota, yaitu pasangan $A-D$).</li>
+<li><b>Average Linkage:</b> $\frac{4 + 6 + 3 + 5}{4} = \frac{18}{4} = \mathbf{4.5}$.</li>
+</ul>
+</div>
+</details>
+</section>
+
+<!-- 14 -->
+<section id="tabel-komparasi">
+<h2 class="t">14. Matriks Perbandingan Komprehensif Algoritma Klaster</h2>
+<table>
+<tr>
+<th>Metode</th>
+<th>Tipe Model</th>
+<th>Perlu $K$ di Awal?</th>
+<th>Bentuk Klaster</th>
+<th>Sensitivitas Outlier</th>
+<th>Kelebihan Utama</th>
+<th>Kelemahan Utama</th>
+</tr>
+<tr>
+<td><b>K-Means</b></td>
+<td>Partisi</td>
+<td>Ya</td>
+<td>Spherical (Bulat)</td>
+<td><span class="no">Sangat Sensitif</span></td>
+<td>Sangat cepat, efisien data besar</td>
+<td>Terjebak local optima, outlier merusak mean</td>
+</tr>
+<tr>
+<td><b>K-Medoids (PAM)</b></td>
+<td>Partisi</td>
+<td>Ya</td>
+<td>Spherical (Bulat)</td>
+<td><span class="ok">Sangat Robust</span></td>
+<td>Tahan outlier, pusat data riil</td>
+<td>Lambat untuk dataset besar ($O(n^2)$)</td>
+</tr>
+<tr>
+<td><b>CLARA</b></td>
+<td>Partisi (Sampling)</td>
+<td>Ya</td>
+<td>Spherical (Bulat)</td>
+<td><span class="ok">Robust</span></td>
+<td>Skalabilitas tinggi untuk Big Data</td>
+<td>Hasil tergantung kualitas sampel acak</td>
+</tr>
+<tr>
+<td><b>AGNES</b></td>
+<td>Hierarki (Bottom-Up)</td>
+<td>Tidak</td>
+<td>Tergantung linkage</td>
+<td>Sensitif (Complete) / Tahan (Ward)</td>
+<td>Menghasilkan dendrogram visual lengkap</td>
+<td>Kompleksitas $O(n^2)$ s.d $O(n^3)$</td>
+</tr>
+<tr>
+<td><b>DIANA</b></td>
+<td>Hierarki (Top-Down)</td>
+<td>Tidak</td>
+<td>Tergantung split</td>
+<td>Moderat</td>
+<td>Melihat gambaran besar partisi atas</td>
+<td>Komputasi sangat berat saat split</td>
+</tr>
+<tr>
+<td><b>DBSCAN</b></td>
+<td>Density-Based</td>
+<td><b>Tidak</b></td>
+<td><b>Arbitrer (Segala Bentuk)</b></td>
+<td><span class="ok">Sangat Tahan (Noise Filter)</span></td>
+<td>Menemukan bentuk non-linear &amp; filter noise</td>
+<td>Sulit jika densitas klaster bervariasi</td>
+</tr>
+<tr>
+<td><b>Fuzzy C-Means</b></td>
+<td>Soft Clustering</td>
+<td>Ya</td>
+<td>Spherical berderajat</td>
+<td>Moderat</td>
+<td>Objek dapat menjadi anggota multi-klaster</td>
+<td>Penentuan parameter fuzzifier $m$</td>
+</tr>
+</table>
+</section>
+
+<!-- 15 -->
+<section id="checklist">
+<h2 class="t">15. Checklist Persiapan UAS STIS</h2>
+<ul>
+<li>☐ <b>Definisi Kunci:</b> Paham intracluster similarity (maksimum) vs intercluster dissimilarity (maksimum).</li>
+<li>☐ <b>Rumus Jarak:</b> Hafal Euclidean ($L_2$), Manhattan ($L_1$), dan logika korelasi Pearson vs Eisen (mean = 0) vs Spearman (rank) vs Kendall ($n_c - n_d$).</li>
+<li>☐ <b>Pilihan Jarak:</b> Tahu kapan pakai Euclidean (magnitudo penting) vs Korelasi (profil/tren bentuk penting seperti ekspresi gen).</li>
+<li>☐ <b>Hierarki:</b> Paham AGNES (bottom-up) vs DIANA (top-down) dan 5 fungsi linkage (Single, Complete, Average, Centroid, Ward).</li>
+<li>☐ <b>K-Means:</b> Paham 5 langkah algoritma Hartigan-Wong, rumus objective WSS, 4 kelemahan K-Means beserta solusinya.</li>
+<li>☐ <b>PAM vs CLARA:</b> Mengapa PAM lebih robust dibanding K-Means (medoid vs mean), dan mengapa CLARA dipakai untuk Big Data (strategi sampling).</li>
+<li>☐ <b>Estimasi K:</b> Elbow method (cari siku WSS), Silhouette method (maksimalkan rata-rata silhouette), Gap statistic (maksimalkan Gap).</li>
+<li>☐ <b>DBSCAN:</b> Keunggulan utama (bentuk arbitrer, tahan noise, tanpa perlu menentukan $K$ di awal).</li>
+<li>☐ <b>Metode Khusus:</b> K-Modes (kategorikal), K-Prototypes (campuran), Mclust (model-based), Fanny (fuzzy).</li>
+<li>☐ <b>Hitungan:</b> Latihan hitung manual Euclidean distance dan 1 siklus assignment K-Means.</li>
+</ul>
+</section>
+</main>
+
+<div id="lb"><img alt="Enlarged figure"></div>
+
+<script src="katex/katex.min.js"></script>
+<script src="katex/contrib/auto-render.min.js"></script>
+<script>
+renderMathInElement(document.body, {
+  delimiters: [
+    {left: "$$", right: "$$", display: true},
+    {left: "$", right: "$", display: false}
+  ],
+  throwOnError: false
+});
+
+const lb = document.getElementById('lb');
+document.querySelectorAll('figure img').forEach(i => {
+  i.onclick = () => {
+    lb.firstElementChild.src = i.src;
+    lb.style.display = 'grid';
+  };
+});
+lb.onclick = () => lb.style.display = 'none';
+
+const links = [...document.querySelectorAll('aside a[href^="#"]')];
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting){
+      links.forEach(l => l.classList.toggle('on', l.getAttribute('href') === '#' + e.target.id));
+    }
+  });
+}, {rootMargin: '-20% 0px -60% 0px'});
+document.querySelectorAll('section').forEach(s => io.observe(s));
+</script>
+</body>
+</html>

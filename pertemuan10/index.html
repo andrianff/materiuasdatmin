@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bahan Belajar UAS Data Mining – Pertemuan 10: Density-Based, Bi-Clustering, & Evaluasi Model</title>
+<meta name="description" content="Ringkasan lengkap Pertemuan 10 Data Mining: Density-Based (DBSCAN, OPTICS), Bi-Clustering (Cheng & Church, MSR, Bimax, Plaid), dan Evaluasi Klaster (Hopkins, VAT, Silhouette, Dunn, Corrected Rand Index).">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="katex/katex.min.css">
+<style>
+:root{
+  --bg:#0b1020;--panel:#131a30;--panel2:#1a2342;--line:#27315a;--tx:#e6e9f5;--mut:#9aa6cf;
+  --a:#60a5fa;--b:#34d399;--c:#fbbf24;--d:#f43f5e;--p:#c084fc;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(1200px 600px at 80% -10%,#1e2f7555,transparent),var(--bg);color:var(--tx);font:16px/1.75 Inter,system-ui,sans-serif}
+aside{position:fixed;inset:0 auto 0 0;width:280px;background:#0d1433f0;backdrop-filter:blur(12px);border-right:1px solid var(--line);padding:24px 18px;overflow-y:auto;z-index:20}
+aside h2{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--a);margin:0 0 14px}
+aside a{display:block;color:var(--mut);text-decoration:none;padding:7px 12px;border-radius:8px;font-size:13.5px;transition:.2s;line-height:1.4;margin:2px 0}
+aside a:hover,aside a.on{background:var(--panel2);color:#fff;transform:translateX(3px);font-weight:600}
+aside .sep{height:1px;background:var(--line);margin:14px 0}
+aside .btn-note{display:block;background:linear-gradient(135deg,#c0392b,#e05252);color:#fff!important;text-align:center;padding:10px 14px;border-radius:10px;font-weight:700;margin-top:10px;box-shadow:0 4px 16px #e0525244}
+main{margin-left:280px;max-width:1040px;padding:40px 48px 120px}
+.hero{padding:40px;border-radius:24px;background:linear-gradient(135deg,#0284c7,#4f46e5 50%,#9333ea);box-shadow:0 24px 64px #4f46e533;margin-bottom:34px;position:relative;overflow:hidden}
+.hero h1{margin:0 0 10px;font-size:36px;line-height:1.2;font-weight:800;color:#fff}
+.hero p{margin:0;font-size:16px;color:#e0e7ff;opacity:.95}
+.tags{margin-top:16px;display:flex;flex-wrap:wrap;gap:8px}
+.tags span{background:#ffffff26;backdrop-filter:blur(6px);border-radius:99px;padding:4px 14px;font-size:13px;font-weight:500;color:#fff}
+section{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:32px 36px;margin-bottom:28px;box-shadow:0 10px 30px #00000030}
+h2.t{margin:0 0 16px;font-size:26px;font-weight:800;background:linear-gradient(90deg,var(--a),var(--p));-webkit-background-clip:text;background-clip:text;color:transparent;display:flex;align-items:center;gap:10px}
+h3{margin:26px 0 10px;font-size:19px;color:var(--c);font-weight:700}
+h4{margin:18px 0 8px;font-size:16px;color:var(--b);font-weight:600}
+p{margin:10px 0}
+li{margin:6px 0}
+b,strong{color:#fff}
+em{color:#93c5fd}
+.box{border-radius:14px;padding:16px 20px;margin:16px 0;border:1px solid}
+.def{background:#60a5fa12;border-color:#60a5fa44}
+.formula{background:#34d39912;border-color:#34d39944;text-align:center;overflow-x:auto}
+.formula .lbl{display:block;text-align:left;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--b);font-weight:700;margin-bottom:4px}
+.tip{background:#fbbf2414;border-color:#fbbf2455}
+.tip:before{content:"💡 Tips UAS STIS: ";font-weight:800;color:var(--c)}
+.warn{background:#f43f5e14;border-color:#f43f5e55}
+.warn:before{content:"⚠️ Perhatian / Jebakan Ujian: ";font-weight:800;color:var(--d)}
+figure{margin:22px 0;text-align:center}
+figure img{max-width:100%;border-radius:14px;border:1px solid var(--line);background:#fff;cursor:zoom-in;transition:.25s;box-shadow:0 8px 24px #00000044}
+figure img:hover{transform:scale(1.015);box-shadow:0 12px 36px #00000088}
+figcaption{font-size:13.5px;color:var(--mut);margin-top:8px}
+table{border-collapse:collapse;margin:16px auto;width:100%;font-size:14.5px}
+th,td{border:1px solid var(--line);padding:8px 14px;text-align:center}
+th{background:var(--panel2);color:var(--a);font-weight:700}
+tr:nth-child(even) td{background:#ffffff05}
+td.l{text-align:left}
+.ok{color:var(--b);font-weight:700}.no{color:var(--d);font-weight:700}
+code{font-family:'JetBrains Mono',monospace;background:#00000055;padding:2px 7px;border-radius:6px;font-size:.88em;color:#fde047}
+ol.steps{counter-reset:s;list-style:none;padding:0}
+ol.steps>li{counter-increment:s;position:relative;padding:12px 14px 12px 54px;background:var(--panel2);border:1px solid var(--line);border-radius:14px;margin:10px 0}
+ol.steps>li:before{content:counter(s);position:absolute;left:14px;top:12px;width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--a),var(--p));color:#041426;font-weight:800;display:grid;place-items:center;font-size:14px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.card{background:var(--panel2);border-radius:14px;padding:16px 20px;border:1px solid var(--line)}
+details{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:12px 18px;margin:12px 0}
+summary{cursor:pointer;font-weight:700;color:var(--a);user-select:none}
+#lb{position:fixed;inset:0;background:#000000e6;display:none;place-items:center;z-index:999;cursor:zoom-out;padding:20px}
+#lb img{max-width:95vw;max-height:95vh;border-radius:10px;box-shadow:0 0 40px #000}
+.katex-display{overflow-x:auto;overflow-y:hidden;margin:.6em 0}
+.katex{font-size:1.12em}
+@media(max-width:960px){aside{display:none}main{margin:0;padding:20px}.grid2{grid-template-columns:1fr}}
+@media print{aside{display:none}main{margin:0}body{background:#fff;color:#000}section{break-inside:avoid}}
+</style>
+</head>
+<body>
+
+<aside>
+<h2>Daftar Isi</h2>
+<a href="#intro">1. Pengantar & Overview</a>
+<a href="#dbscan-konsep">2. DBSCAN: Konsep Dasar</a>
+<a href="#dbscan-relasi">3. Density Reachable & Connected</a>
+<a href="#dbscan-algo">4. Algoritma & Parameter DBSCAN</a>
+<a href="#optics">5. OPTICS: Cluster-Ordering</a>
+<div class="sep"></div>
+<a href="#biclustering-intro">6. Bi-Clustering: Mengapa?</a>
+<a href="#biclustering-tipe">7. Tipe-Tipe Bi-Cluster</a>
+<a href="#cheng-church">8. Cheng & Church & MSR Formula</a>
+<a href="#msr-hitung">9. Contoh Hitung MSR Detail</a>
+<a href="#biclust-algo">10. Algoritma Bi-Cluster Lain</a>
+<div class="sep"></div>
+<a href="#eval-tendency">11. Evaluasi Tendensi (Hopkins & VAT)</a>
+<a href="#eval-kualitas">12. Mengukur Kualitas (Internal, Eksternal)</a>
+<a href="#dunn-silhouette">13. Silhouette, Dunn, & Rand Index</a>
+<a href="#tahapan-lengkap">14. Tahapan Analisis Klaster Lengkap</a>
+<a href="#checklist">15. Checklist UAS STIS</a>
+<div class="sep"></div>
+<a class="btn-note" href="catatan.html">📝 Buka Versi Catatan Kertas →</a>
+</aside>
+
+<main>
+<header class="hero">
+<h1>Analisis Klaster (Lanjutan)<br>Density-Based · Bi-Clustering · Evaluasi Model</h1>
+<p>Bahan Belajar UAS Data Mining — Pertemuan 10 (Politeknik Statistika STIS)</p>
+<div class="tags">
+<span>DBSCAN</span>
+<span>OPTICS</span>
+<span>Core &amp; Reachability Distance</span>
+<span>Bi-Clustering (Co-Clustering)</span>
+<span>Cheng &amp; Church (MSR)</span>
+<span>Hopkins Statistics</span>
+<span>VAT Algorithm</span>
+<span>Dunn Index &amp; Rand Index</span>
+</div>
+</header>
+
+<!-- 1 -->
+<section id="intro">
+<h2 class="t">1. Pengantar & Cakupan Materi Pertemuan 10</h2>
+<p>Pada pertemuan sebelumnya (Pertemuan 9), kita telah mempelajari metode klaster berbasis <b>partisi (K-Means, PAM, CLARA)</b> dan <b>hierarki (AGNES, DIANA)</b>. Pertemuan 10 melengkapi materi analisis klaster dengan tiga pilar penting:</p>
+<div class="grid3">
+<div class="card" style="border-left:4px solid var(--a)">
+<b>1. Density-Based Methods</b><br>
+Mengelompokkan data berdasarkan kepadatan spasial (DBSCAN &amp; OPTICS). Mampu menemukan klaster berbentuk arbitrer dan tahan noise.
+</div>
+<div class="card" style="border-left:4px solid var(--p)">
+<b>2. Bi-Clustering (Co-Clustering)</b><br>
+Mengelompokkan baris (objek) dan kolom (fitur) secara simultan untuk menemukan submatriks koheren pada data dimensi tinggi.
+</div>
+<div class="card" style="border-left:4px solid var(--b)">
+<b>3. Evaluasi Model Analisis Klaster</b><br>
+Menilai tendensi pengelompokan alami (Hopkins Stat &amp; VAT) serta validasi internal, eksternal, dan relatif.
+</div>
+</div>
+</section>
+
+<!-- 2 -->
+<section id="dbscan-konsep">
+<h2 class="t">2. Density-Based Clustering: Konsep Dasar DBSCAN</h2>
+<div class="box def">
+<b>Density-Based Clustering</b> mendefinisikan klaster berdasarkan <b>kepadatan lokal (density)</b>, yaitu jumlah titik dalam radius tertentu $r$ ($\text{Eps}$). Klaster terbentuk dari kumpulan titik-titik yang terhubung oleh kepadatan tinggi, dipisahkan oleh wilayah berdensitas rendah (noise).
+</div>
+
+<h3>Fitur Utama Density-Based Methods</h3>
+<ul>
+<li>Mampu menemukan klaster dengan <b>bermacam-macam bentuk yang tidak teratur (arbitrary shapes)</b>.</li>
+<li>Sangat tangguh dalam <b>menangani noise dan outlier</b>.</li>
+<li>Hanya membutuhkan <b>satu kali pemindaian data (one scan)</b>.</li>
+<li>Memerlukan parameter kepadatan sebagai kondisi terminasi.</li>
+<li>Pelopor utama: <b>DBSCAN</b> (Ester et al., KDD'96), <b>OPTICS</b> (Ankerst et al., SIGMOD'99), <b>DENCLUE</b> (Hinneburg &amp; Keim, KDD'98).</li>
+</ul>
+
+<h3>Dua Parameter Kunci DBSCAN</h3>
+<div class="grid2">
+<div class="card">
+<b>$\text{Eps}$ ($\varepsilon$ / Epsilon)</b><br>
+Radius maksimum dari lingkungan bertetangga di sekitar sebuah titik ($N_{\text{Eps}}(p) = \{q \in D \mid \text{dist}(p, q) \le \text{Eps}\}$).
+</div>
+<div class="card">
+<b>$\text{MinPts}$ (Minimum Points)</b><br>
+Jumlah minimum titik yang harus ada di dalam lingkungan $\text{Eps}$ dari suatu titik (termasuk titik itu sendiri).
+</div>
+</div>
+
+<h3>Tiga Jenis Titik dalam DBSCAN</h3>
+<figure>
+<img src="img/slide-06.jpg" alt="DBSCAN Point Types">
+<figcaption>Gambar 1: Tiga tipe titik dalam DBSCAN: Core Point, Border Point, dan Noise Point (Slide 6).</figcaption>
+</figure>
+
+<table>
+<tr><th>Tipe Titik</th><th>Kriteria Matematis</th><th>Peran dalam Pembentukan Klaster</th></tr>
+<tr>
+<td><b>Core Point (Titik Inti)</b></td>
+<td class="l">$$|N_{\text{Eps}}(p)| \ge \text{MinPts}$$<br>Memiliki minimal $\text{MinPts}$ titik dalam radius $\text{Eps}$.</td>
+<td class="l"><span class="ok">Pondasi utama klaster</span>. Memulai dan memperluas pembentukan klaster.</td>
+</tr>
+<tr>
+<td><b>Border Point (Titik Batas)</b></td>
+<td class="l">$$|N_{\text{Eps}}(p)| < \text{MinPts}$$<br>Titik tetangganya kurang dari $\text{MinPts}$, tetapi titik ini berada di dalam lingkungan radius $\text{Eps}$ dari suatu Core Point.</td>
+<td class="l">Menjadi anggota klaster di bagian tepi/perbatasan, namun tidak dapat memperluas klaster lebih jauh.</td>
+</tr>
+<tr>
+<td><b>Noise Point (Derau / Outlier)</b></td>
+<td class="l">Bukan Core Point dan bukan Border Point.</td>
+<td class="l"><span class="no">Dibuang / dilabeli sebagai noise</span>. Titik berada di wilayah yang sangat renggang.</td>
+</tr>
+</table>
+</section>
+
+<!-- 3 -->
+<section id="dbscan-relasi">
+<h2 class="t">3. Hubungan Kepadatan: Directly Reachable, Density-Reachable, & Density-Connected</h2>
+<p>Konsep hubungan kepadatan adalah <b>definisi formal yang paling sering keluar di ujian teori</b>!</p>
+
+<figure>
+<img src="img/slide-05.jpg" alt="Density Reachable and Density Connected">
+<figcaption>Gambar 2: Ilustrasi Density-Reachable vs Density-Connected dari Slide 5.</figcaption>
+</figure>
+
+<div class="grid3">
+<div class="card">
+<h4 style="color:var(--a)">1. Directly Density-Reachable</h4>
+<p>Titik $p$ adalah <em>directly density-reachable</em> dari titik $q$ mengacu pada $\text{Eps}$ dan $\text{MinPts}$ jika:</p>
+<ol>
+<li>$p \in N_{\text{Eps}}(q)$ (jarak $d(p, q) \le \text{Eps}$), dan</li>
+<li>$q$ adalah sebuah <b>Core Point</b>.</li>
+</ol>
+<div class="box warn" style="font-size:13px;padding:8px"><b>Asimetris!</b> Jika $p$ adalah border point dan $q$ core, $p$ directly reachable dari $q$, tetapi $q$ <u>tidak</u> directly reachable dari $p$.</div>
+</div>
+
+<div class="card">
+<h4 style="color:var(--b)">2. Density-Reachable</h4>
+<p>Titik $p$ adalah <em>density-reachable</em> dari $q$ jika terdapat rantai titik perantara $p_1, p_2, \dots, p_n$ dengan $p_1 = q$ dan $p_n = p$, sedemikian rupa sehingga setiap $p_{i+1}$ adalah <em>directly density-reachable</em> dari $p_i$.</p>
+<div class="box tip" style="font-size:13px;padding:8px">Transitif, namun masih bersifat <b>asimetris</b> jika melibatkan border point.</div>
+</div>
+
+<div class="card">
+<h4 style="color:var(--p)">3. Density-Connected</h4>
+<p>Titik $p$ adalah <em>density-connected</em> ke titik $q$ jika terdapat sebuah titik $o$ sedemikian rupa sehingga <b>kedua titik $p$ dan $q$ sama-sama density-reachable dari titik $o$</b>.</p>
+<div class="box def" style="font-size:13px;padding:8px"><b>Simetris dan Refleksif!</b> Menghubungkan dua border point yang berada pada klaster yang sama.</div>
+</div>
+</div>
+
+<div class="box def">
+<b>Definisi Formal Klaster DBSCAN:</b> Suatu klaster $C$ adalah himpunan bagian titik maksimal yang memenuhi dua sifat:
+<ol>
+<li><b>Maximal:</b> Jika $p \in C$ dan $q$ density-reachable dari $p$, maka $q \in C$.</li>
+<li><b>Connected:</b> Untuk setiap pasangan $p, q \in C$, titik $p$ adalah <em>density-connected</em> ke $q$.</li>
+</ol>
+</div>
+</section>
+
+<!-- 4 -->
+<section id="dbscan-algo">
+<h2 class="t">4. Algoritma, Kompleksitas, dan Penentuan Parameter DBSCAN</h2>
+<h3>Langkah-Langkah Algoritma DBSCAN (Slide 7)</h3>
+<ol class="steps">
+<li>Pilih sebuah titik $p$ yang belum dikunjungi secara acak dari database.</li>
+<li>Ambil semua titik yang <em>density-reachable</em> dari $p$ mengacu pada parameter $\text{Eps}$ dan $\text{MinPts}$.</li>
+<li>Jika $p$ adalah <b>Core Point</b>, sebuah klaster baru terbentuk dan seluruh titik yang terjangkau digabungkan ke dalam klaster tersebut (lakukan ekspansi lingkungan secara rekursif).</li>
+<li>Jika $p$ adalah <b>Border Point</b> (atau noise sementara), tandai titik tersebut dan lanjutkan mengunjungi titik berikutnya dari database.</li>
+<li>Lanjutkan proses ini sampai seluruh titik dalam basis data selesai diproses!</li>
+</ol>
+
+<div class="box tip">
+<b>Kompleksitas Komputasi:</b>
+<ul>
+<li>Jika menggunakan struktur pengindeksan spasial (seperti <em>$R^*$-tree</em> atau <em>k-d tree</em>): <b>$O(N \log N)$</b>.</li>
+<li>Jika tanpa indeks spasial (pencarian sekuensial penuh): <b>$O(N^2)$</b>.</li>
+</ul>
+</div>
+
+<h3>Kelemahan DBSCAN (Materi Ujian Analisis!)</h3>
+<figure>
+<img src="img/slide-08.jpg" alt="Kelemahan DBSCAN">
+<figcaption>Gambar 3: Sensitivitas DBSCAN terhadap parameter Eps dari Slide 8.</figcaption>
+</figure>
+
+<div class="grid2">
+<div class="card">
+<b>1. Sangat Sensitif terhadap Parameter $\text{Eps}$</b><br>
+Perubahan kecil pada $\text{Eps}$ mengubah jumlah klaster secara drastis:
+<ul>
+<li>Jika $\text{Eps}$ terlalu besar: Seluruh titik melebur menjadi satu klaster raksasa.</li>
+<li>Jika $\text{Eps}$ terlalu kecil: Klaster pecah menjadi serpihan kecil-kecil dan banyak titik valid dianggap noise.</li>
+</ul>
+</div>
+<div class="card">
+<b>2. Gagal pada Kepadatan Bervariasi (Varying Densities)</b><br>
+Satu nilai pasangan $(\text{Eps}, \text{MinPts})$ bersifat global. Jika dalam satu dataset terdapat klaster padat dan klaster renggang, DBSCAN tidak bisa mendeteksi keduanya secara simultan.<br>
+<i>Solusi:</i> Gunakan <b>OPTICS</b>!
+</div>
+</div>
+
+<h3>Cara Menentukan Parameter $\text{Eps}$ & $\text{MinPts}$ (k-Distance Graph)</h3>
+<figure>
+<img src="img/slide-13.jpg" alt="k-distance graph">
+<figcaption>Gambar 4: Penentuan Eps optimal menggunakan k-nearest neighbor distance graph (Slide 13).</figcaption>
+</figure>
+<ul>
+<li>Pilih nilai $k = \text{MinPts}$ (aturan praktis umum: $k = 2 \times \text{dimensi}$ atau $\text{MinPts} \ge 4$).</li>
+<li>Hitung jarak setiap titik ke tetangga terdekat ke-$k$ ($k$-NN distance).</li>
+<li>Urutkan seluruh jarak $k$-NN dari yang terkecil ke terbesar dan plotkan grafiknya.</li>
+<li>Titik dalam klaster memiliki jarak $k$-NN yang landai dan seragam; titik noise mengalami lonjakan tajam.</li>
+<li><b>Nilai $\text{Eps}$ optimal dipilih pada titik siku ("knee" / "elbow") dari plot $k$-distance!</b></li>
+</ul>
+</section>
+
+<!-- 5 -->
+<section id="optics">
+<h2 class="t">5. OPTICS: Ordering Points To Identify the Clustering Structure</h2>
+<div class="box def">
+<b>OPTICS (Ankerst, Breunig, Kriegel, &amp; Sander, SIGMOD'99)</b> adalah ekstensi DBSCAN yang mengatasi masalah kepadatan bervariasi. OPTICS tidak membagi data secara kaku ke dalam partisi, melainkan menghasilkan <b>urutan terurut dari data (cluster-ordering)</b> yang menyimpan informasi kepadatan pada berbagai skala parameter.
+</div>
+
+<h3>Dua Konsep Jarak Tambahan dalam OPTICS</h3>
+<figure>
+<img src="img/slide-15.jpg" alt="Core Distance & Reachability Distance">
+<figcaption>Gambar 5: Konsep Core-Distance dan Reachability-Distance dari Slide 15.</figcaption>
+</figure>
+
+<div class="box formula">
+<span class="lbl">1. Core-Distance objek $p$</span>
+$$\text{Core-distance}_{\varepsilon, \text{MinPts}}(p) = \begin{cases} \text{Tidak terdefinisi}, & \text{jika } |N_\varepsilon(p)| < \text{MinPts} \\ \text{Jarak ke tetangga terdekat ke-}\text{MinPts}, & \text{lainnya} \end{cases}$$
+<div style="font-size:13.5px;color:var(--mut);margin-top:4px">Radius terkecil $\varepsilon' \le \varepsilon$ sedemikian sehingga $\varepsilon'$-neighborhood dari $p$ memiliki minimal $\text{MinPts}$ titik.</div>
+</div>
+
+<div class="box formula">
+<span class="lbl">2. Reachability-Distance objek $p$ dari Core Object $q$</span>
+$$\text{Reachability-distance}_{\varepsilon, \text{MinPts}}(p, q) = \begin{cases} \text{Tidak terdefinisi}, & \text{jika } q \text{ bukan Core Object} \\ \max(\text{Core-distance}(q), \text{distance}(q, p)), & \text{lainnya} \end{cases}$$
+</div>
+
+<h3>Reachability Plot & Interpretasi "Lembah" (Valleys)</h3>
+<figure>
+<img src="img/slide-16.jpg" alt="OPTICS Reachability Plot">
+<figcaption>Gambar 6: Reachability Plot OPTICS dari Slide 16. Setiap lembah mewakili satu klaster.</figcaption>
+</figure>
+<ul>
+<li><b>Setiap "lembah" (valley / cekungan ke bawah)</b> pada plot berkaitan dengan satu klaster yang padat.</li>
+<li>Puncak tajam di antara lembah menandakan titik-titik noise atau pemisah antar klaster.</li>
+<li><b>Klaster bersarang (nested clusters):</b> Muncul sebagai cekungan kecil di dalam lembah yang lebih lebar.</li>
+<li>Membuat garis horizontal potong pada nilai $\varepsilon'$ setara dengan <b>menjalankan DBSCAN dengan parameter $\text{Eps} = \varepsilon'$</b>.</li>
+</ul>
+</section>
+
+<!-- 6 -->
+<section id="biclustering-intro">
+<h2 class="t">6. Bi-Clustering (Co-Clustering / Two-Mode Clustering)</h2>
+<h3>Mengapa Bi-Clustering Diperlukan?</h3>
+<figure>
+<img src="img/slide-22.jpg" alt="Clustering Satu Arah vs Bi-Clustering">
+<figcaption>Gambar 7: Perbandingan Clustering Satu Arah vs Bi-Clustering dari Slide 22.</figcaption>
+</figure>
+
+<ul>
+<li>Pada metode konvensional, kita hanya mengelompokkan <b>baris saja (objek)</b> dengan menggunakan <b>seluruh kolom (fitur)</b>.</li>
+<li>Pada data berdimensi tinggi (misal microarray ekspresi ribuan gen atau puluhan indikator pembangunan), suatu kelompok objek seringkali <b>hanya konsisten pada sebagian kecil variabel</b>. Variabel lainnya bertindak sebagai derau (noise) yang mengaburkan struktur.</li>
+<li><b>Bi-clustering</b> memecahkan masalah ini dengan mengelompokkan <b>baris dan kolom secara simultan</b> untuk menemukan submatriks yang koheren!</li>
+</ul>
+
+<table>
+<tr><th>Karakteristik</th><th>Clustering Baris Biasa</th><th>Bi-Clustering</th></tr>
+<tr><td>Arah Pengelompokan</td><td>Satu arah (hanya baris)</td><td>Dua arah (baris &amp; kolom serentak)</td></tr>
+<tr><td>Cakupan Fitur</td><td>Menggunakan seluruh variabel ($m$)</td><td>Hanya subhimpunan variabel relevan ($J \subseteq Y$)</td></tr>
+<tr><td>Keanggotaan Objek</td><td>Tepat 1 klaster (partisi eksklusif)</td><td>Dapat masuk beberapa bicluster (tumpang tindih / overlapping) atau tidak masuk sama sekali</td></tr>
+<tr><td>Tujuan Pola</td><td>Jarak geometris titik berdekatan</td><td>Pola koherensi perubahan nilai submatriks</td></tr>
+</table>
+
+<div class="box def">
+<b>Definisi Formal:</b> Diberikan matriks data $A_{n \times m}$ dengan himpunan baris $X = \{x_1, \dots, x_n\}$ dan himpunan kolom $Y = \{y_1, \dots, y_m\}$. Sebuah <b>bicluster</b> adalah pasangan $(I, J)$ dengan $I \subseteq X$ dan $J \subseteq Y$, yang menghasilkan submatriks $A_{IJ}$ yang memenuhi kriteria koherensi tertentu.
+</div>
+</section>
+
+<!-- 7 -->
+<section id="biclustering-tipe">
+<h2 class="t">7. Tipe-Tipe Bi-Cluster (Madeira & Oliveira, 2004)</h2>
+<figure>
+<img src="img/slide-24.jpg" alt="Tipe-Tipe Bi-Cluster">
+<figcaption>Gambar 8: Empat pola dasar bicluster dari Slide 24.</figcaption>
+</figure>
+
+<table>
+<tr><th>Tipe Bi-Cluster</th><th>Model Matematis</th><th>Karakteristik Visual</th></tr>
+<tr>
+<td><b>1. Nilai Konstan</b></td>
+<td class="l">$$a_{ij} = \mu$$</td>
+<td class="l">Seluruh sel dalam submatriks memiliki angka yang identik (misal semua sel bernilai 1 pada matriks biner).</td>
+</tr>
+<tr>
+<td><b>2. Konstan Baris / Kolom</b></td>
+<td class="l">$$a_{ij} = \mu + \alpha_i \quad \text{atau} \quad a_{ij} = \mu + \beta_j$$</td>
+<td class="l">Nilai sel konstan di sepanjang baris tertentu atau di sepanjang kolom tertentu.</td>
+</tr>
+<tr>
+<td><b>3. Koheren Aditif</b></td>
+<td class="l">$$a_{ij} = \mu + \alpha_i + \beta_j$$</td>
+<td class="l">Pola naik-turun antar kondisi bergerak <b>sejajar (paralel)</b>. Selisih antar baris konsisten di setiap kolom.</td>
+</tr>
+<tr>
+<td><b>4. Koheren Multiplikatif</b></td>
+<td class="l">$$a_{ij} = \mu \cdot \alpha_i \cdot \beta_j$$</td>
+<td class="l">Pola perubahan nilai bersifat proporsional/rasio terhadap pengali baris dan kolom.</td>
+</tr>
+<tr>
+<td><b>5. Order-Preserving (Evolusi)</b></td>
+<td class="l">$$\text{rank}(a_{i, j_1}) < \text{rank}(a_{i, j_2}) < \dots$$</td>
+<td class="l">Hanya urutan/peringkat relatif nilai antar kolom yang harus sama untuk seluruh baris anggota.</td>
+</tr>
+</table>
+</section>
+
+<!-- 8 -->
+<section id="cheng-church">
+<h2 class="t">8. Algoritma Cheng & Church (2000) & Rumus Mean Squared Residue (MSR)</h2>
+<p>Algoritma paling terkenal untuk menemukan bicluster koheren aditif pada data ekspresi gen.</p>
+
+<h3>Formula Residu Sel ($r_{ij}$) & Mean Squared Residue ($H(I, J)$)</h3>
+<div class="box formula">
+<span class="lbl">1. Residu Sel $(i, j)$</span>
+$$r_{ij} = a_{ij} - a_{iJ} - a_{Ij} + a_{IJ}$$
+</div>
+
+<div class="box formula">
+<span class="lbl">2. Mean Squared Residue / MSR ($H(I, J)$)</span>
+$$H(I, J) = \frac{1}{|I||J|} \sum_{i \in I} \sum_{j \in J} r_{ij}^2$$
+<div style="font-size:13.5px;color:var(--mut);margin-top:6px">
+Keterangan notasi:
+<br>• $a_{ij}$: nilai observasi pada baris $i$ kolom $j$
+<br>• $a_{iJ}$: rata-rata baris $i$ pada subhimpunan kolom $J$ ($a_{iJ} = \frac{1}{|J|}\sum_{j \in J} a_{ij}$)
+<br>• $a_{Ij}$: rata-rata kolom $j$ pada subhimpunan baris $I$ ($a_{Ij} = \frac{1}{|I|}\sum_{i \in I} a_{ij}$)
+<br>• $a_{IJ}$: rata-rata seluruh sel dalam submatriks $A_{IJ}$ ($a_{IJ} = \frac{1}{|I||J|}\sum_{i \in I}\sum_{j \in J} a_{ij}$)
+</div>
+</div>
+
+<h3>Sifat Penting MSR ($H(I, J)$)</h3>
+<ul>
+<li>$H(I, J) = 0 \iff$ submatriks <b>sempurna koheren aditif</b> ($a_{ij} = \mu + \alpha_i + \beta_j$).</li>
+<li>Submatriks $(I, J)$ disebut <b>$\delta$-bicluster</b> jika $H(I, J) \le \delta$ untuk suatu ambang batas $\delta \ge 0$.</li>
+<li><b>Tujuan Optimasi:</b> Menemukan $\delta$-bicluster dengan ukuran sebesar mungkin ($|I| \times |J|$ maksimal).</li>
+<li><i>Kelemahan MSR:</i> MSR cenderung menyukai bicluster dengan variansi mendekati nol (trivially constant). Oleh karena itu, sering ditambahkan syarat batas variansi baris minimum: $\text{VAR}(I, J) > 0$.</li>
+</ul>
+
+<h3>Empat Tahapan Algoritma Cheng & Church</h3>
+<ol class="steps">
+<li><b>Inisialisasi:</b> Mulai dengan matriks data lengkap $A$ sebagai kandidat awal $(I, J)$.</li>
+<li><b>Node Deletion (Penghapusan Baris/Kolom):</b>
+  Hitung residu kuadrat rata-rata untuk setiap baris $d(i)$ dan kolom $e(j)$:
+  $$d(i) = \frac{1}{|J|}\sum_{j \in J} r_{ij}^2, \qquad e(j) = \frac{1}{|I|}\sum_{i \in I} r_{ij}^2$$
+  Hapus baris atau kolom yang memiliki residu terbesar hingga nilai $H(I, J) \le \delta$. (Tersedia opsi <em>Multiple node deletion</em> dengan ambang $\alpha > 1$ untuk mempercepat komputasi).
+</li>
+<li><b>Node Addition (Penambahan Baris/Kolom):</b> Tambahkan kembali baris/kolom yang sebelumnya dihapus jika penambahannya tidak menyebabkan $H(I, J) > \delta$.</li>
+<li><b>Masking:</b> Ganti seluruh sel dari bicluster yang sudah ditemukan dengan <b>nilai acak</b>, lalu ulangi algoritma dari langkah 1 untuk menemukan bicluster berikutnya!</li>
+</ol>
+</section>
+
+<!-- 9 -->
+<section id="msr-hitung">
+<h2 class="t">9. Contoh Perhitungan Manual MSR Detail (Slide 27)</h2>
+<p>Mari kita pelajari contoh numerik resmi dari Slide 27 untuk persiapan ujian hitungan:</p>
+
+<figure>
+<img src="img/slide-27.jpg" alt="Contoh Perhitungan MSR">
+<figcaption>Gambar 9: Perhitungan Matriks Residu dan MSR dari Slide 27.</figcaption>
+</figure>
+
+<p>Diberikan submatriks $A_{IJ}$ berukuran $4 \times 3$ ($|I|=4, |J|=3$):</p>
+<table>
+<tr><th></th><th>$y_1$</th><th>$y_2$</th><th>$y_3$</th><th>Rata-rata Baris ($a_{iJ}$)</th></tr>
+<tr><td>$x_1$</td><td>10</td><td>20</td><td>5</td><td>$\frac{10+20+5}{3} = \mathbf{11.67}$</td></tr>
+<tr><td>$x_2$</td><td>12</td><td>22</td><td>13</td><td>$\frac{12+22+13}{3} = \mathbf{15.67}$</td></tr>
+<tr><td>$x_3$</td><td>14</td><td>24</td><td>9</td><td>$\frac{14+24+9}{3} = \mathbf{15.67}$</td></tr>
+<tr><td>$x_4$</td><td>16</td><td>26</td><td>11</td><td>$\frac{16+26+11}{3} = \mathbf{17.67}$</td></tr>
+<tr><th>Rata-rata Kolom ($a_{Ij}$)</th><td>$\mathbf{13.00}$</td><td>$\mathbf{23.00}$</td><td>$\mathbf{9.50}$</td><td>Rata-rata Total ($a_{IJ}$) = $\mathbf{15.17}$</td></tr>
+</table>
+
+<h3>Contoh Hitung Residu Sel $r_{23}$ (Baris 2, Kolom 3):</h3>
+<div class="box formula">
+$$r_{23} = a_{23} - a_{2J} - a_{I3} + a_{IJ} = 13 - 15.67 - 9.50 + 15.17 = \mathbf{3.00}$$
+$$r_{23}^2 = 3.00^2 = \mathbf{9.00}$$
+</div>
+
+<h3>Tabel Matriks Residu $r_{ij}$ dan Residu Kuadrat $r_{ij}^2$:</h3>
+<table>
+<tr><th>Sel</th><th>$y_1$</th><th>$y_2$</th><th>$y_3$</th><th>Rata-rata $r_{iJ}^2$ ($d(i)$)</th></tr>
+<tr><td>$x_1$</td><td>$r=0.5 \implies r^2=0.25$</td><td>$r=0.5 \implies r^2=0.25$</td><td>$r=-1.0 \implies r^2=1.00$</td><td>$\frac{0.25+0.25+1.0}{3} = \mathbf{0.50}$</td></tr>
+<tr><td>$x_2$</td><td>$r=-1.5 \implies r^2=2.25$</td><td>$r=-1.5 \implies r^2=2.25$</td><td>$r=3.0 \implies r^2=9.00$</td><td>$\frac{2.25+2.25+9.0}{3} = \mathbf{4.50}$ <span class="no">(Terbesar!)</span></td></tr>
+<tr><td>$x_3$</td><td>$r=0.5 \implies r^2=0.25$</td><td>$r=0.5 \implies r^2=0.25$</td><td>$r=-1.0 \implies r^2=1.00$</td><td>$\mathbf{0.50}$</td></tr>
+<tr><td>$x_4$</td><td>$r=0.5 \implies r^2=0.25$</td><td>$r=0.5 \implies r^2=0.25$</td><td>$r=-1.0 \implies r^2=1.00$</td><td>$\mathbf{0.50}$</td></tr>
+<tr><th>Rata-rata $r_{Ij}^2$ ($e(j)$)</th><td>$\mathbf{0.75}$</td><td>$\mathbf{0.75}$</td><td>$\mathbf{3.00}$ <span class="no">(Terbesar!)</span></td><td><b>MSR $H(I, J) = \mathbf{1.50}$</b></td></tr>
+</table>
+
+<div class="box tip">
+<b>Kesimpulan Aksi Algoritma:</b>
+<br>Total MSR $H(I, J) = 1.50$.
+<br>Baris $x_2$ menyumbang residu terbesar ($d(2) = 4.50$) dan kolom $y_3$ menyumbang residu terbesar ($e(3) = 3.00$).
+<br>Maka baris $x_2$ atau kolom $y_3$ adalah <b>kandidat pertama yang akan dihapus</b> untuk menurunkan MSR menuju $\le \delta$!
+</div>
+</section>
+
+<!-- 10 -->
+<section id="biclust-algo">
+<h2 class="t">10. Algoritma Bi-Clustering Lainnya & Package R</h2>
+<figure>
+<img src="img/slide-29.jpg" alt="Tabel Algoritma Bi-Clustering">
+<figcaption>Gambar 10: Ringkasan algoritma bi-clustering dari Slide 29.</figcaption>
+</figure>
+
+<table>
+<tr><th>Algoritma</th><th>Kriteria Bi-Cluster</th><th>Karakteristik &amp; Catatan</th></tr>
+<tr>
+<td><b>Cheng &amp; Church (2000)</b></td>
+<td>$\text{MSR} \le \delta$ (koheren aditif)</td>
+<td>Pendekatan <em>greedy heuristic</em>, satu bicluster per putaran, memerlukan <em>masking</em>.</td>
+</tr>
+<tr>
+<td><b>Bimax (2006)</b></td>
+<td>Blok konstan bernilai 1 pada matriks biner</td>
+<td>Metode <em>divide-and-conquer</em> eksak; data kontinu harus dibinerisasi terlebih dahulu.</td>
+</tr>
+<tr>
+<td><b>Plaid Model (2002)</b></td>
+<td>Model aditif berlapis bertingkat</td>
+<td>Mendukung bicluster yang tumpang tindih; pendekatan berbasis model statistik.</td>
+</tr>
+<tr>
+<td><b>Spectral (2003)</b></td>
+<td>Struktur checkerboard via SVD</td>
+<td>Sangat cepat, mengasumsikan partisi baris dan kolom yang tegas.</td>
+</tr>
+<tr>
+<td><b>xMotifs (2003)</b></td>
+<td>Kolom dengan status/level yang sama</td>
+<td>Sangat cocok untuk data terdiskritisasi.</td>
+</tr>
+<tr>
+<td><b>QUBIC (2009)</b></td>
+<td>Blok koheren pada graf berbobot</td>
+<td>Sangat terukur (scalable) untuk matriks biologis raksasa.</td>
+</tr>
+</table>
+
+<h3>Sintaks di R (Package <code>biclust</code>)</h3>
+<ul>
+<li><code>biclust(G, method = BCCC(), delta = 0.2, alpha = 1.5, number = 3)</code> (Cheng &amp; Church)</li>
+<li><code>biclust(binarize(G), method = BCBimax(), minr = 4, minc = 4, number = 10)</code> (Bimax)</li>
+<li>Fungsi visualisasi: <code>drawHeatmap()</code>, <code>parallelCoordinates()</code>, <code>bubbleplot()</code>.</li>
+</ul>
+</section>
+
+<!-- 11 -->
+<section id="eval-tendency">
+<h2 class="t">11. Evaluasi Tendensi Pengelompokan (Clustering Tendency)</h2>
+<div class="box warn">
+<b>Prinsip Krusial:</b> Jangan langsung menjalankan algoritma clustering! Analisis klaster mensyaratkan bahwa data <b>berdistribusi non-uniform (tidak seragam)</b>. Jika data sebenarnya menyebar merata secara acak (uniform), algoritma clustering tetap akan membagi data menjadi potongan-potongan, tetapi klaster tersebut <b>semu dan menyesatkan</b>!
+</div>
+
+<h3>A. Hopkins Statistics ($H$)</h3>
+<figure>
+<img src="img/slide-46.jpg" alt="Hopkins Statistics">
+<figcaption>Gambar 11: Hopkins Statistics di R dari Slide 46.</figcaption>
+</figure>
+
+<p>Hopkins Statistics mengukur peluang bahwa dataset berasal dari distribusi seragam (uniform).</p>
+<ul>
+<li><b>Hipotesis:</b>
+  <br>$H_0$: Dataset berdistribusi seragam (tidak ada struktur klaster).
+  <br>$H_1$: Dataset tidak berdistribusi seragam (terdapat tendensi klaster).
+</li>
+<li><b>Statistik Uji Hopkins ($H$):</b>
+  $$H = \frac{\sum_{i=1}^p y_i}{\sum_{i=1}^p x_i + \sum_{i=1}^p y_i}$$
+  Di mana $y_i$ adalah jarak ke tetangga terdekat dari titik buatan yang dibangkitkan seragam, dan $x_i$ adalah jarak ke tetangga terdekat dari sampel titik data riil.
+</li>
+<li><b>Pedoman Keputusan:</b>
+  <ul>
+    <li>Jika $H \approx 0.5$: Data menyebar secara seragam/acak $\to$ <b>TIDAK COCOK untuk dikelompokkan</b>.</li>
+    <li>Jika <b>$H > 0.75$</b>: Mengindikasikan terdapat tendensi pengelompokan yang signifikan pada tingkat kepercayaan 90% $\to$ <b>LAYAK dilakukan analisis klaster</b>!</li>
+  </ul>
+</li>
+<li>Di R: <code>get_clust_tendency(df, n = nrow(df)-1, graph = FALSE)$hopkins_stat</code>.</li>
+</ul>
+
+<h3>B. Visual Assessment of cluster Tendency (VAT Algorithm)</h3>
+<figure>
+<img src="img/slide-47.jpg" alt="VAT Algorithm">
+<figcaption>Gambar 12: Visualisasi Ordered Dissimilarity Image (ODI) data Iris vs data random dari Slide 47.</figcaption>
+</figure>
+
+<ol class="steps">
+<li>Hitung matriks dissimilarity (DM) antar seluruh objek dengan jarak Euclidean.</li>
+<li>Urutkan DM sedemikian rupa sehingga objek-objek yang mirip saling berdampingan $\to$ <b>Ordered Dissimilarity Matrix (ODM)</b>.</li>
+<li>Tampilkan ODM dalam bentuk gambar <b>Ordered Dissimilarity Image (ODI)</b>.</li>
+</ol>
+<div class="box tip">
+<b>Cara Membaca Gambar ODI:</b>
+<ul>
+<li><b>Ada Klaster (Data Iris):</b> Muncul <b>blok-blok persegi berwarna gelap</b> di sepanjang diagonal utama. Jumlah blok gelap mencerminkan estimasi jumlah klaster alami!</li>
+<li><b>Tidak Ada Klaster (Data Acak):</b> Gambar terlihat abu-abu bintik-bintik merata tanpa ada bentukan blok gelap yang jelas.</li>
+</ul>
+</div>
+</section>
+
+<!-- 12 -->
+<section id="eval-kualitas">
+<h2 class="t">12. Mengukur Kualitas Pengelompokan: Tiga Validasi Klaster</h2>
+<figure>
+<img src="img/slide-48.jpg" alt="Tiga Validasi Klaster">
+<figcaption>Gambar 13: Taksonomi Statistik Validasi Pengelompokan dari Slide 48.</figcaption>
+</figure>
+
+<table>
+<tr><th>Tipe Validasi</th><th>Sumber Informasi</th><th>Tujuan Utama</th></tr>
+<tr>
+<td><b>1. Validasi Internal</b></td>
+<td>Hanya menggunakan informasi internal dataset (tanpa data eksternal)</td>
+<td>Mengukur seberapa baik struktur internal klaster (compactness, separation, connectivity).</td>
+</tr>
+<tr>
+<td><b>2. Validasi Eksternal</b></td>
+<td>Membandingkan hasil klaster dengan informasi label eksternal yang tersedia</td>
+<td>Mengukur kecocokan partisi dengan label kelas acuan (ground truth) yang sebenarnya.</td>
+</tr>
+<tr>
+<td><b>3. Validasi Relatif</b></td>
+<td>Membandingkan hasil klaster dari berbagai parameter/algoritma</td>
+<td>Menentukan parameter optimal (misal memilih jumlah $K$ terbaik via Elbow/Gap Stat).</td>
+</tr>
+</table>
+
+<h3>Tiga Aspek Validasi Internal (Slide 49)</h3>
+<ol class="steps">
+<li><b>Compactness (Kohesi):</b> Mengukur seberapa dekat objek-objek di dalam klaster yang sama. Indikator: variasi <em>within-cluster</em> yang serendah mungkin (minimum WSS).</li>
+<li><b>Separation (Pemisahan):</b> Mengukur seberapa jauh jarak pemisah antar klaster yang berbeda (maksimum <em>between-cluster variation</em>).</li>
+<li><b>Connectivity:</b> Mengukur sejauh mana objek-objek yang berada dalam klaster yang sama berperan sebagai tetangga terdekat mereka (nilai konektivitas <b>semakin minimum semakin baik</b>).</li>
+</ol>
+</section>
+
+<!-- 13 -->
+<section id="dunn-silhouette">
+<h2 class="t">13. Indeks Kualitas: Silhouette Index, Dunn Index, & Corrected Rand Index</h2>
+
+<div class="grid2">
+<!-- Silhouette & Dunn -->
+<div class="card">
+<h4 style="color:var(--a)">A. Silhouette Index &amp; Dunn Index (Internal)</h4>
+<figure><img src="img/slide-50.jpg" alt="Silhouette & Dunn Index"></figure>
+<p><b>1. Silhouette Index ($s(i)$):</b></p>
+<ul>
+<li>Nilai mendekati <b>$+1$</b>: Objek terklaster sangat baik (<em>well-clustered</em>).</li>
+<li>Nilai mendekati <b>$0$</b>: Objek berada di batas netral antar dua klaster.</li>
+<li>Nilai mendekati <b>$-1$</b>: Objek salah masuk klaster (<em>poorly-clustered</em>).</li>
+</ul>
+<p><b>2. Dunn Index ($D$):</b></p>
+<div class="box formula" style="font-size:13px;padding:6px">
+$$D = \frac{\min_{i \ne j} d(C_i, C_j)}{\max_k \text{diam}(C_k)} = \frac{\text{Separasi minimum antar-klaster}}{\text{Diameter maksimum intra-klaster}}$$
+</div>
+<ul>
+<li>Nilai $D$ yang <b>semakin tinggi</b> menunjukkan pengelompokan yang semakin bagus!</li>
+<li>Di R: fungsi <code>cluster.stats(d, km$cluster)$dunn</code> pada package <code>fpc</code>.</li>
+</ul>
+</div>
+
+<!-- Eksternal -->
+<div class="card">
+<h4 style="color:var(--b)">B. Corrected Rand Index &amp; VI (Eksternal)</h4>
+<figure><img src="img/slide-51.jpg" alt="Validasi Eksternal"></figure>
+<p>Dipakai ketika ada variabel label acuan (misal membandingkan klaster Iris dengan <code>iris$Species</code>).</p>
+<ul>
+<li><b>Corrected Rand Index (Adjusted Rand Index / ARI):</b>
+  Mengukur derajat kesepakatan (similarity) antara dua partisi dengan mengoreksi faktor kebetulan (chance).
+  <br>• Rentang nilai: <b>$[-1, 1]$</b>
+  <br>• Nilai <b>$1$</b> = kesepakatan sempurna (<em>perfect agreement</em>)
+  <br>• Nilai <b>$0$</b> = hasil pengelompokan setara tebakan acak murni
+  <br>• Nilai <b>$< 0$</b> = ketidaksesuaian sistematis (<em>no agreement</em>)
+</li>
+<li><b>Variation of Information (VI):</b>
+  Mengukur jumlah informasi yang hilang atau diperoleh saat berpindah antar dua partisi (berbasis entropi informasi).
+</li>
+</ul>
+</div>
+</div>
+</section>
+
+<!-- 14 -->
+<section id="tahapan-lengkap">
+<h2 class="t">14. Ringkasan: Tahapan Lengkap Analisis Klaster (Slide 52)</h2>
+<figure>
+<img src="img/slide-52.jpg" alt="Tahapan Analisis Klaster">
+<figcaption>Gambar 14: Diagram alir 4 pilar tahapan analisis klaster dari Slide 52.</figcaption>
+</figure>
+
+<ol class="steps">
+<li><b>Tahap 1: Persiapan Data (Data Preparation)</b>
+  <ul>
+    <li>Evaluasi tendensi pengelompokan (Uji Hopkins $H > 0.75$ &amp; visualisasi VAT / ODI).</li>
+    <li>Pemilihan variabel yang relevan dengan masalah dan eliminasi redundansi informasi (cek korelasi tinggi antar fitur).</li>
+    <li>Standarisasi data (z-score atau min-max scaling jika rentang skala berbeda).</li>
+  </ul>
+</li>
+<li><b>Tahap 2: Analisis Klaster (Cluster Analysis Execution)</b>
+  <ul>
+    <li>Pilih keluarga metode yang tepat (Hierarki, Partisi, atau Density-based).</li>
+    <li>Tentukan ukuran kedekatan jarak (Euclidean, Manhattan, Korelasi, dll).</li>
+    <li>Tentukan jumlah klaster optimum ($K$) atau parameter kepadatan ($\text{Eps}, \text{MinPts}$).</li>
+  </ul>
+</li>
+<li><b>Tahap 3: Evaluasi Model (Model Evaluation)</b>
+  <ul>
+    <li>Validasi Internal: Hitung Silhouette Index, Dunn Index, Connectivity, dan WSS.</li>
+    <li>Validasi Eksternal: Hitung Corrected Rand Index atau VI jika tersedia label pembanding acuan.</li>
+  </ul>
+</li>
+<li><b>Tahap 4: Interpretasi Model (Model Interpretation)</b>
+  <ul>
+    <li>Profiling karakteristik klaster (hitung nilai mean/modus tiap variabel per klaster).</li>
+    <li>Visualisasi profil dan pemberian nama label bisnis yang dapat ditindaklanjuti.</li>
+  </ul>
+</li>
+</ol>
+</section>
+
+<!-- 15 -->
+<section id="checklist">
+<h2 class="t">15. Checklist Persiapan UAS STIS (Pertemuan 10)</h2>
+<ul>
+<li>☐ <b>DBSCAN:</b> Paham definisi Core ($|N_{\text{Eps}}| \ge \text{MinPts}$), Border, dan Noise.</li>
+<li>☐ <b>Relasi Kepadatan:</b> Paham perbedaan *Directly density-reachable* (asimetris), *Density-reachable* (transitif asimetris), dan *Density-connected* (simetris).</li>
+<li>☐ <b>Kelemahan DBSCAN:</b> Paham mengapa DBSCAN sensitif $\text{Eps}$, gagal pada kepadatan bervariasi, dan cara menentukan $\text{Eps}$ via kurva $k$-distance.</li>
+<li>☐ <b>OPTICS:</b> Paham *Core-distance*, *Reachability-distance*, dan cara membaca lembah pada *Reachability plot*.</li>
+<li>☐ <b>Bi-Clustering:</b> Paham alasan perlunya bi-clustering pada data dimensi tinggi, perbedaan dengan klaster baris, dan 5 tipe bi-cluster (aditif, multiplikatif, evolusi, dll).</li>
+<li>☐ <b>Cheng &amp; Church:</b> Hafal rumus residu sel $r_{ij} = a_{ij} - a_{iJ} - a_{Ij} + a_{IJ}$ dan formula MSR $H(I, J)$. Mampu menghitungnya secara manual!</li>
+<li>☐ <b>Tendensi Klaster:</b> Hafal ambang batas Hopkins Statistics ($H > 0.75 \implies$ ada tendensi klaster) dan cara membaca blok gelap pada VAT/ODI.</li>
+<li>☐ <b>Tiga Validasi:</b> Bisa membedakan validasi internal, eksternal, dan relatif.</li>
+<li>☐ <b>Metrik Validasi:</b> Paham interpretasi Silhouette ($-1$ s.d $+1$), Dunn Index (makin tinggi makin baik), dan Corrected Rand Index ($1$ = sempurna).</li>
+</ul>
+</section>
+</main>
+
+<div id="lb"><img alt="Enlarged slide"></div>
+
+<script src="katex/katex.min.js"></script>
+<script src="katex/contrib/auto-render.min.js"></script>
+<script>
+renderMathInElement(document.body, {
+  delimiters: [
+    {left: "$$", right: "$$", display: true},
+    {left: "$", right: "$", display: false}
+  ],
+  throwOnError: false
+});
+
+const lb = document.getElementById('lb');
+document.querySelectorAll('figure img').forEach(i => {
+  i.onclick = () => {
+    lb.firstElementChild.src = i.src;
+    lb.style.display = 'grid';
+  };
+});
+lb.onclick = () => lb.style.display = 'none';
+
+const links = [...document.querySelectorAll('aside a[href^="#"]')];
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting){
+      links.forEach(l => l.classList.toggle('on', l.getAttribute('href') === '#' + e.target.id));
+    }
+  });
+}, {rootMargin: '-20% 0px -60% 0px'});
+document.querySelectorAll('section').forEach(s => io.observe(s));
+</script>
+</body>
+</html>

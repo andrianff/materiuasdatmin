@@ -1,0 +1,73 @@
+{
+  "meta": {
+    "sumber": "API tiruan",
+    "tahun": 2026,
+    "jumlah": 9,
+    "lisensi": "hanya untuk latihan"
+  },
+  "data": [
+    {
+      "nama": "Wilayah A",
+      "penduduk": 1250000,
+      "pengeluaran": 980,
+      "akses_internet": 72.4,
+      "pulau": "Pulau Utara"
+    },
+    {
+      "nama": "Wilayah B",
+      "penduduk": 860000,
+      "pengeluaran": 1120,
+      "akses_internet": 65.1,
+      "pulau": "Pulau Utara"
+    },
+    {
+      "nama": "Wilayah C",
+      "penduduk": 2340000,
+      "pengeluaran": 1450,
+      "akses_internet": 81.7,
+      "pulau": "Pulau Tengah"
+    },
+    {
+      "nama": "Wilayah D",
+      "penduduk": 430000,
+      "pengeluaran": 760,
+      "akses_internet": 48.3,
+      "pulau": "Pulau Timur"
+    },
+    {
+      "nama": "Wilayah E",
+      "penduduk": 1780000,
+      "pengeluaran": 1310,
+      "akses_internet": 77.9,
+      "pulau": "Pulau Tengah"
+    },
+    {
+      "nama": "Wilayah F",
+      "penduduk": 610000,
+      "pengeluaran": 845,
+      "akses_internet": 55.2,
+      "pulau": "Pulau Timur"
+    },
+    {
+      "nama": "Wilayah G",
+      "penduduk": 1980000,
+      "pengeluaran": 1520,
+      "akses_internet": 84.6,
+      "pulau": "Pulau Utara"
+    },
+    {
+      "nama": "Wilayah H",
+      "penduduk": 295000,
+      "pengeluaran": 690,
+      "akses_internet": 41.8,
+      "pulau": "Pulau Timur"
+    },
+    {
+      "nama": "Wilayah I",
+      "penduduk": 1120000,
+      "pengeluaran": 1005,
+      "akses_internet": 68.9,
+      "pulau": "Pulau Tengah"
+    }
+  ]
+}

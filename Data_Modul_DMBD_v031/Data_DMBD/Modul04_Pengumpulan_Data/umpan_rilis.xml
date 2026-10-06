@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"><channel>
+  <title>Rilis Statistik Tiruan</title>
+  <link>https://contoh.tiruan/rilis</link>
+  <description>Umpan tiruan untuk latihan.</description>
+  <item>
+    <title>Rilis statistik Wilayah A</title>
+    <link>https://contoh.tiruan/rilis/a</link>
+    <pubDate>01 Feb 2026</pubDate>
+    <description>Penduduk 1250000 jiwa, akses internet 72.4 persen.</description>
+  </item>
+  <item>
+    <title>Rilis statistik Wilayah B</title>
+    <link>https://contoh.tiruan/rilis/b</link>
+    <pubDate>02 Feb 2026</pubDate>
+    <description>Penduduk 860000 jiwa, akses internet 65.1 persen.</description>
+  </item>
+  <item>
+    <title>Rilis statistik Wilayah C</title>
+    <link>https://contoh.tiruan/rilis/c</link>
+    <pubDate>03 Feb 2026</pubDate>
+    <description>Penduduk 2340000 jiwa, akses internet 81.7 persen.</description>
+  </item>
+  <item>
+    <title>Rilis statistik Wilayah D</title>
+    <link>https://contoh.tiruan/rilis/d</link>
+    <pubDate>04 Feb 2026</pubDate>
+    <description>Penduduk 430000 jiwa, akses internet 48.3 persen.</description>
+  </item>
+  <item>
+    <title>Rilis statistik Wilayah E</title>
+    <link>https://contoh.tiruan/rilis/e</link>
+    <pubDate>05 Feb 2026</pubDate>
+    <description>Penduduk 1780000 jiwa, akses internet 77.9 persen.</description>
+  </item>
+</channel></rss>

@@ -1,0 +1,9 @@
+User-agent: *
+Disallow: /admin/
+Disallow: /pencarian
+Crawl-delay: 5
+
+User-agent: PerayapNakal
+Disallow: /
+
+Sitemap: https://contoh.tiruan/sitemap.xml

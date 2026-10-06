@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Buku Modul Praktikum Data Mining &amp; Big Data (Modul 8–16) – Persiapan UAS STIS</title>
+<meta name="description" content="Portal belajar komprehensif UAS Praktikum Data Mining & Big Data Politeknik Statistika STIS untuk Modul 8 hingga Modul 16: Klasifikasi Dasar, SVM/KNN/Random Forest, JST FFNN & RBFNN, Association Rules, Clustering Lanjut & Bi-clustering, GPBoost, CLARA/Alur Klaster, LightGBM, dan LSTM Deret Waktu.">
+<link rel="stylesheet" href="katex/katex.min.css">
+<style>
+:root{
+  --bg:#0b1120;--surface:#1e293b;--surface2:#334155;--surface3:#0f172a;
+  --text:#f8fafc;--text-muted:#94a3b8;--primary:#38bdf8;--secondary:#818cf8;
+  --accent:#f43f5e;--green:#34d399;--amber:#fbbf24;--purple:#c084fc;--border:#334155;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;padding:0;background:var(--bg);color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,sans-serif;
+  line-height:1.65;font-size:15.5px;scroll-behavior:smooth;
+}
+header{
+  background:linear-gradient(135deg,#0369a1,#4338ca,#6d28d9);color:#fff;
+  padding:36px 20px 28px;text-align:center;box-shadow:0 4px 24px rgba(0,0,0,0.5);
+  position:relative;
+}
+header h1{margin:0 0 8px;font-size:28px;letter-spacing:-0.5px}
+header p{margin:0;opacity:0.9;font-size:16px;max-width:850px;margin:auto}
+.badge-header{
+  display:inline-block;background:rgba(255,255,255,0.2);padding:5px 14px;
+  border-radius:99px;font-size:13px;font-weight:700;margin-top:12px;letter-spacing:1px;text-transform:uppercase;
+}
+
+/* Nav & Search */
+.nav-wrap{
+  background:var(--surface);position:sticky;top:0;z-index:100;
+  border-bottom:1px solid var(--border);box-shadow:0 4px 14px rgba(0,0,0,0.4);
+}
+.search-bar{
+  max-width:1100px;margin:auto;padding:10px 16px 6px;display:flex;gap:12px;align-items:center;
+}
+.search-input{
+  flex:1;background:var(--surface3);border:1px solid var(--border);color:#fff;
+  padding:8px 14px;border-radius:6px;font-size:14px;outline:none;
+}
+.search-input:focus{border-color:var(--primary)}
+nav{
+  max-width:1100px;margin:auto;display:flex;flex-wrap:wrap;justify-content:center;
+  gap:6px;padding:6px 16px 12px;
+}
+nav a{
+  color:var(--text);text-decoration:none;padding:5px 12px;border-radius:6px;
+  font-size:13.5px;font-weight:600;transition:all 0.15s;background:var(--surface2);white-space:nowrap;
+}
+nav a:hover, nav a.active{background:var(--primary);color:#0b1120}
+nav .catatan-btn{background:#e11d48;color:#fff}
+nav .catatan-btn:hover{background:#be123c;color:#fff}
+
+main{max-width:1150px;margin:24px auto;padding:0 20px}
+.modul-card{
+  background:var(--surface);border-radius:12px;padding:30px;margin-bottom:36px;
+  border:1px solid var(--border);box-shadow:0 8px 24px rgba(0,0,0,0.3);position:relative;
+}
+.modul-tag{
+  display:inline-block;background:var(--surface3);color:var(--primary);border:1px solid var(--primary);
+  padding:3px 10px;border-radius:4px;font-size:12.5px;font-weight:700;margin-bottom:10px;
+}
+h2{
+  color:var(--primary);font-size:24px;margin:0 0 16px;padding-bottom:10px;
+  border-bottom:2px solid var(--surface2);
+}
+h3{color:var(--amber);font-size:19px;margin:24px 0 10px}
+h4{color:var(--green);font-size:16.5px;margin:18px 0 6px}
+p{margin:0 0 14px;color:#cbd5e1}
+ul,ol{margin:0 0 16px;padding-left:24px;color:#cbd5e1}
+li{margin-bottom:6px}
+
+.highlight-box{
+  background:rgba(56,189,248,0.08);border-left:4px solid var(--primary);
+  padding:14px 18px;border-radius:0 8px 8px 0;margin:16px 0;
+}
+.warning-box{
+  background:rgba(244,63,94,0.08);border-left:4px solid var(--accent);
+  padding:14px 18px;border-radius:0 8px 8px 0;margin:16px 0;
+}
+.green-box{
+  background:rgba(52,211,153,0.08);border-left:4px solid var(--green);
+  padding:14px 18px;border-radius:0 8px 8px 0;margin:16px 0;
+}
+.amber-box{
+  background:rgba(251,191,36,0.08);border-left:4px solid var(--amber);
+  padding:14px 18px;border-radius:0 8px 8px 0;margin:16px 0;
+}
+
+table{
+  width:100%;border-collapse:collapse;margin:16px 0;font-size:14px;
+  background:#131d31;border-radius:8px;overflow:hidden;
+}
+th,td{padding:9px 12px;border:1px solid var(--border);text-align:left}
+th{background:var(--surface2);color:#f1f5f9;font-weight:600}
+tr:nth-child(even){background:rgba(255,255,255,0.02)}
+
+.img-card{
+  background:#0f172a;border:1px solid var(--border);border-radius:8px;
+  padding:12px;margin:16px 0;text-align:center;
+}
+.img-card img{max-width:100%;height:auto;border-radius:6px;box-shadow:0 4px 12px rgba(0,0,0,0.5)}
+.img-card .caption{font-size:13px;color:var(--text-muted);margin-top:8px}
+
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:850px){.grid-2{grid-template-columns:1fr}}
+
+pre{
+  background:#0a0f1d;border:1px solid #1e293b;border-radius:8px;padding:14px;
+  overflow-x:auto;font-family:'Fira Code',Consolas,monospace;font-size:13.5px;color:#38bdf8;margin:14px 0;
+}
+code{background:#0b1120;color:#38bdf8;padding:2px 5px;border-radius:4px;font-size:13.5px;font-family:monospace}
+.katex-display{margin:12px 0;overflow-x:auto;overflow-y:hidden;padding:4px 0}
+.katex{color:#e2e8f0;font-size:1.06em}
+
+footer{
+  text-align:center;padding:34px 20px;color:var(--text-muted);
+  border-top:1px solid var(--border);margin-top:40px;font-size:14px;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Buku Modul Praktikum Data Mining &amp; Big Data</h1>
+  <p>Panduan Belajar Komprehensif Persiapan UAS Praktikum (Modul 8 – Modul 16) • Politeknik Statistika STIS</p>
+  <span class="badge-header">Kurikulum K202505 • D-IV Statistika</span>
+</header>
+
+<div class="nav-wrap">
+  <div class="search-bar">
+    <input type="text" id="searchInput" class="search-input" placeholder="🔍 Cari algoritma, metrik, fungsi R / Python, rumus (misal: SVM, Apriori, GOSS, DBSCAN, LSTM, caret)...">
+  </div>
+  <nav id="moduleNav">
+    <a href="#modul8">Modul 8: Klasifikasi Dasar</a>
+    <a href="#modul9">Modul 9: Klasifikasi Lanjut</a>
+    <a href="#modul10">Modul 10: JST (FFNN &amp; RBFNN)</a>
+    <a href="#modul11">Modul 11: Association Rules</a>
+    <a href="#modul12">Modul 12: Clustering Lanjut</a>
+    <a href="#modul13">Modul 13: GPBoost</a>
+    <a href="#modul14">Modul 14: Alur Klaster &amp; CLARA</a>
+    <a href="#modul15">Modul 15: LightGBM</a>
+    <a href="#modul16">Modul 16: LSTM Deret Waktu</a>
+    <a href="catatan.html" class="catatan-btn">📝 Catatan Kertas (A4)</a>
+    <a href="../bank_soal/index.html" style="background:#8b5cf6;color:#fff;">🎯 Bank Soal UAS STIS</a>
+  </nav>
+</div>
+
+<main>
+
+<!-- ==================== MODUL 8 ==================== -->
+<section id="modul8" class="modul-card">
+  <span class="modul-tag">BAGIAN INTI • MODUL 8 (Hlm. 236–269)</span>
+  <h2>Modul 8: Klasifikasi Dasar (Pohon Keputusan, Naive Bayes, Regresi Logistik Teratur)</h2>
+  
+  <p>
+    <b>Deskripsi &amp; Kedudukan CRISP-DM:</b> Berada pada tahap <i>Modeling</i> dan <i>Evaluation</i>. Modul ini mengenalkan tiga keluarga model klasifikasi berwatak beda: <b>Pohon Keputusan</b> (membelah ruang fitur secara ortogonal persegi), <b>Naive Bayes</b> (menghitung peluang posterior berbasis teorema Bayes dengan asumsi independensi fitur), dan <b>Regresi Logistik Teratur</b> (pemisah linear dengan penalti Ridge/Lasso via paket <code>glmnet</code>).
+  </p>
+
+  <h3>1. Landasan Teori &amp; Rumus Kunci</h3>
+  <div class="grid-2">
+    <div class="highlight-box">
+      <b>A. Pohon Keputusan (CART &amp; Pruning):</b>
+      <ul>
+        <li>Kriteria Split: <b>Gini Impurity</b> $I_G(t) = 1 - \sum_{i=1}^C p_i^2$ atau <b>Entropy</b> $H(t) = -\sum p_i \log_2 p_i$.</li>
+        <li>Pemangkasan Biaya-Kerumitan (Cost-Complexity Pruning):
+          $$R_\alpha(T) = R(T) + \alpha |T|$$
+        </li>
+        <li>Parameter <code>cp</code> (complexity parameter): Pemotongan cabang hanya diizinkan jika peningkatan kebaikan model melebihi ambang <code>cp</code>.</li>
+        <li><b>Aturan 1-SE (One-Standard-Error Rule):</b> Pilih pohon paling sederhana yang skor validasi silangnya berada dalam rentang 1 kesalahan baku dari nilai optimal absolut (mencegah overfit).</li>
+      </ul>
+    </div>
+
+    <div class="green-box">
+      <b>B. Naive Bayes &amp; Regresi Logistik Teratur:</b>
+      <ul>
+        <li><b>Teorema Bayes:</b> $P(Y=k \mid X) \propto P(Y=k) \prod_{j=1}^p P(X_j \mid Y=k)$.</li>
+        <li><b>Laplace Smoothing:</b> Mencegah probabilitas nol jika suatu kombinasi belum pernah muncul di data latih: $P(x_i \mid y) = \frac{n_{ik} + 1}{n_k + K}$.</li>
+        <li><b>Regresi Logistik Teratur:</b> $\ln\left(\frac{p}{1-p}\right) = \beta_0 + \sum \beta_j X_j$.
+          Penalti Elastic Net: $\lambda \left[ (1-\alpha)\frac{1}{2}\|\beta\|_2^2 + \alpha \|\beta\|_1 \right]$.
+          $\alpha=1$ (Lasso/seleksi fitur), $\alpha=0$ (Ridge/penyusutan koefisien).
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>2. Dataset Praktikum: <code>data_nasabah.csv</code></h3>
+  <p>
+    Memuat 1.000 amatan nasabah perbankan dengan target biner <code>gagal_bayar</code> (ya/tidak). Fitur meliputi usia, pendapatan, status kepemilikan rumah, rasio hutang terhadap pendapatan, dan riwayat tunggakan.
+  </p>
+
+  <h3>3. Sintaks &amp; Alur Kerja R (Paket <code>caret</code>)</h3>
+  <pre><code>library(caret); library(rpart); library(naivebayes); library(glmnet)
+
+# 1. Pembagian Data Latih-Uji Berstrata
+set.seed(2025)
+idx <- createDataPartition(data$gagal_bayar, p = 0.8, list = FALSE)
+latih <- data[idx, ]; uji <- data[-idx, ]
+
+# 2. Skema Validasi Silang 10-Lipat dengan Evaluasi ROC
+ctrl <- trainControl(method = "cv", number = 10, classProbs = TRUE, 
+                     summaryFunction = twoClassSummary, savePredictions = "final")
+
+# 3. Model Pohon Keputusan & Penalaan cp
+grid_tree <- expand.grid(cp = seq(0.001, 0.05, by = 0.005))
+m_tree <- train(gagal_bayar ~ ., data = latih, method = "rpart", 
+                metric = "ROC", trControl = ctrl, tuneGrid = grid_tree)
+
+# 4. Membandingkan Model via Resamples
+hasil_banding <- resamples(list(Pohon = m_tree, NB = m_nb, Glmnet = m_glm))
+bwplot(hasil_banding, metric = "ROC")</code></pre>
+
+  <div class="img-card">
+    <img src="img/page-261-261.jpg" alt="Perbandingan ROC antar model di Modul 8">
+    <div class="caption">Hlm. 261: Boxplot perbandingan metrik ROC (Sensitivitas vs Spesifisitas) pada ketiga model menggunakan <code>bwplot</code>.</div>
+  </div>
+
+  <div class="amber-box">
+    <b>💡 Jebakan Ujian UAS:</b> Jangan menilai performa model hanya dari nilai <b>Akurasi</b> ketika target tidak seimbang (imbalance)! Jika hanya 5% nasabah gagal bayar, model naif yang selalu menebak "lancar" akan berakurasi 95% tetapi sama sekali tidak berguna. Gunakan <b>ROC / AUC</b>, <b>Sensitivity (Recall)</b>, dan kurva kalibrasi probabilitas.
+  </div>
+</section>
+
+<!-- ==================== MODUL 9 ==================== -->
+<section id="modul9" class="modul-card">
+  <span class="modul-tag">BAGIAN INTI • MODUL 9 (Hlm. 270–301)</span>
+  <h2>Modul 9: Klasifikasi Lanjut (Support Vector Machine, K-Nearest Neighbors, Random Forest)</h2>
+
+  <p>
+    <b>Deskripsi:</b> Beralih ke model-model yang lebih fleksibel dan berdaya tangkap tinggi: <b>SVM</b> (memaksimalkan margin pemisah dengan fungsi kernel), <b>KNN</b> (pengelompokan berbasis ketetanggaan instan), dan <b>Random Forest</b> (ansambel bagging banyak pohon keputusan dengan keacakan fitur).
+  </p>
+
+  <h3>1. Landasan Teori Komparatif</h3>
+  <table>
+    <tr><th>Karakteristik</th><th>SVM (Support Vector Machine)</th><th>KNN (K-Nearest Neighbors)</th><th>Random Forest</th></tr>
+    <tr><td><b>Prinsip Kerja</b></td><td>Maksimalisasi margin pemisah $\frac{2}{\|w\|}$</td><td>Rerata/modus kelas dari $K$ tetangga terdekat</td><td>Agregasi bootstrap (bagging) ratusan pohon</td></tr>
+    <tr><td><b>Kebutuhan Penskalaan</b></td><td><span class="amber-text">Wajib (Sangat Sensitif Jarak)</span></td><td><span class="amber-text">Wajib (Sensitif Skala Fitur)</span></td><td><span class="green-text">Tidak Perlu (Kebal Skala Monoton)</span></td></tr>
+    <tr><td><b>Penanganan Dimensi Tinggi</b></td><td>Bagus (mengandalkan support vectors)</td><td>Buruk (<i>curse of dimensionality</i>)</td><td>Sangat Bagus (sub-sampling fitur $m_{try}$)</td></tr>
+    <tr><td><b>Parameter Kunci</b></td><td>$C$ (penalti margin) &amp; $\sigma/\gamma$ (lebar RBF)</td><td>$k$ (ganjil), metrik jarak (Euclid/Manhattan)</td><td><code>ntree</code> (jumlah pohon) &amp; <code>mtry</code> ($\sqrt{p}$)</td></tr>
+  </table>
+
+  <h3>2. Resep Prapemrosesan Berbeda untuk Model Berbeda</h3>
+  <p>
+    Pada modul ini ditekankan konsep modern: <b>tidak semua model boleh diberi data yang diproses sama!</b> Dalam paket <code>recipes</code> di R:
+  </p>
+  <ul>
+    <li><b>Resep Berbasis Jarak (SVM &amp; KNN):</b> Wajib menyertakan <code>step_normalize(all_numeric_predictors())</code> dan <code>step_dummy(all_nominal_predictors())</code>.</li>
+    <li><b>Resep Berbasis Pohon (Random Forest):</b> Cukup mempertahankan variabel numerik asli tanpa standardisasi, peubah kategorik dapat langsung ditangani atau cukup di-factor-kan.</li>
+  </ul>
+
+  <div class="img-card">
+    <img src="img/page-292-292.jpg" alt="Tabel Evaluasi Klasifikasi Lanjut Modul 9">
+    <div class="caption">Hlm. 292: Hasil evaluasi perbandingan Random Forest, SVM (RBF), dan KNN pada data usahatani. Random Forest mencapai ROC tertinggi (0.8856).</div>
+  </div>
+
+  <h3>3. Mengapa Random Forest Mengungguli Pohon Tunggal?</h3>
+  <div class="green-box">
+    Pohon keputusan tunggal memiliki variansi tinggi (mudah overfit terhadap perubahan kecil data). Random Forest mereduksi variansi secara drastis melalui <b>dua lapis keacakan</b>:
+    <ol>
+      <li><b>Keacakan Sampel:</b> Tiap pohon dilatih pada sampel bootstrap berukuran $N$ (dengan pengembalian). Amatan yang tidak terpilih disebut <i>Out-of-Bag (OOB)</i> dan digunakan sebagai estimasi galat internal gratis tanpa butuh set validasi terpisah.</li>
+      <li><b>Keacakan Peubah:</b> Pada setiap titik pembelahan (split), hanya subset $m_{try} = \lfloor\sqrt{p}\rfloor$ peubah yang diizinkan bersaing. Ini mendekorelasikan pohon-pohon individual sehingga rata-rata prediksi ansambel sangat stabil.</li>
+    </ol>
+  </div>
+</section>
+
+<!-- ==================== MODUL 10 ==================== -->
+<section id="modul10" class="modul-card">
+  <span class="modul-tag">BAGIAN INTI • MODUL 10 (Hlm. 302–336)</span>
+  <h2>Modul 10: Jaringan Syaraf Tiruan (FFNN &amp; RBFNN)</h2>
+
+  <p>
+    <b>Deskripsi:</b> Jaringan Syaraf Tiruan (JST) unggul dalam menangkap hubungan non-linier kompleks dan interaksi tingkat tinggi antar-peubah, tetapi bersifat model tertutup (*black box*). Modul ini mengkaji <b>Feed-Forward Neural Network (FFNN)</b> dan <b>Radial Basis Function Neural Network (RBFNN)</b> pada data survei kerentanan pangan.
+  </p>
+
+  <h3>1. Arsitektur FFNN vs RBFNN</h3>
+  <div class="grid-2">
+    <div class="highlight-box">
+      <b>A. Feed-Forward Neural Network (FFNN):</b>
+      <ul>
+        <li>Lapisan input $\to$ lapisan tersembunyi (hidden layer) $\to$ lapisan output.</li>
+        <li>Fungsi aktivasi: Sigmoid logistik $\sigma(z) = \frac{1}{1 + e^{-z}}$.</li>
+        <li>Kombinasi masukan: $z_j = \sum w_{ij} x_i + b_j$.</li>
+        <li>Pelatihan via <b>Backpropagation</b> (penurunan gradien). Memperbarui seluruh bobot di semua lapisan secara iteratif. Rawan konvergensi lambat dan minimum lokal.</li>
+      </ul>
+    </div>
+
+    <div class="green-box">
+      <b>B. Radial Basis Function (RBFNN):</b>
+      <ul>
+        <li>Lapisan tersembunyi menggunakan fungsi basis radial (RBF) Gaussian:
+          $$\phi_j(x) = \exp\left(-\frac{\|x - c_j\|^2}{2\sigma_j^2}\right)$$
+        </li>
+        <li>Pusat $c_j$ dan lebar $\sigma_j$ ditentukan terlebih dahulu (biasanya via K-Means).</li>
+        <li>Pelatihan lapisan output dilakukan secara <b>analitis linier</b> (kuadrat terkecil). Jauh lebih cepat stabil dibanding FFNN!</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="warning-box">
+    <b>Penskalaan Wajib bagi Jaringan Syaraf!</b>
+    Fungsi aktivasi sigmoid mengalami <i>saturasi</i> (gradien mendekati nol) jika nilai masukan terlalu besar atau terlalu kecil di luar selang $[-4, 4]$. Tanpa penskalaan (Min-Max $[0, 1]$ atau Z-score), peubah dengan skala nominal besar (seperti pendapatan atau pengeluaran) akan mendominasi dan proses pembaruan bobot akan macet!
+  </div>
+
+  <h3>2. Ketimpangan Kelas &amp; Pemindahan Ambang (Threshold Moving)</h3>
+  <div class="img-card">
+    <img src="img/page-327-327.jpg" alt="Grafik Ambang dan Kurva ROC Modul 10">
+    <div class="caption">Hlm. 327: Grafik pemilihan ambang keputusan probabilitas vs kurva ROC untuk mendeteksi rumah tangga rentan pangan (kelas langka).</div>
+  </div>
+  <p>
+    Pada data kerentanan pangan di mana hanya 10% rumah tangga berstatus rentan, ambang baku $p = 0{,}5$ menghasilkan sensitivitas yang sangat buruk. Dengan menggeser ambang keputusan (misal ke $p^* = 0{,}22$), sensitivitas deteksi meningkat drastis dengan penurunan spesifisitas yang terkendali (titik Youden $J = \text{Sens} + \text{Spec} - 1$).
+  </p>
+
+  <h3>3. Menafsirkan Model Tertutup (Algoritma Garson)</h3>
+  <p>
+    Tingkat kepentingan peubah pada FFNN diekstraksi menggunakan <b>algoritma Garson</b>, yang mengalikan bobot dari lapisan masukan ke lapisan tersembunyi dengan bobot dari lapisan tersembunyi ke lapisan keluaran, lalu menormalkannya menjadi persentase kontribusi relatif.
+  </p>
+</section>
+
+<!-- ==================== MODUL 11 ==================== -->
+<section id="modul11" class="modul-card">
+  <span class="modul-tag">BAGIAN INTI • MODUL 11 (Hlm. 337–367)</span>
+  <h2>Modul 11: Association Rule dan Frequent Itemset Mining</h2>
+
+  <p>
+    <b>Deskripsi:</b> Beralih dari tugas <i>supervised</i> ke pencarian pola asosiasi antar-barang dalam data transaksi belanja (*market basket analysis*) serta keterbatasan rumah tangga (SUSENAS BPS).
+  </p>
+
+  <h3>1. Metrik Dasar Aturan Asosiasi ($X \Rightarrow Y$)</h3>
+  <div class="grid-2">
+    <table>
+      <tr><th>Metrik</th><th>Rumus Probabilitas</th><th>Interpretasi</th></tr>
+      <tr><td><b>Support</b></td><td>$\text{Supp}(X \Rightarrow Y) = P(X \cup Y)$</td><td>Proporsi seluruh transaksi yang memuat $X$ dan $Y$ bersamaan.</td></tr>
+      <tr><td><b>Confidence</b></td><td>$\text{Conf}(X \Rightarrow Y) = \frac{P(X \cup Y)}{P(X)} = P(Y \mid X)$</td><td>Tingkat kepastian: jika nasabah membeli $X$, berapa peluang ia juga membeli $Y$.</td></tr>
+      <tr><td><b>Lift</b></td><td>$\text{Lift}(X \Rightarrow Y) = \frac{P(X \cup Y)}{P(X)P(Y)}$</td><td>Kekuatan asosiasi terhadap kejadian independen acak.</td></tr>
+      <tr><td><b>Leverage</b></td><td>$\text{Supp}(X \cup Y) - \text{Supp}(X)\text{Supp}(Y)$</td><td>Selisih frekuensi amatan dengan frekuensi harapan independen.</td></tr>
+      <tr><td><b>Conviction</b></td><td>$\frac{1 - \text{Supp}(Y)}{1 - \text{Conf}(X \Rightarrow Y)}$</td><td>Mengukur implikasi logis kesalahan jika $Y$ tidak muncul bersama $X$.</td></tr>
+    </table>
+    <div class="amber-box">
+      <b>Pedoman Evaluasi Nilai Lift:</b>
+      <ul>
+        <li><span class="green-text"><b>$\text{Lift} > 1$:</b></span> Asosiasi positif (keberadaan $X$ meningkatkan probabilitas kemunculan $Y$). Aturan ini bernilai bisnis!</li>
+        <li><b>$\text{Lift} = 1$:</b> $X$ dan $Y$ independen (kemunculan bersama murni kebetulan acak).</li>
+        <li><span class="red-text"><b>$\text{Lift} < 1$:</b></span> Asosiasi negatif (pembelian $X$ justru menekan kemungkinan pembelian $Y$).</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>2. Sifat Anti-Monoton Apriori, Closed, dan Maximal Itemset</h3>
+  <ul>
+    <li><b>Sifat Apriori:</b> <i>"Jika suatu himpunan item bersifat tidak sering (infrequent), maka seluruh superset-nya dipastikan tidak sering."</i> Sifat ini memangkas ruang pencarian eksponensial.</li>
+    <li><b>Frequent Itemset:</b> Itemset dengan $\text{support} \ge \text{minsup}$.</li>
+    <li><b>Closed Itemset:</b> Frequent itemset yang tidak memiliki *superset langsung* dengan nilai support yang persis sama. Memadatkan aturan tanpa kehilangan informasi nilai support.</li>
+    <li><b>Maximal Itemset:</b> Frequent itemset yang tidak memiliki *superset* mana pun yang juga frequent. Bentuk pemadatan paling ringkas.</li>
+  </ul>
+
+  <div class="img-card">
+    <img src="img/page-352-352.jpg" alt="10 Barang dengan Support Tertinggi Modul 11">
+    <div class="caption">Hlm. 352: Sepuluh barang dengan nilai support tertinggi pada transaksi ritel menggunakan fungsi <code>itemFrequencyPlot</code>.</div>
+  </div>
+
+  <div class="img-card">
+    <img src="img/page-359-359.jpg" alt="Hubungan Ambang Support terhadap Jumlah Aturan Modul 11">
+    <div class="caption">Hlm. 359: Penurunan eksponensial jumlah aturan asosiasi seiring dinaikkannya ambang batas minimum support.</div>
+  </div>
+</section>
+
+<!-- ==================== MODUL 12 ==================== -->
+<section id="modul12" class="modul-card">
+  <span class="modul-tag">BAGIAN INTI • MODUL 12 (Hlm. 368–420)</span>
+  <h2>Modul 12: Pengelompokan (k-Medoid, k-Prototype, DBSCAN, OPTICS, Bi-clustering)</h2>
+
+  <p>
+    <b>Deskripsi:</b> Modul pengelompokan tingkat lanjut yang mengatasi berbagai kelemahan K-Means klasik: ketahanan terhadap outlier (PAM), data bertipe campuran (k-Prototype), bentuk gugus non-sferis &amp; derau (DBSCAN), kepadatan bertingkat (OPTICS), dan pengelompokan simultan baris-kolom pada dimensi tinggi (Bi-clustering).
+  </p>
+
+  <h3>1. Ringkasan Metode Klaster Lanjut</h3>
+  <table>
+    <tr><th>Metode</th><th>Tipe Data &amp; Karakteristik</th><th>Kelebihan Utama</th><th>Fungsi Paket R</th></tr>
+    <tr><td><b>k-Medoid (PAM)</b></td><td>Numerik/Kategorik (Jarak Gower/Manhattan)</td><td>Pusat adalah titik data asli; tahan outlier</td><td><code>cluster::pam()</code></td></tr>
+    <tr><td><b>k-Prototype</b></td><td>Campuran numerik &amp; kategorik berbobot $\gamma$</td><td>Menggabungkan K-Means &amp; K-Modes tanpa one-hot</td><td><code>clustMixType::kproto()</code></td></tr>
+    <tr><td><b>DBSCAN</b></td><td>Spasial numerik berbasis kerapatan $(\varepsilon, \text{MinPts})$</td><td>Bentuk bebas (spiral/cincin), otomatis buang noise</td><td><code>dbscan::dbscan()</code></td></tr>
+    <tr><td><b>OPTICS</b></td><td>Kerapatan bervariasi; menghasilkan *ordering*</td><td>Menemukan hierarki kluster tanpa kunci $\varepsilon$ global</td><td><code>dbscan::optics()</code></td></tr>
+    <tr><td><b>Bi-clustering</b></td><td>Matriks dimensi tinggi (ekspresi gen, profil wilayah)</td><td>Klasterisasi simultan baris dan kolom</td><td><code>biclust::biclust()</code></td></tr>
+  </table>
+
+  <h3>2. Visualisasi Kepadatan: DBSCAN vs OPTICS</h3>
+  <div class="grid-2">
+    <div class="img-card">
+      <img src="img/page-392-392.jpg" alt="DBSCAN Kepekaan Epsilon Modul 12">
+      <div class="caption">Hlm. 392: Kelemahan DBSCAN — $\varepsilon$ kecil membuang halo menjadi derau; $\varepsilon$ besar meleburkan kedua inti.</div>
+    </div>
+    <div class="img-card">
+      <img src="img/page-393-393.jpg" alt="OPTICS Reachability Plot Modul 12">
+      <div class="caption">Hlm. 393: Diagram jangkauan OPTICS — lembah sempit dan dalam menandai inti padat di dalam lembah lebar.</div>
+    </div>
+  </div>
+
+  <h3>3. Bi-clustering: Algoritma Cheng &amp; Church (2000)</h3>
+  <div class="highlight-box">
+    Mencari submatriks baris $I$ dan kolom $J$ yang memiliki nilai residu kuadrat rata-rata (Mean Squared Residue / MSR) di bawah toleransi $\delta$:
+    $$H(I, J) = \frac{1}{|I||J|} \sum_{i \in I} \sum_{j \in J} r_{ij}^2 \le \delta$$
+    Residu sel: $r_{ij} = a_{ij} - a_{iJ} - a_{Ij} + a_{IJ}$. Alur kerja: Hapus baris/kolom dengan residu tinggi (greedy node deletion) $\to$ masukkan kembali jika MSR tetap aman $\to$ tutupi bicluster dengan angka acak (masking) untuk mencari klaster berikutnya!
+  </div>
+
+  <div class="img-card">
+    <img src="img/page-414-414.jpg" alt="Bi-clustering Cheng & Church Modul 12">
+    <div class="caption">Hlm. 414: Matriks dengan satu blok yang ditanam (kiri) dan hasil penemuan bi-cluster oleh algoritma Cheng &amp; Church (kanan).</div>
+  </div>
+</section>
+
+<!-- ==================== MODUL 13 ==================== -->
+<section id="modul13" class="modul-card">
+  <span class="modul-tag">BAGIAN PENGAYAAN • MODUL 13 (Hlm. 421–443)</span>
+  <h2>Modul 13: GPBoost: Boosting untuk Data Bertingkat (R dan Python)</h2>
+
+  <p>
+    <b>Deskripsi:</b> Mengatasi pelanggaran asumsi independensi observasi (iid) pada data statistik resmi bersarang (misal data rumah tangga yang berkelompok dalam wilayah/desa). Modul ini menggabungkan <b>Tree-Boosting</b> (menangkap hubungan efek tetap non-linier rumit) dengan <b>Linear Mixed Models / Gaussian Process</b> (menangkap korelasi acak antar wilayah).
+  </p>
+
+  <h3>1. Masalah Data Bertingkat &amp; Koefisien Korelasi Intrakelas (ICC)</h3>
+  <p>
+    Ketika amatan dalam suatu wilayah cenderung lebih mirip satu sama lain dibanding antar-wilayah, variansi total terbagi menjadi variansi antar-wilayah ($\sigma_b^2$) dan variansi dalam-wilayah ($\sigma_\varepsilon^2$).
+    $$\text{ICC} = \frac{\sigma_b^2}{\sigma_b^2 + \sigma_\varepsilon^2}$$
+    Jika $\text{ICC} > 0{,}05$, penggunaan regresi OLS atau boosting biasa akan menghasilkan standar error yang terlalu kecil (overkonfiden) dan estimasi bias!
+  </p>
+
+  <div class="img-card">
+    <img src="img/page-436-436.jpg" alt="Rata-rata Pengeluaran Antar-Wilayah Modul 13">
+    <div class="caption">Hlm. 436: Gambar 13.1 — Variasi rata-rata pengeluaran antar wilayah membuktikan kuatnya efek acak kelompok.</div>
+  </div>
+
+  <h3>2. Struktur Matematis GPBoost</h3>
+  <div class="green-box">
+    $$y = F(X) + Z b + \varepsilon, \quad b \sim N(0, \Sigma)$$
+    <ul>
+      <li>$F(X)$: Fungsi non-linier ensemble pohon (ditaksir via Gradient Tree-Boosting).</li>
+      <li>$Z b$: Efek acak bertingkat (ditaksir via Generalized Least Squares / REML).</li>
+      <li>Algoritma memperbarui pohon dan parameter variansi $\sigma_b^2, \sigma_\varepsilon^2$ secara berselang-seling (alternating optimization).</li>
+    </ul>
+  </div>
+
+  <h3>3. Sintaks Praktikum di R &amp; Python</h3>
+  <pre><code># Di R menggunakan paket gpboost
+library(gpboost)
+gp_model <- GPModel(group_data = data$kode_wilayah, likelihood = "gaussian")
+bst <- gpboost(data = X, label = y, gp_model = gp_model, nrounds = 100,
+               learning_rate = 0.05, max_depth = 4, verbose = 0)
+
+# Di Python menggunakan library gpboost
+import gpboost as gpb
+gp_model = gpb.GPModel(group_data=df['kode_wilayah'])
+dataset = gpb.Dataset(X, y)
+params = {'learning_rate': 0.05, 'max_depth': 4, 'verbose': 0}
+bst = gpb.train(params=params, train_set=dataset, gp_model=gp_model, num_boost_round=100)</code></pre>
+</section>
+
+<!-- ==================== MODUL 14 ==================== -->
+<section id="modul14" class="modul-card">
+  <span class="modul-tag">BAGIAN PENGAYAAN • MODUL 14 (Hlm. 444–472)</span>
+  <h2>Modul 14: Alur Kerja Pengelompokan, CLARA / CLARANS, &amp; Kajian Terkendali</h2>
+
+  <p>
+    <b>Deskripsi:</b> Menyusun alur kerja pengelompokan yang sah dari hulu ke hilir untuk data skala besar, memperkenalkan varian K-Medoid untuk Big Data (<b>CLARA</b> dan <b>CLARANS</b>), serta melakukan studi perbandingan terkendali antar-keluarga metode.
+  </p>
+
+  <h3>1. Enam Tahap Alur Kerja Pengelompokan Lengkap</h3>
+  <div class="step-card">
+    <ol>
+      <li><b>Tahap 1: Evaluasi Kecenderungan Berklaster:</b> Menguji statistik Hopkins ($H > 0{,}75$) dan visualisasi VAT heatmap sebelum menjalankan algoritma apa pun.</li>
+      <li><b>Tahap 2: Prapemrosesan:</b> Pembakuan skala (Z-score), penanganan pencilan, atau PCA jika peubah berkorelasi kuat.</li>
+      <li><b>Tahap 3 &amp; 4: Pemilihan Jarak &amp; Metode:</b> Menentukan ukuran jarak (Euclid, Manhattan, Gower) dan algoritma yang sesuai bentuk struktur data.</li>
+      <li><b>Tahap 5: Penentuan Banyaknya Klaster &amp; Validasi:</b> Elbow WSS, Silhouette, Dunn Index, atau Gap Statistic.</li>
+      <li><b>Tahap 6: Profiling Karakteristik:</b> Menyajikan profil rata-rata tiap klaster untuk menjawab persoalan substantif.</li>
+    </ol>
+  </div>
+
+  <h3>2. Mengapa Butuh CLARA &amp; CLARANS untuk Big Data?</h3>
+  <p>
+    Algoritma PAM murni memiliki kompleksitas waktu $O(k(n-k)^2)$. Untuk $n = 50.000$, PAM membutuhkan miliaran perbandingan jarak sehingga gagal beroperasi.
+  </p>
+  <ul>
+    <li><b>CLARA (Clustering Large Applications):</b> Mengambil sampel acak berulang berukuran $40 + 2k$ (biasanya 5 replikasi), menerapkan PAM pada sampel untuk mencari medoid terbaik, lalu memetakan seluruh data $n$ ke medoid terpilih. Kompleksitas turun menjadi $O(k s^2 + k(n-k))$.</li>
+    <li><b>CLARANS:</b> Memperlakukan pencarian medoid sebagai penelusuran graf acak dengan batasan tetangga maksimal (cocok untuk data spasial multidimensi).</li>
+  </ul>
+
+  <div class="img-card">
+    <img src="img/page-474-474.jpg" alt="Siluet Rata-rata Modul 14">
+    <div class="caption">Hlm. 474: Gambar 14.1 — Plot siluet rata-rata menurut banyaknya klaster $k$. Puncak tertinggi menandai $k$ optimal.</div>
+  </div>
+</section>
+
+<!-- ==================== MODUL 15 ==================== -->
+<section id="modul15" class="modul-card">
+  <span class="modul-tag">BAGIAN PENGAYAAN • MODUL 15 (Hlm. 473–494)</span>
+  <h2>Modul 15: LightGBM: Gradient Boosting Cepat (R dan Python)</h2>
+
+  <p>
+    <b>Deskripsi:</b> Dirancang oleh Microsoft (Ke et al., 2017) untuk menaklukkan keterbatasan kecepatan dan memori XGBoost pada data raksasa, peubah kategorik berkardinalitas tinggi (seperti kode wilayah 500+ kabupaten), dan target tidak seimbang.
+  </p>
+
+  <h3>1. Tiga Gagasan Revolusioner LightGBM</h3>
+  <div class="grid-2">
+    <div class="highlight-box">
+      <b>1. Histogram-Based Algorithm:</b>
+      Mengelompokkan nilai kontinu peubah ke dalam 256 bin diskrit. Biaya memori turun hingga 80%, pencarian titik potong (split) menjadi $O(\text{#bin} \times \text{#fitur})$ alih-alih $O(\text{#data} \times \text{#fitur})$.
+    </div>
+    <div class="green-box">
+      <b>2. GOSS (Gradient-based One-Side Sampling):</b>
+      Mempertahankan amatan dengan gradien besar (kesalahan tinggi), lalu mengambil sampel acak kecil dari amatan bergradien rendah dengan pengali bobot penyeimbang.
+    </div>
+  </div>
+
+  <div class="amber-box">
+    <b>3. EFB (Exclusive Feature Bundling):</b>
+    Menggabungkan fitur-fitur jarang (*sparse features*) yang eksklusif (jarang bernilai bukan nol bersamaan) ke dalam satu fitur tunggal. Menghindari ledakan dimensi akibat one-hot encoding!
+  </div>
+
+  <h3>2. Pertumbuhan Pohon: Leaf-Wise vs Level-Wise</h3>
+  <p>
+    Berbeda dari model pohon kebanyakan yang membelah seluruh cabang pada tingkat kedalaman yang sama (<i>level-wise</i>), LightGBM menggunakan strategi <b>Leaf-Wise (Best-First)</b>: membelah daun yang menghasilkan penurunan kerugian (loss) terbesar. Strategi ini jauh lebih akurat dan konvergen lebih cepat, tetapi rawan overfit jika ukuran <code>max_depth</code> atau <code>num_leaves</code> tidak dibatasi!
+  </p>
+
+  <h3>3. Parameter Kunci Penalaan (Hyperparameters)</h3>
+  <ul>
+    <li><code>num_leaves</code>: Jumlah daun maksimal (aturan umum: $\text{num\_leaves} < 2^{\text{max\_depth}}$).</li>
+    <li><code>min_data_in_leaf</code>: Jumlah amatan minimum per daun untuk mencegah menghafal noise.</li>
+    <li><code>learning_rate</code>: Laju pembelajaran gradien (0.01 – 0.1).</li>
+    <li><code>is_unbalance = TRUE</code> atau <code>scale_pos_weight</code>: Penyeimbang kelas target langka.</li>
+  </ul>
+</section>
+
+<!-- ==================== MODUL 16 ==================== -->
+<section id="modul16" class="modul-card">
+  <span class="modul-tag">BAGIAN PENGAYAAN • MODUL 16 (Hlm. 495–527)</span>
+  <h2>Modul 16: LSTM: Jaringan Berulang untuk Deret Waktu (R dan Python)</h2>
+
+  <p>
+    <b>Deskripsi:</b> Data statistik resmi seperti produksi beras bulanan, indeks harga, atau kunjungan wisman memiliki urutan temporal kritis. Modul ini mengkaji perlakuan khusus deret waktu, pembentukan jendela berurutan (*sliding window*), dan arsitektur sel <b>Long Short-Term Memory (LSTM)</b> untuk menangkap dependensi jangka panjang.
+  </p>
+
+  <h3>1. Pelanggaran Asumsi Acak: Mengapa Split Wajib Kronologis?</h3>
+  <div class="warning-box">
+    <b>Peringatan Kritis Data Deret Waktu:</b> Pembagian data latih dan uji <b>TIDAK BOLEH dilakukan secara acak!</b> Pengacakan data deret waktu menyebabkan kebocoran informasi masa depan (*data leakage*) ke dalam data latih. Pembagian harus dilakukan secara berurutan: masa lalu untuk data latih, masa depan untuk data uji.
+  </div>
+
+  <h3>2. Tiga Gerbang Utama Sel LSTM (Hochreiter &amp; Schmidhuber, 1997)</h3>
+  <div class="grid-2">
+    <div class="highlight-box">
+      <b>A. Gerbang Lupa (Forget Gate $f_t$):</b>
+      $$f_t = \sigma(W_f [h_{t-1}, x_t] + b_f)$$
+      Mengontrol persentase memori sel lama ($C_{t-1}$) yang harus dibuang. Nilai 0 = lupakan total, 1 = simpan seluruhnya.
+    </div>
+
+    <div class="green-box">
+      <b>B. Gerbang Masukan (Input Gate $i_t$ &amp; $\tilde{C}_t$):</b>
+      $$i_t = \sigma(W_i [h_{t-1}, x_t] + b_i), \quad \tilde{C}_t = \tanh(W_c [h_{t-1}, x_t] + b_c)$$
+      Memilih informasi baru yang relevan untuk diakumulasikan ke dalam <i>Cell State</i>:
+      $$C_t = f_t * C_{t-1} + i_t * \tilde{C}_t$$
+    </div>
+  </div>
+
+  <div class="amber-box">
+    <b>C. Gerbang Keluaran (Output Gate $o_t$ &amp; $h_t$):</b>
+    $$o_t = \sigma(W_o [h_{t-1}, x_t] + b_o), \quad h_t = o_t * \tanh(C_t)$$
+    Menghasilkan keluaran prediksi langkah saat ini dan diteruskan ke langkah waktu berikutnya sebagai *hidden state*.
+  </div>
+
+  <div class="grid-2">
+    <div class="img-card">
+      <img src="img/page-510-510.jpg" alt="Pola Deret Waktu Multi-Wilayah Modul 16">
+      <div class="caption">Hlm. 510: Gambar 16.1 — Empat wilayah deret waktu bulanan memperlihatkan tren, musiman, dan kejutan struktural pada bulan ke-40.</div>
+    </div>
+    <div class="img-card">
+      <img src="img/page-515-515.jpg" alt="Hasil Ramalan LSTM Modul 16">
+      <div class="caption">Hlm. 515: Gambar 16.2 — Hasil ramalan model LSTM (garis putus-putus) terhadap data aktual 12 bulan uji.</div>
+    </div>
+  </div>
+
+  <h3>3. Kapan LSTM Sepadan dengan Biaya Komputasinya?</h3>
+  <ul>
+    <li><b>LSTM Unggul:</b> Ketika deret waktu sangat non-linier, memiliki rezim ganda (*regime change*), multi-peubah (*multivariate*), atau berupa panel multi-wilayah besar dengan interaksi silang.</li>
+    <li><b>Gunakan Model Klasik (ARIMA / ETS):</b> Jika deret tunggal, linier, pendek ($< 100$ titik), dan stasioner. Memaksakan LSTM pada deret pendek hanya akan menyebabkan *overfitting* parah.</li>
+  </ul>
+</section>
+
+</main>
+
+<footer>
+  <p>© 2026 Modul Praktikum Data Mining &amp; Big Data (K202505) • Politeknik Statistika STIS | Modul 8 s.d. 16</p>
+</footer>
+
+<script src="katex/katex.min.js"></script>
+<script src="katex/contrib/auto-render.min.js"></script>
+<script>
+renderMathInElement(document.body, {
+  delimiters: [
+    {left: "$$", right: "$$", display: true},
+    {left: "$", right: "$", display: false}
+  ],
+  throwOnError: false
+});
+
+// Search filter implementation
+const searchInput = document.getElementById('searchInput');
+searchInput.addEventListener('input', function() {
+  const q = this.value.toLowerCase().trim();
+  const cards = document.querySelectorAll('.modul-card');
+  cards.forEach(card => {
+    const text = card.innerText.toLowerCase();
+    if (text.includes(q)) {
+      card.style.display = 'block';
+    } else {
+      card.style.display = 'none';
+    }
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,2173 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bank Soal &amp; Pembahasan UAS Data Mining – Tingkat Politeknik Statistika STIS</title>
+<meta name="description" content="Bank Soal Komprehensif Persiapan UAS Data Mining & Big Data Politeknik Statistika STIS: 50 Soal Pilihan Ganda Berbobot Tinggi dan 10 Soal Esai Perhitungan Manual Lengkap dengan Pembahasan Analitis Tuntas.">
+<link rel="stylesheet" href="katex/katex.min.css">
+<style>
+:root{
+  --bg:#090d16;--surface:#131c2e;--surface2:#1e293b;--surface3:#0f172a;
+  --text:#f8fafc;--text-muted:#94a3b8;--primary:#38bdf8;--secondary:#818cf8;
+  --accent:#f43f5e;--green:#34d399;--amber:#fbbf24;--purple:#c084fc;--border:#334155;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;padding:0;background:var(--bg);color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,sans-serif;
+  line-height:1.65;font-size:15px;scroll-behavior:smooth;
+}
+header{
+  background:linear-gradient(135deg,#0284c7,#4338ca,#7e22ce);color:#fff;
+  padding:36px 20px 28px;text-align:center;box-shadow:0 4px 24px rgba(0,0,0,0.6);
+}
+header h1{margin:0 0 8px;font-size:28px;letter-spacing:-0.5px}
+header p{margin:0;opacity:0.9;font-size:16px;max-width:850px;margin:auto}
+.badge-header{
+  display:inline-block;background:rgba(255,255,255,0.2);padding:5px 14px;
+  border-radius:99px;font-size:13px;font-weight:700;margin-top:12px;letter-spacing:1px;text-transform:uppercase;
+}
+
+/* Controls & Filter Bar */
+.sticky-bar{
+  background:var(--surface);position:sticky;top:0;z-index:100;
+  border-bottom:1px solid var(--border);box-shadow:0 4px 14px rgba(0,0,0,0.4);padding:10px 16px;
+}
+.filter-wrap{
+  max-width:1150px;margin:auto;display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;
+}
+.filter-buttons{display:flex;flex-wrap:wrap;gap:6px}
+.btn-filter{
+  background:var(--surface2);color:var(--text);border:1px solid var(--border);
+  padding:5px 12px;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.15s;
+}
+.btn-filter:hover, .btn-filter.active{background:var(--primary);color:#090d16;border-color:var(--primary)}
+.action-buttons{display:flex;gap:8px}
+.btn-action{
+  background:var(--surface3);color:var(--primary);border:1px solid var(--primary);
+  padding:5px 12px;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.15s;
+}
+.btn-action:hover{background:var(--primary);color:#090d16}
+.btn-print{background:#e11d48;color:#fff;border-color:#e11d48}
+.btn-print:hover{background:#be123c;color:#fff}
+
+main{max-width:1150px;margin:24px auto;padding:0 16px}
+
+.section-title{
+  color:var(--primary);font-size:24px;margin:28px 0 16px;padding-bottom:8px;
+  border-bottom:2px solid var(--surface2);display:flex;align-items:center;gap:10px;
+}
+
+/* Question Cards */
+.q-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:10px;
+  padding:22px;margin-bottom:22px;box-shadow:0 6px 18px rgba(0,0,0,0.25);
+  transition:border-color 0.2s;position:relative;
+}
+.q-card:hover{border-color:#475569}
+.q-header{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:12px}
+.q-num{
+  font-weight:800;font-size:16px;color:var(--primary);
+}
+.q-badge{
+  font-size:11.5px;padding:2px 8px;border-radius:4px;font-weight:700;text-transform:uppercase;
+  background:#1e293b;color:#94a3b8;border:1px solid #334155;
+}
+.badge-pg{color:var(--primary);border-color:var(--primary)}
+.badge-esai{color:var(--purple);border-color:var(--purple)}
+.badge-hard{color:var(--accent);border-color:var(--accent)}
+
+.q-text{font-size:15px;color:#f1f5f9;margin-bottom:14px;line-height:1.7}
+.q-text p{margin:0 0 10px}
+.q-options{margin:14px 0}
+.opt{
+  display:flex;gap:10px;align-items:flex-start;padding:8px 12px;border-radius:6px;
+  margin-bottom:6px;background:rgba(255,255,255,0.02);border:1px solid transparent;
+  cursor:pointer;transition:all 0.15s;font-size:14.5px;color:#cbd5e1;
+}
+.opt:hover{background:rgba(56,189,248,0.06);border-color:rgba(56,189,248,0.3)}
+.opt input{margin-top:4px}
+.opt.correct-choice{background:rgba(52,211,153,0.15);border-color:var(--green);color:#f0fdf4}
+.opt.wrong-choice{background:rgba(244,63,94,0.15);border-color:var(--accent);color:#fff1f2}
+
+.toggle-pembahasan{
+  background:none;border:1px dashed var(--secondary);color:var(--secondary);
+  padding:5px 12px;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;
+  margin-top:10px;transition:all 0.15s;
+}
+.toggle-pembahasan:hover{background:rgba(129,140,248,0.15)}
+
+.pembahasan{
+  display:none;background:#0d1525;border-left:4px solid var(--green);
+  border-radius:0 8px 8px 0;padding:16px 18px;margin-top:14px;font-size:14.5px;
+}
+.pembahasan.show{display:block}
+.pembahasan-title{font-weight:bold;color:var(--green);margin-bottom:6px;font-size:14.5px}
+.kunci{color:var(--amber);font-weight:bold;margin-bottom:8px}
+
+table{
+  width:100%;border-collapse:collapse;margin:12px 0;font-size:14px;
+  background:#131d31;border-radius:6px;overflow:hidden;
+}
+th,td{padding:8px 10px;border:1px solid var(--border);text-align:left}
+th{background:var(--surface2);color:#f1f5f9;font-weight:600}
+tr:nth-child(even){background:rgba(255,255,255,0.02)}
+
+.step-box{background:#172236;border:1px solid #334155;border-radius:6px;padding:12px 14px;margin:8px 0}
+.step-h{color:var(--primary);font-weight:bold;margin-bottom:4px}
+
+.katex-display{margin:10px 0;overflow-x:auto;overflow-y:hidden;padding:3px 0}
+.katex{color:#e2e8f0;font-size:1.05em}
+
+footer{
+  text-align:center;padding:34px 20px;color:var(--text-muted);
+  border-top:1px solid var(--border);margin-top:40px;font-size:14px;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Bank Soal &amp; Pembahasan Lengkap UAS Data Mining</h1>
+  <p>Kurikulum Politeknik Statistika STIS • Soal Pilihan Ganda &amp; Soal Esai Perhitungan Manual Lengkap</p>
+  <span class="badge-header">Level Ujian Akhir Semester (UAS) STIS • Standar Analitis &amp; Matematis</span>
+</header>
+
+<div class="sticky-bar">
+  <div class="filter-wrap">
+    <div class="filter-buttons">
+      <button class="btn-filter active" onclick="filterQuestions('all')">Semua Soal (60)</button>
+      <button class="btn-filter" onclick="filterQuestions('klasifikasi')">Klasifikasi (1-16)</button>
+      <button class="btn-filter" onclick="filterQuestions('asosiasi')">Asosiasi (17-23)</button>
+      <button class="btn-filter" onclick="filterQuestions('klaster')">Klastering (24-40)</button>
+      <button class="btn-filter" onclick="filterQuestions('fuzzy')">Fuzzy (41-48)</button>
+      <button class="btn-filter" onclick="filterQuestions('lanjut')">GPBoost/LGBM/LSTM (49-50)</button>
+      <button class="btn-filter" onclick="filterQuestions('esai')">Esai Manual (10 Soal)</button>
+    </div>
+    <div class="action-buttons">
+      <button class="btn-action" onclick="toggleAllSolutions(true)">Buka Semua Pembahasan</button>
+      <button class="btn-action" onclick="toggleAllSolutions(false)">Tutup Semua</button>
+      <button class="btn-action btn-print" onclick="window.print()">🖨️ Cetak / PDF</button>
+    </div>
+  </div>
+</div>
+
+<main id="questionContainer">
+
+<!-- ========================================================================= -->
+<!-- BAGIAN I: SOAL PILIHAN GANDA (1 s.d. 50) -->
+<!-- ========================================================================= -->
+
+<h2 class="section-title">Bagian I: Soal Pilihan Ganda Berbobot Tinggi STIS (50 Butir)</h2>
+
+<!-- SOAL 1 -->
+<div class="q-card" data-category="klasifikasi">
+  <div class="q-header">
+    <span class="q-num">Soal 1. (Klasifikasi Dasar - Decision Tree)</span>
+    <div><span class="q-badge badge-pg">PG</span> <span class="q-badge badge-hard">Bobot Tinggi</span></div>
+  </div>
+  <div class="q-text">
+    Dalam pembelahan biner sebuah simpul pohon keputusan CART pada klasifikasi biner nasabah kredit ($Y \in \{0, 1\}$), simpul $t$ memuat 60 nasabah lancar ($Y=0$) dan 40 nasabah macet ($Y=1$). Berapakah nilai <b>Gini Impurity</b> $I_G(t)$ dan <b>Entropy</b> $H(t)$ (berbasis $\log_2$) pada simpul tersebut?
+  </div>
+  <div class="q-options">
+    <label class="opt" onclick="checkOption(this, false, 'q1')"><input type="radio" name="q1"> A. $I_G(t) = 0{,}50$ dan $H(t) = 1{,}00$</label>
+    <label class="opt" onclick="checkOption(this, true, 'q1')"><input type="radio" name="q1"> B. $I_G(t) = 0{,}48$ dan $H(t) = 0{,}971$</label>
+    <label class="opt" onclick="checkOption(this, false, 'q1')"><input type="radio" name="q1"> C. $I_G(t) = 0{,}24$ dan $H(t) = 0{,}485$</label>
+    <label class="opt" onclick="checkOption(this, false, 'q1')"><input type="radio" name="q1"> D. $I_G(t) = 0{,}52$ dan $H(t) = 0{,}920$</label>
+    <label class="opt" onclick="checkOption(this, false, 'q1')"><input type="radio" name="q1"> E. $I_G(t) = 0{,}40$ dan $H(t) = 0{,}865$</label>
+  </div>
+  <button class="toggle-pembahasan" onclick="toggleSolution('sol1')">💡 Tampilkan Pembahasan</button>
+  <div class="pembahasan" id="sol1">
+    <div class="kunci">Kunci Jawaban: B</div>
+    <div class="pembahasan-title">Pembahasan Mendalam:</div>
+    <div class="step-box">
+      Total amatan: $N = 60 + 40 = 100$.<br>
+      Proporsi kelas: $p_0 = \frac{60}{100} = 0{,}6$ dan $p_1 = \frac{40}{100} = 0{,}4$.<br>
+      <b>1. Gini Impurity:</b>
+      $$I_G(t) = 1 - \sum_{i=0}^1 p_i^2 = 1 - (0{,}6^2 + 0{,}4^2) = 1 - (0{,}36 + 0{,}16) = 1 - 0{,}52 = \mathbf{0{,}48}$$
+      <b>2. Entropy:</b>
+      $$H(t) = -\sum_{i=0}^1 p_i \log_2(p_i) = -[0{,}6 \log_2(0{,}6) + 0{,}4 \log_2(0{,}4)]$$
+      Diketahui $\log_2(0{,}6) = \frac{\ln(0{,}6)}{\ln 2} \approx \frac{-0{,}5108}{0{,}6931} \approx -0{,}7370$, dan $\log_2(0{,}4) \approx \frac{-0{,}9163}{0{,}6931} \approx -1{,}3219$.<br>
+      $H(t) = -[0{,}6(-0{,}7370) + 0{,}4(-1{,}3219)] = -[-0{,}4422 - 0{,}5288] = -[-0{,}9710] = \mathbf{0{,}971}$.
+    </div>
+  </div>
+</div>
+
+<!-- SOAL 2 -->
+<div class="q-card" data-category="klasifikasi">
+  <div class="q-header">
+    <span class="q-num">Soal 2. (Pruning Pohon - Aturan 1-SE)</span>
+    <div><span class="q-badge badge-pg">PG</span></div>
+  </div>
+  <div class="q-text">
+    Pada pemangkasan biaya-kerumitan (cost-complexity pruning) pohon keputusan <code>rpart</code> di R, analis menerapkan aturan satu kesalahan baku (<i>1-SE Rule</i>) untuk memilih parameter kerumitan <code>cp</code>. Prinsip kerja aturan 1-SE adalah...
+  </div>
+  <div class="q-options">
+    <label class="opt" onclick="checkOption(this, false, 'q2')"><input type="radio" name="q2"> A. Memilih nilai <code>cp</code> yang menghasilkan galat validasi silang paling minimum mutlak tanpa memedulikan ukuran pohon.</label>
+    <label class="opt" onclick="checkOption(this, true, 'q2')"><input type="radio" name="q2"> B. Memilih pohon paling sederhana (paling ramping) yang galat validasi silangnya masih berada di dalam batas $\text{xerror}_{\min} + \text{xstd}$.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q2')"><input type="radio" name="q2"> C. Memotong seluruh cabang pohon yang memiliki kedalaman lebih dari satu standar deviasi dari rata-rata kedalaman.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q2')"><input type="radio" name="q2"> D. Memilih pohon terbesar yang tidak memiliki kesalahan klasifikasi pada data latih.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q2')"><input type="radio" name="q2"> E. Mengabaikan validasi silang dan memilih <code>cp</code> pada titik di mana nilai $R^2$ data uji mulai stabil.</label>
+  </div>
+  <button class="toggle-pembahasan" onclick="toggleSolution('sol2')">💡 Tampilkan Pembahasan</button>
+  <div class="pembahasan" id="sol2">
+    <div class="kunci">Kunci Jawaban: B</div>
+    <div class="pembahasan-title">Pembahasan Mendalam:</div>
+    <p>
+      Aturan <i>1-SE Rule</i> (Breiman et al., 1984) menyatakan: jika ada model yang lebih sederhana (cabang lebih sedikit) dengan performa galat validasi silang yang secara statistik tidak berbeda nyata (berada dalam toleransi 1 kesalahan baku $\text{xerror}_{\min} + \text{xstd}$ dari model terbaik), maka <b>pilihlah model yang lebih sederhana tersebut</b> demi prinsip parsimoni dan mencegah overfitting.
+    </p>
+  </div>
+</div>
+
+<!-- SOAL 3 -->
+<div class="q-card" data-category="klasifikasi">
+  <div class="q-header">
+    <span class="q-num">Soal 3. (Naive Bayes - Laplace Smoothing)</span>
+    <div><span class="q-badge badge-pg">PG</span></div>
+  </div>
+  <div class="q-text">
+    Suatu model Naive Bayes dilatih untuk memprediksi status penerimaan beasiswa ($Y \in \{\text{Ya, Tidak}\}$). Pada data latih kategori pekerjaan orang tua = "Nelayan" tidak pernah muncul pada kelompok mahasiswa penerima beasiswa ($n_{\text{Nelayan}, \text{Ya}} = 0$), padahal total penerima beasiswa $n_{\text{Ya}} = 100$. Jika terdapat $K = 5$ kategori pekerjaan orang tua dan diterapkan <b>Laplace Smoothing ($\alpha = 1$)</b>, berapakah estimasi probabilitas bersyarat $P(\text{Pekerjaan}=\text{Nelayan} \mid Y=\text{Ya})$?
+  </div>
+  <div class="q-options">
+    <label class="opt" onclick="checkOption(this, false, 'q3')"><input type="radio" name="q3"> A. $0$</label>
+    <label class="opt" onclick="checkOption(this, true, 'q3')"><input type="radio" name="q3"> B. $\frac{1}{105} \approx 0{,}0095$</label>
+    <label class="opt" onclick="checkOption(this, false, 'q3')"><input type="radio" name="q3"> C. $\frac{1}{100} = 0{,}0100$</label>
+    <label class="opt" onclick="checkOption(this, false, 'q3')"><input type="radio" name="q3"> D. $\frac{1}{101} \approx 0{,}0099$</label>
+    <label class="opt" onclick="checkOption(this, false, 'q3')"><input type="radio" name="q3"> E. $\frac{5}{105} \approx 0{,}0476$</label>
+  </div>
+  <button class="toggle-pembahasan" onclick="toggleSolution('sol3')">💡 Tampilkan Pembahasan</button>
+  <div class="pembahasan" id="sol3">
+    <div class="kunci">Kunci Jawaban: B</div>
+    <div class="pembahasan-title">Pembahasan Mendalam:</div>
+    <div class="step-box">
+      Rumus Laplace Smoothing untuk fitur kategorik dengan $K$ level:
+      $$P(X = x \mid Y = c) = \frac{n_{xc} + \alpha}{n_c + \alpha \cdot K}$$
+      Dengan $\alpha = 1$, $n_{\text{Nelayan}, \text{Ya}} = 0$, $n_{\text{Ya}} = 100$, dan $K = 5$:
+      $$P = \frac{0 + 1}{100 + 1 \times 5} = \frac{1}{105} \approx 0{,}0095$$
+      Hal ini mencegah peluang posterior menjadi nol mutlak (zero-probability problem) yang akan melumpuhkan perkalian Naive Bayes.
+    </div>
+  </div>
+</div>
+
+<!-- SOAL 4 -->
+<div class="q-card" data-category="klasifikasi">
+  <div class="q-header">
+    <span class="q-num">Soal 4. (Regresi Teratur - Lasso vs Ridge)</span>
+    <div><span class="q-badge badge-pg">PG</span></div>
+  </div>
+  <div class="q-text">
+    Dalam pemodelan klasifikasi regresi logistik teratur menggunakan paket <code>glmnet</code>, penalti Elastic Net dirumuskan dengan parameter pencampur $\alpha \in [0, 1]$. Manakah pernyataan yang <b>PALING TEPAT</b> mengenai pengaruh nilai $\alpha$?
+  </div>
+  <div class="q-options">
+    <label class="opt" onclick="checkOption(this, false, 'q4')"><input type="radio" name="q4"> A. $\alpha = 0$ adalah penalti Lasso yang mampu memaksa koefisien peubah yang tidak relevan menjadi persis nol.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q4')"><input type="radio" name="q4"> B. $\alpha = 1$ adalah penalti Ridge yang hanya menyusutkan koefisien mendekati nol tetapi tidak melakukan seleksi peubah.</label>
+    <label class="opt" onclick="checkOption(this, true, 'q4')"><input type="radio" name="q4"> C. $\alpha = 1$ adalah penalti Lasso ($L_1$) yang dapat mengeliminasi peubah secara otomatis (sparse solution), sedangkan $\alpha = 0$ adalah Ridge ($L_2$) yang mempertahankan semua peubah.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q4')"><input type="radio" name="q4"> D. Nilai $\alpha$ mengatur penalti intersep model sehingga intersep selalu bernilai nol jika $\alpha = 1$.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q4')"><input type="radio" name="q4"> E. Elastic Net dengan $\alpha = 0{,}5$ hanya dapat digunakan jika jumlah amatan $n$ jauh lebih besar daripada jumlah peubah $p$.</label>
+  </div>
+  <button class="toggle-pembahasan" onclick="toggleSolution('sol4')">💡 Tampilkan Pembahasan</button>
+  <div class="pembahasan" id="sol4">
+    <div class="kunci">Kunci Jawaban: C</div>
+    <div class="pembahasan-title">Pembahasan Mendalam:</div>
+    <p>
+      Penalti Elastic Net: $P_\alpha(\beta) = (1-\alpha)\frac{1}{2}\|\beta\|_2^2 + \alpha \|\beta\|_1$.<br>
+      • Jika $\alpha = 1$, penalti menjadi murni penalti Lasso ($L_1$), yang memiliki bentuk kontur bersegi tajam di sumbu koordinat sehingga mampu menetapkan koefisien persis menjadi nol (seleksi peubah).<br>
+      • Jika $\alpha = 0$, penalti menjadi Ridge ($L_2$), yang menyusutkan koefisien bersamaan tetapi tidak mengeliminasi peubah menjadi nol.
+    </p>
+  </div>
+</div>
+
+<!-- SOAL 5 -->
+<div class="q-card" data-category="klasifikasi">
+  <div class="q-header">
+    <span class="q-num">Soal 5. (Evaluasi Model - Imbalance Class)</span>
+    <div><span class="q-badge badge-pg">PG</span> <span class="q-badge badge-hard">Bobot Tinggi</span></div>
+  </div>
+  <div class="q-text">
+    Sebuah model klasifikasi kerentanan pangan diuji pada 1.000 rumah tangga. Hasil matriks kontinjensi menunjukkan:
+    <table style="max-width:450px">
+      <tr><th>Kenyataan \ Prediksi</th><th>Rentan (Positif)</th><th>Aman (Negatif)</th></tr>
+      <tr><th>Rentan Sebenarnya</th><td>70 (TP)</td><td>30 (FN)</td></tr>
+      <tr><th>Aman Sebenarnya</th><td>20 (FP)</td><td>880 (TN)</td></tr>
+    </table>
+    Berapakah nilai <b>Sensitivitas (Recall)</b>, <b>Spesifisitas</b>, dan <b>Balanced Accuracy</b> dari model ini?
+  </div>
+  <div class="q-options">
+    <label class="opt" onclick="checkOption(this, false, 'q5')"><input type="radio" name="q5"> A. Sensitivitas = 0,950; Spesifisitas = 0,700; Balanced Acc = 0,825</label>
+    <label class="opt" onclick="checkOption(this, true, 'q5')"><input type="radio" name="q5"> B. Sensitivitas = 0,700; Spesifisitas = 0,978; Balanced Acc = 0,839</label>
+    <label class="opt" onclick="checkOption(this, false, 'q5')"><input type="radio" name="q5"> C. Sensitivitas = 0,778; Spesifisitas = 0,967; Balanced Acc = 0,872</label>
+    <label class="opt" onclick="checkOption(this, false, 'q5')"><input type="radio" name="q5"> D. Sensitivitas = 0,700; Spesifisitas = 0,880; Balanced Acc = 0,790</label>
+    <label class="opt" onclick="checkOption(this, false, 'q5')"><input type="radio" name="q5"> E. Sensitivitas = 0,950; Spesifisitas = 0,978; Balanced Acc = 0,964</label>
+  </div>
+  <button class="toggle-pembahasan" onclick="toggleSolution('sol5')">💡 Tampilkan Pembahasan</button>
+  <div class="pembahasan" id="sol5">
+    <div class="kunci">Kunci Jawaban: B</div>
+    <div class="pembahasan-title">Pembahasan Mendalam:</div>
+    <div class="step-box">
+      • $\text{Sensitivitas (Recall)} = \frac{TP}{TP + FN} = \frac{70}{70 + 30} = \frac{70}{100} = \mathbf{0{,}700}$ (70%).<br>
+      • $\text{Spesifisitas} = \frac{TN}{TN + FP} = \frac{880}{880 + 20} = \frac{880}{900} \approx \mathbf{0{,}9778}$ (97,78%).<br>
+      • $\text{Balanced Accuracy} = \frac{\text{Sensitivitas} + \text{Spesifisitas}}{2} = \frac{0{,}700 + 0{,}9778}{2} = \frac{1{,}6778}{2} = \mathbf{0{,}8389}$ (83,89%).<br>
+      Perhatikan bahwa Akurasi mentah model ini sangat tinggi ($\frac{70+880}{1000} = 95\%$), tetapi Balanced Accuracy (83,9%) memberikan gambaran objektif performa kelas minoritas.
+    </div>
+  </div>
+</div>
+
+<!-- SOAL 6 -->
+<div class="q-card" data-category="klasifikasi">
+  <div class="q-header">
+    <span class="q-num">Soal 6. (Evaluasi - Kurva ROC dan AUC)</span>
+    <div><span class="q-badge badge-pg">PG</span></div>
+  </div>
+  <div class="q-text">
+    Kurva ROC (Receiver Operating Characteristic) memplot hubungan antara dua metrik pada berbagai variasi ambang keputusan probabilitas. Dua sumbu tersebut adalah...
+  </div>
+  <div class="q-options">
+    <label class="opt" onclick="checkOption(this, false, 'q6')"><input type="radio" name="q6"> A. Sumbu X: Presisi; Sumbu Y: Recall</label>
+    <label class="opt" onclick="checkOption(this, true, 'q6')"><input type="radio" name="q6"> B. Sumbu X: $1 - \text{Spesifisitas}$ (False Positive Rate); Sumbu Y: Sensitivitas (True Positive Rate)</label>
+    <label class="opt" onclick="checkOption(this, false, 'q6')"><input type="radio" name="q6"> C. Sumbu X: Sensitivitas; Sumbu Y: Spesifisitas</label>
+    <label class="opt" onclick="checkOption(this, false, 'q6')"><input type="radio" name="q6"> D. Sumbu X: Akurasi Latih; Sumbu Y: Akurasi Validasi</label>
+    <label class="opt" onclick="checkOption(this, false, 'q6')"><input type="radio" name="q6"> E. Sumbu X: Ambang $p$; Sumbu Y: Nilai F1-Score</label>
+  </div>
+  <button class="toggle-pembahasan" onclick="toggleSolution('sol6')">💡 Tampilkan Pembahasan</button>
+  <div class="pembahasan" id="sol6">
+    <div class="kunci">Kunci Jawaban: B</div>
+    <div class="pembahasan-title">Pembahasan Mendalam:</div>
+    <p>
+      Kurva ROC menampilkan <b>True Positive Rate (Sensitivitas)</b> pada sumbu vertikal (Y) terhadap <b>False Positive Rate ($1 - \text{Spesifisitas}$)</b> pada sumbu horizontal (X). Titik sudut kiri atas $(0, 1)$ merepresentasikan klasifikasi sempurna (Sensitivity = 1, False Positive Rate = 0). Garis diagonal putus-putus mewakili tebakan acak dengan $\text{AUC} = 0{,}5$.
+    </p>
+  </div>
+</div>
+
+<!-- SOAL 7 -->
+<div class="q-card" data-category="klasifikasi">
+  <div class="q-header">
+    <span class="q-num">Soal 7. (Evaluasi - F1-Score)</span>
+    <div><span class="q-badge badge-pg">PG</span></div>
+  </div>
+  <div class="q-text">
+    Jika sebuah model klasifikasi menghasilkan nilai Presisi sebesar $0{,}80$ dan Recall (Sensitivitas) sebesar $0{,}60$, berapakah nilai <b>F1-Score</b> model tersebut?
+  </div>
+  <div class="q-options">
+    <label class="opt" onclick="checkOption(this, false, 'q7')"><input type="radio" name="q7"> A. $0{,}700$</label>
+    <label class="opt" onclick="checkOption(this, true, 'q7')"><input type="radio" name="q7"> B. $0{,}686$</label>
+    <label class="opt" onclick="checkOption(this, false, 'q7')"><input type="radio" name="q7"> C. $0{,}720$</label>
+    <label class="opt" onclick="checkOption(this, false, 'q7')"><input type="radio" name="q7"> D. $0{,}480$</label>
+    <label class="opt" onclick="checkOption(this, false, 'q7')"><input type="radio" name="q7"> E. $0{,}650$</label>
+  </div>
+  <button class="toggle-pembahasan" onclick="toggleSolution('sol7')">💡 Tampilkan Pembahasan</button>
+  <div class="pembahasan" id="sol7">
+    <div class="kunci">Kunci Jawaban: B</div>
+    <div class="pembahasan-title">Pembahasan Mendalam:</div>
+    <div class="step-box">
+      F1-Score adalah rata-rata harmonik antara Presisi ($P$) dan Recall ($R$):
+      $$\text{F1} = 2 \times \frac{P \times R}{P + R} = 2 \times \frac{0{,}80 \times 0{,}60}{0{,}80 + 0{,}60} = 2 \times \frac{0{,}48}{1{,}40} = \frac{0{,}96}{1{,}40} \approx \mathbf{0{,}6857} \approx 0{,}686$$
+      Perhatikan bahwa rata-rata aritmetika biasa adalah 0,70, namun rata-rata harmonik selalu memberi bobot penalti lebih besar pada nilai yang lebih rendah.
+    </div>
+  </div>
+</div>
+
+<!-- SOAL 8 -->
+<div class="q-card" data-category="klasifikasi">
+  <div class="q-header">
+    <span class="q-num">Soal 8. (SVM - Margin dan Kernel Trick)</span>
+    <div><span class="q-badge badge-pg">PG</span> <span class="q-badge badge-hard">Bobot Tinggi</span></div>
+  </div>
+  <div class="q-text">
+    Pada Support Vector Machine (SVM) dengan formulasi soft-margin, fungsi objektif yang diminimalkan adalah $\min_{w, b, \xi} \frac{1}{2}\|w\|^2 + C \sum_{i=1}^n \xi_i$. Manakah pernyataan yang <b>BENAR</b> terkait parameter $C$?
+  </div>
+  <div class="q-options">
+    <label class="opt" onclick="checkOption(this, true, 'q8')"><input type="radio" name="q8"> A. Nilai $C$ yang sangat besar memberikan penalti berat terhadap kesalahan margin, menghasilkan margin yang lebih sempit dan risiko overfitting lebih tinggi.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q8')"><input type="radio" name="q8"> B. Nilai $C$ yang sangat besar mengabaikan titik data latih dan memaksa margin menjadi selebar mungkin.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q8')"><input type="radio" name="q8"> C. Nilai $C$ hanya berpengaruh pada kernel linear dan tidak memiliki dampak pada kernel Radial Basis Function (RBF).</label>
+    <label class="opt" onclick="checkOption(this, false, 'q8')"><input type="radio" name="q8"> D. Menurunkan nilai $C$ mendekati 0 akan mengubah SVM menjadi hard-margin SVM.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q8')"><input type="radio" name="q8"> E. Nilai $C$ yang kecil menyebabkan model menghafal noise data latih sehingga akurasi uji anjlok.</label>
+  </div>
+  <button class="toggle-pembahasan" onclick="toggleSolution('sol8')">💡 Tampilkan Pembahasan</button>
+  <div class="pembahasan" id="sol8">
+    <div class="kunci">Kunci Jawaban: A</div>
+    <div class="pembahasan-title">Pembahasan Mendalam:</div>
+    <p>
+      Parameter $C$ adalah konstanta pengatur kompromi (trade-off) antara lebar margin ($\frac{2}{\|w\|}$) dan penalti terhadap amatan yang melanggar batas margin ($\xi_i$).<br>
+      • Jika $C$ besar $\to$ algoritma sangat tidak menoleransi kesalahan klasifikasi, menghasilkan margin sempit (varian tinggi / rawan overfit).<br>
+      • Jika $C$ kecil $\to$ algoritma lebih toleran terhadap pelanggaran margin demi mendapatkan margin yang lebih lebar dan model yang lebih umum (bias tinggi / rawan underfit).
+    </p>
+  </div>
+</div>
+
+<!-- SOAL 9 -->
+<div class="q-card" data-category="klasifikasi">
+  <div class="q-header">
+    <span class="q-num">Soal 9. (SVM - Sensitivitas Penskalaan)</span>
+    <div><span class="q-badge badge-pg">PG</span></div>
+  </div>
+  <div class="q-text">
+    Mengapa algoritma Support Vector Machine (SVM) dan K-Nearest Neighbors (KNN) <b>WAJIB</b> melalui tahap penskalaan/standardisasi fitur numerik terlebih dahulu, sedangkan Random Forest tidak memerlukannya?
+  </div>
+  <div class="q-options">
+    <label class="opt" onclick="checkOption(this, false, 'q9')"><input type="radio" name="q9"> A. Karena SVM dan KNN mengasumsikan data berdistribusi normal multivariat, sedangkan Random Forest adalah model non-parametrik.</label>
+    <label class="opt" onclick="checkOption(this, true, 'q9')"><input type="radio" name="q9"> B. Karena SVM dan KNN mengandalkan perhitungan jarak geometri (Euclidean/Dot product) di mana peubah berskala besar akan mendominasi, sedangkan pohon keputusan pada Random Forest kebal terhadap transformasi monoton.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q9')"><input type="radio" name="q9"> C. Karena paket R untuk SVM tidak mendukung variabel bernilai desimal jika belum dinormalkan.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q9')"><input type="radio" name="q9"> D. Karena Random Forest secara otomatis melakukan standardisasi internal sebelum membelah simpul.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q9')"><input type="radio" name="q9"> E. Karena SVM membutuhkan matriks kovarians yang definit positif.</label>
+  </div>
+  <button class="toggle-pembahasan" onclick="toggleSolution('sol9')">💡 Tampilkan Pembahasan</button>
+  <div class="pembahasan" id="sol9">
+    <div class="kunci">Kunci Jawaban: B</div>
+    <div class="pembahasan-title">Pembahasan Mendalam:</div>
+    <p>
+      SVM dan KNN menghitung jarak Euclidean antar-titik amatan. Jika peubah pengeluaran (jutaan rupiah) dicampur dengan rasio ketergantungan (skala 0–1), jarak Euclidean akan 99,9% ditentukan oleh pengeluaran semata. Sebaliknya, pohon keputusan pada Random Forest hanya mencari titik potong pengurutan nilai (ranking split), sehingga skala absolut peubah tidak mengubah urutan pembelahan sama sekali.
+    </p>
+  </div>
+</div>
+
+<!-- SOAL 10 -->
+<div class="q-card" data-category="klasifikasi">
+  <div class="q-header">
+    <span class="q-num">Soal 10. (Random Forest - Parameter mtry)</span>
+    <div><span class="q-badge badge-pg">PG</span></div>
+  </div>
+  <div class="q-text">
+    Pada klasifikasi Random Forest dengan jumlah peubah prediktor $p = 16$, nilai rekomendasi default untuk parameter <code>mtry</code> (jumlah peubah yang dipilih secara acak pada tiap titik pembelahan) adalah...
+  </div>
+  <div class="q-options">
+    <label class="opt" onclick="checkOption(this, false, 'q10')"><input type="radio" name="q10"> A. $16$ (seluruh peubah)</label>
+    <label class="opt" onclick="checkOption(this, false, 'q10')"><input type="radio" name="q10"> B. $\frac{p}{3} \approx 5$</label>
+    <label class="opt" onclick="checkOption(this, true, 'q10')"><input type="radio" name="q10"> C. $\lfloor\sqrt{p}\rfloor = 4$</label>
+    <label class="opt" onclick="checkOption(this, false, 'q10')"><input type="radio" name="q10"> D. $1$</label>
+    <label class="opt" onclick="checkOption(this, false, 'q10')"><input type="radio" name="q10"> E. $\frac{p}{2} = 8$</label>
+  </div>
+  <button class="toggle-pembahasan" onclick="toggleSolution('sol10')">💡 Tampilkan Pembahasan</button>
+  <div class="pembahasan" id="sol10">
+    <div class="kunci">Kunci Jawaban: C</div>
+    <div class="pembahasan-title">Pembahasan Mendalam:</div>
+    <p>
+      Aturan baku Breiman (2001) untuk Random Forest:<br>
+      • Untuk <b>Klasifikasi</b>: $m_{try} = \lfloor\sqrt{p}\rfloor = \sqrt{16} = 4$.<br>
+      • Untuk <b>Regresi</b>: $m_{try} = \lfloor p / 3 \rfloor$.<br>
+      Jika $m_{try} = p$, algoritma menjadi Bagging biasa tanpa de-korelasi pohon.
+    </p>
+  </div>
+</div>
+
+<!-- SOAL 11 -->
+<div class="q-card" data-category="klasifikasi">
+  <div class="q-header">
+    <span class="q-num">Soal 11. (JST - Saturasi Gradien FFNN)</span>
+    <div><span class="q-badge badge-pg">PG</span> <span class="q-badge badge-hard">Bobot Tinggi</span></div>
+  </div>
+  <div class="q-text">
+    Dalam arsitektur Feed-Forward Neural Network (FFNN), fungsi aktivasi sigmoid $\sigma(z) = \frac{1}{1 + e^{-z}}$ memiliki turunan analitis $\sigma'(z) = \sigma(z)(1 - \sigma(z))$. Nilai maksimum dari turunan $\sigma'(z)$ ini adalah...
+  </div>
+  <div class="q-options">
+    <label class="opt" onclick="checkOption(this, false, 'q11')"><input type="radio" name="q11"> A. $1{,}00$ pada $z = 0$</label>
+    <label class="opt" onclick="checkOption(this, true, 'q11')"><input type="radio" name="q11"> B. $0{,}25$ pada $z = 0$</label>
+    <label class="opt" onclick="checkOption(this, false, 'q11')"><input type="radio" name="q11"> C. $0{,}50$ pada $z = 1$</label>
+    <label class="opt" onclick="checkOption(this, false, 'q11')"><input type="radio" name="q11"> D. $0{,}10$ pada $z = \infty$</label>
+    <label class="opt" onclick="checkOption(this, false, 'q11')"><input type="radio" name="q11"> E. $0{,}75$ pada $z = -1$</label>
+  </div>
+  <button class="toggle-pembahasan" onclick="toggleSolution('sol11')">💡 Tampilkan Pembahasan</button>
+  <div class="pembahasan" id="sol11">
+    <div class="kunci">Kunci Jawaban: B</div>
+    <div class="pembahasan-title">Pembahasan Mendalam:</div>
+    <div class="step-box">
+      Fungsi $\sigma'(z) = \sigma(z)(1 - \sigma(z))$. Misalkan $u = \sigma(z) \in (0, 1)$.<br>
+      Fungsi kuadrat $f(u) = u(1 - u) = u - u^2$ mencapai nilai puncak ketika turunannya terhadap $u$ bernilai nol:
+      $$f'(u) = 1 - 2u = 0 \implies u = 0{,}5$$
+      Ketika $u = \sigma(z) = 0{,}5$, terjadi pada $z = 0$.<br>
+      Nilai puncak turunan: $f(0{,}5) = 0{,}5 \times (1 - 0{,}5) = \mathbf{0{,}25}$.<br>
+      <b>Implikasi UAS:</b> Karena nilai turunan maksimal hanya $0{,}25$, ketika sinyal gradien dikalikan berulang mundur melalui banyak lapisan tersembunyi ($0{,}25 \times 0{,}25 \times \dots$), nilai gradien akan menyusut mendekati nol (*vanishing gradient*).
+    </div>
+  </div>
+</div>
+
+<!-- SOAL 12 -->
+<div class="q-card" data-category="klasifikasi">
+  <div class="q-header">
+    <span class="q-num">Soal 12. (JST - RBFNN vs FFNN)</span>
+    <div><span class="q-badge badge-pg">PG</span></div>
+  </div>
+  <div class="q-text">
+    Keunggulan utama Radial Basis Function Neural Network (RBFNN) dalam hal kecepatan pelatihan dibandingkan Feed-Forward Neural Network (FFNN) berpijak pada fakta bahwa...
+  </div>
+  <div class="q-options">
+    <label class="opt" onclick="checkOption(this, false, 'q12')"><input type="radio" name="q12"> A. RBFNN tidak memerlukan fungsi aktivasi non-linier sama sekali.</label>
+    <label class="opt" onclick="checkOption(this, true, 'q12')"><input type="radio" name="q12"> B. Pusat dan lebar fungsi basis radial ditentukan terlebih dahulu (misal via K-Means), sehingga pembobotan lapisan keluaran dapat diselesaikan secara analitis linier (metode kuadrat terkecil/OLS).</label>
+    <label class="opt" onclick="checkOption(this, false, 'q12')"><input type="radio" name="q12"> C. RBFNN hanya dapat digunakan untuk data yang memiliki satu peubah masukan saja.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q12')"><input type="radio" name="q12"> D. RBFNN menggunakan algoritma genetika alih-alih gradien.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q12')"><input type="radio" name="q12"> E. RBFNN kebal terhadap jumlah amatan yang besar.</label>
+  </div>
+  <button class="toggle-pembahasan" onclick="toggleSolution('sol12')">💡 Tampilkan Pembahasan</button>
+  <div class="pembahasan" id="sol12">
+    <div class="kunci">Kunci Jawaban: B</div>
+    <div class="pembahasan-title">Pembahasan Mendalam:</div>
+    <p>
+      Pada RBFNN, pelatihan dipisahkan menjadi dua tahap: (1) Penentuan pusat $c_j$ dan lebar $\sigma_j$ pada lapisan tersembunyi menggunakan metode tanpa pengawasan (unsupervised, seperti K-Means), dan (2) Penaksiran bobot lapisan keluaran yang bersifat linier sehingga dapat dihitung langsung dengan inversi matriks kuadrat terkecil biasa ($W = (\Phi^T \Phi)^{-1}\Phi^T Y$). Ini mengeliminasi kebutuhan iterasi backpropagation yang lambat.
+    </p>
+  </div>
+</div>
+
+<!-- SOAL 13 -->
+<div class="q-card" data-category="klasifikasi">
+  <div class="q-header">
+    <span class="q-num">Soal 13. (Threshold Moving - Indeks Youden)</span>
+    <div><span class="q-badge badge-pg">PG</span></div>
+  </div>
+  <div class="q-text">
+    Pada klasifikasi biner dengan ketimpangan kelas yang parah, analis memindahkan ambang probabilitas $p^*$ untuk memaksimalkan <b>Indeks Youden ($J$)</b>. Formulasi Indeks Youden adalah...
+  </div>
+  <div class="q-options">
+    <label class="opt" onclick="checkOption(this, false, 'q13')"><input type="radio" name="q13"> A. $J = \text{Akurasi} + \text{Presisi} - 1$</label>
+    <label class="opt" onclick="checkOption(this, true, 'q13')"><input type="radio" name="q13"> B. $J = \text{Sensitivitas} + \text{Spesifisitas} - 1$</label>
+    <label class="opt" onclick="checkOption(this, false, 'q13')"><input type="radio" name="q13"> C. $J = \frac{\text{Sensitivitas} \times \text{Spesifisitas}}{2}$</label>
+    <label class="opt" onclick="checkOption(this, false, 'q13')"><input type="radio" name="q13"> D. $J = \text{AUC} - 0{,}5$</label>
+    <label class="opt" onclick="checkOption(this, false, 'q13')"><input type="radio" name="q13"> E. $J = \text{True Positive} - \text{False Positive}$</label>
+  </div>
+  <button class="toggle-pembahasan" onclick="toggleSolution('sol13')">💡 Tampilkan Pembahasan</button>
+  <div class="pembahasan" id="sol13">
+    <div class="kunci">Kunci Jawaban: B</div>
+    <div class="pembahasan-title">Pembahasan Mendalam:</div>
+    <p>
+      Indeks Youden $J = \text{Sensitivity} + \text{Specificity} - 1 \in [-1, 1]$. Nilai $J$ mengukur jarak vertikal maksimum antara kurva ROC dengan garis diagonal peluang acak. Memilih ambang yang memaksimalkan $J$ memberikan keseimbangan optimal antara kemampuan mendeteksi kelas positif dan meminimalkan alarm palsu.
+    </p>
+  </div>
+</div>
+
+<!-- SOAL 14 -->
+<div class="q-card" data-category="klasifikasi">
+  <div class="q-header">
+    <span class="q-num">Soal 14. (JST - Algoritma Garson)</span>
+    <div><span class="q-badge badge-pg">PG</span></div>
+  </div>
+  <div class="q-text">
+    Metode apa yang paling lazim digunakan dalam paket R (seperti <code>NeuralNetTools</code>) untuk mengekstrak tingkat kepentingan relatif (relative variable importance) peubah prediktor pada model Feed-Forward Neural Network?
+  </div>
+  <div class="q-options">
+    <label class="opt" onclick="checkOption(this, true, 'q14')"><input type="radio" name="q14"> A. Algoritma Garson (partisi bobot koneksi)</label>
+    <label class="opt" onclick="checkOption(this, false, 'q14')"><input type="radio" name="q14"> B. Uji Wald Chi-Square</label>
+    <label class="opt" onclick="checkOption(this, false, 'q14')"><input type="radio" name="q14"> C. Mean Decrease Gini</label>
+    <label class="opt" onclick="checkOption(this, false, 'q14')"><input type="radio" name="q14"> D. Akaike Information Criterion (AIC)</label>
+    <label class="opt" onclick="checkOption(this, false, 'q14')"><input type="radio" name="q14"> E. Singular Value Decomposition</label>
+  </div>
+  <button class="toggle-pembahasan" onclick="toggleSolution('sol14')">💡 Tampilkan Pembahasan</button>
+  <div class="pembahasan" id="sol14">
+    <div class="kunci">Kunci Jawaban: A</div>
+    <div class="pembahasan-title">Pembahasan Mendalam:</div>
+    <p>
+      Algoritma Garson (1991) menghitung kepentingan relatif peubah pada JST lapis tunggal dengan cara membagi hasil kali bobot masukan-tersembunyi dan tersembunyi-keluaran terhadap jumlah absolut seluruh bobot, kemudian menormalkannya menjadi persentase 0–100%. Alternatif lain yang juga umum adalah metode Lek.
+    </p>
+  </div>
+</div>
+
+<!-- SOAL 15 -->
+<div class="q-card" data-category="klasifikasi">
+  <div class="q-header">
+    <span class="q-num">Soal 15. (Evaluasi - Kalibrasi Probabilitas)</span>
+    <div><span class="q-badge badge-pg">PG</span></div>
+  </div>
+  <div class="q-text">
+    Sebuah model klasifikasi memiliki nilai AUC sebesar 0,88 tetapi kurva kalibrasi probabilitasnya (reliability diagram) menunjukkan garis yang jauh di atas garis diagonal 45 derajat. Hal ini menandakan bahwa model...
+  </div>
+  <div class="q-options">
+    <label class="opt" onclick="checkOption(this, true, 'q15')"><input type="radio" name="q15"> A. Mampu mengurutkan risiko dengan baik (diskriminasi tinggi) tetapi cenderung <i>under-confident</i> (menduga probabilitas lebih rendah daripada frekuensi proporsi amatan sebenarnya).</label>
+    <label class="opt" onclick="checkOption(this, false, 'q15')"><input type="radio" name="q15"> B. Memiliki akurasi nol dan tidak dapat digunakan.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q15')"><input type="radio" name="q15"> C. Mengalami overfitting ekstrem sehingga nilai AUC di data uji dipastikan di bawah 0,5.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q15')"><input type="radio" name="q15"> D. Menduga probabilitas terlalu tinggi secara sistematis (over-confident).</label>
+    <label class="opt" onclick="checkOption(this, false, 'q15')"><input type="radio" name="q15"> E. Memiliki nilai sensitivitas sama dengan spesifisitas.</label>
+  </div>
+  <button class="toggle-pembahasan" onclick="toggleSolution('sol15')">💡 Tampilkan Pembahasan</button>
+  <div class="pembahasan" id="sol15">
+    <div class="kunci">Kunci Jawaban: A</div>
+    <div class="pembahasan-title">Pembahasan Mendalam:</div>
+    <p>
+      AUC mengukur daya <b>diskriminasi</b> (kemampuan memisahkan positif dan negatif dalam hal ranking skor), sedangkan kurva kalibrasi mengukur ketepatan nilai probabilitas nominalnya. Jika kurva kalibrasi berada di atas garis diagonal 45°, proporsi kejadian sebenarnya lebih tinggi daripada probabilitas yang diduga model $\implies$ model bersifat <i>under-confident</i> (pesimis).
+    </p>
+  </div>
+</div>
+
+<!-- SOAL 16 -->
+<div class="q-card" data-category="klasifikasi">
+  <div class="q-header">
+    <span class="q-num">Soal 16. (KNN - Pemilihan Nilai k)</span>
+    <div><span class="q-badge badge-pg">PG</span></div>
+  </div>
+  <div class="q-text">
+    Dalam algoritma K-Nearest Neighbors (KNN), pemilihan nilai $k$ yang terlalu kecil (misalnya $k = 1$) akan menyebabkan model...
+  </div>
+  <div class="q-options">
+    <label class="opt" onclick="checkOption(this, false, 'q16')"><input type="radio" name="q16"> A. Memiliki bias tinggi dan varian rendah (underfitting).</label>
+    <label class="opt" onclick="checkOption(this, true, 'q16')"><input type="radio" name="q16"> B. Memiliki batas keputusan yang sangat bergerigi dan rentan menghafal noise data latih (varian tinggi / overfitting).</label>
+    <label class="opt" onclick="checkOption(this, false, 'q16')"><input type="radio" name="q16"> C. Selalu memprediksi kelas mayoritas pada setiap amatan uji.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q16')"><input type="radio" name="q16"> D. Kebal terhadap keberadaan pencilan (outliers).</label>
+    <label class="opt" onclick="checkOption(this, false, 'q16')"><input type="radio" name="q16"> E. Membutuhkan waktu pelatihan komputasi paling lama.</label>
+  </div>
+  <button class="toggle-pembahasan" onclick="toggleSolution('sol16')">💡 Tampilkan Pembahasan</button>
+  <div class="pembahasan" id="sol16">
+    <div class="kunci">Kunci Jawaban: B</div>
+    <div class="pembahasan-title">Pembahasan Mendalam:</div>
+    <p>
+      Pada $k = 1$, setiap amatan latih membentuk pulau batas keputusannya sendiri (diagram Voronoi). Jika ada sebuah titik noise atau outlier, model akan langsung mengubah prediksi di sekitarnya. Ini menghasilkan fleksibilitas berlebih (varian tinggi / overfit). Sebaliknya, $k \to N$ akan meratakan prediksi ke arah kelas mayoritas (bias tinggi).
+    </p>
+  </div>
+</div>
+
+<!-- SOAL 17 -->
+<div class="q-card" data-category="asosiasi">
+  <div class="q-header">
+    <span class="q-num">Soal 17. (Association Rule - Support, Conf, Lift)</span>
+    <div><span class="q-badge badge-pg">PG</span> <span class="q-badge badge-hard">Bobot Tinggi</span></div>
+  </div>
+  <div class="q-text">
+    Dari 10.000 transaksi di sebuah supermarket, tercatat:
+    • 2.000 transaksi memuat <i>Roti</i>.<br>
+    • 1.500 transaksi memuat <i>Selai</i>.<br>
+    • 600 transaksi memuat <i>Roti</i> dan <i>Selai</i> secara bersamaan.<br>
+    Berapakah nilai <b>Support</b>, <b>Confidence</b>, dan <b>Lift</b> dari aturan asosiasi: $\text{Roti} \Rightarrow \text{Selai}$?
+  </div>
+  <div class="q-options">
+    <label class="opt" onclick="checkOption(this, false, 'q17')"><input type="radio" name="q17"> A. Supp = 0,20; Conf = 0,40; Lift = 1,50</label>
+    <label class="opt" onclick="checkOption(this, true, 'q17')"><input type="radio" name="q17"> B. Supp = 0,06; Conf = 0,30; Lift = 2,00</label>
+    <label class="opt" onclick="checkOption(this, false, 'q17')"><input type="radio" name="q17"> C. Supp = 0,06; Conf = 0,40; Lift = 2,67</label>
+    <label class="opt" onclick="checkOption(this, false, 'q17')"><input type="radio" name="q17"> D. Supp = 0,15; Conf = 0,30; Lift = 1,25</label>
+    <label class="opt" onclick="checkOption(this, false, 'q17')"><input type="radio" name="q17"> E. Supp = 0,60; Conf = 0,30; Lift = 2,00</label>
+  </div>
+  <button class="toggle-pembahasan" onclick="toggleSolution('sol17')">💡 Tampilkan Pembahasan</button>
+  <div class="pembahasan" id="sol17">
+    <div class="kunci">Kunci Jawaban: B</div>
+    <div class="pembahasan-title">Pembahasan Mendalam:</div>
+    <div class="step-box">
+      $N = 10.000$.<br>
+      • $\text{Supp}(\text{Roti}) = \frac{2.000}{10.000} = 0{,}20$.<br>
+      • $\text{Supp}(\text{Selai}) = \frac{1.500}{10.000} = 0{,}15$.<br>
+      • $\text{Supp}(\text{Roti} \cap \text{Selai}) = \frac{600}{10.000} = \mathbf{0{,}06}$ (6%).<br>
+      • $\text{Confidence}(\text{Roti} \Rightarrow \text{Selai}) = \frac{\text{Supp}(\text{Roti} \cap \text{Selai})}{\text{Supp}(\text{Roti})} = \frac{0{,}06}{0{,}20} = \mathbf{0{,}30}$ (30%).<br>
+      • $\text{Lift}(\text{Roti} \Rightarrow \text{Selai}) = \frac{\text{Confidence}}{\text{Supp}(\text{Selai})} = \frac{0{,}30}{0{,}15} = \mathbf{2{,}00}$.<br>
+      Karena $\text{Lift} = 2{,}00 > 1$, konsumen yang membeli Roti memiliki kecenderungan membeli Selai <b>2 kali lebih besar</b> dibandingkan probabilitas pembelian Selai secara acak di populasi.
+    </div>
+  </div>
+</div>
+
+<!-- SOAL 18 -->
+<div class="q-card" data-category="asosiasi">
+  <div class="q-header">
+    <span class="q-num">Soal 18. (Association Rule - Interpretasi Lift < 1)</span>
+    <div><span class="q-badge badge-pg">PG</span></div>
+  </div>
+  <div class="q-text">
+    Jika sebuah aturan asosiasi $A \Rightarrow B$ menghasilkan nilai $\text{Lift} = 0{,}65$, apakah kesimpulan manajerial yang tepat?
+  </div>
+  <div class="q-options">
+    <label class="opt" onclick="checkOption(this, false, 'q18')"><input type="radio" name="q18"> A. Barang $A$ dan barang $B$ sangat cocok dipaketkan bersama dalam promosi diskon silang.</label>
+    <label class="opt" onclick="checkOption(this, true, 'q18')"><input type="radio" name="q18"> B. Terjadi hubungan substitusi / asosiasi negatif: konsumen yang membeli $A$ justru cenderung menghindari pembelian $B$.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q18')"><input type="radio" name="q18"> C. Aturan asosiasi tersebut memiliki confidence 65%.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q18')"><input type="radio" name="q18"> D. Pembelian barang $B$ sepenuhnya independen dari pembelian barang $A$.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q18')"><input type="radio" name="q18"> E. Nilai support barang $A$ lebih kecil daripada support barang $B$.</label>
+  </div>
+  <button class="toggle-pembahasan" onclick="toggleSolution('sol18')">💡 Tampilkan Pembahasan</button>
+  <div class="pembahasan" id="sol18">
+    <div class="kunci">Kunci Jawaban: B</div>
+    <div class="pembahasan-title">Pembahasan Mendalam:</div>
+    <p>
+      Nilai $\text{Lift} < 1$ menunjukkan adanya korelasi negatif (efek saling meniadakan atau substitusi). Kehadiran barang $A$ justru menekan frekuensi kemunculan barang $B$. Contohnya adalah produk substitusi seperti teh celup merek X dan teh celup merek Y.
+    </p>
+  </div>
+</div>
+
+<!-- SOAL 19 -->
+<div class="q-card" data-category="asosiasi">
+  <div class="q-header">
+    <span class="q-num">Soal 19. (Association Rule - Sifat Anti-Monoton Apriori)</span>
+    <div><span class="q-badge badge-pg">PG</span></div>
+  </div>
+  <div class="q-text">
+    Prinsip dasar algoritma Apriori menyatakan sifat anti-monoton (downward closure property). Implikasi dari sifat ini dalam efisiensi komputasi adalah...
+  </div>
+  <div class="q-options">
+    <label class="opt" onclick="checkOption(this, false, 'q19')"><input type="radio" name="q19"> A. Jika suatu himpunan item sering muncul (frequent), maka seluruh superset-nya dipastikan sering muncul.</label>
+    <label class="opt" onclick="checkOption(this, true, 'q19')"><input type="radio" name="q19"> B. Jika suatu himpunan item tidak sering muncul (infrequent), maka seluruh superset-nya dipastikan tidak sering muncul dan dapat langsung dipangkas.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q19')"><input type="radio" name="q19"> C. Nilai confidence aturan asosiasi selalu bertambah seiring bertambahnya jumlah item di anteseden.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q19')"><input type="radio" name="q19"> D. Itemset dengan support tertinggi selalu menghasilkan lift tertinggi.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q19')"><input type="radio" name="q19"> E. Jumlah transaksi dapat dikurangi setengahnya pada setiap iterasi.</label>
+  </div>
+  <button class="toggle-pembahasan" onclick="toggleSolution('sol19')">💡 Tampilkan Pembahasan</button>
+  <div class="pembahasan" id="sol19">
+    <div class="kunci">Kunci Jawaban: B</div>
+    <div class="pembahasan-title">Pembahasan Mendalam:</div>
+    <p>
+      Sifat anti-monoton: Untuk himpunan $A \subseteq B$, berlaku $\text{Supp}(B) \le \text{Supp}(A)$. Oleh karena itu, jika subset $A$ saja sudah tidak memenuhi ambang batas minimum support ($\text{Supp}(A) < \text{minsup}$), maka himpunan yang lebih besar $B$ tidak mungkin memenuhi minsup. Pohon kombinasi yang berakar dari $A$ dapat langsung dipangkas (*pruned*).
+    </p>
+  </div>
+</div>
+
+<!-- SOAL 20 -->
+<div class="q-card" data-category="asosiasi">
+  <div class="q-header">
+    <span class="q-num">Soal 20. (Association Rule - Closed vs Maximal)</span>
+    <div><span class="q-badge badge-pg">PG</span> <span class="q-badge badge-hard">Bobot Tinggi</span></div>
+  </div>
+  <div class="q-text">
+    Diberikan tiga himpunan item frequent berikut beserta nilai support-nya:<br>
+    $X_1 = \{A, B\}$ dengan $\text{Supp} = 0{,}40$<br>
+    $X_2 = \{A, B, C\}$ dengan $\text{Supp} = 0{,}40$<br>
+    $X_3 = \{A, B, C, D\}$ dengan $\text{Supp} = 0{,}20$<br>
+    Ambang minimum support $\text{minsup} = 0{,}15$. Manakah pernyataan yang <b>BENAR</b>?
+  </div>
+  <div class="q-options">
+    <label class="opt" onclick="checkOption(this, false, 'q20')"><input type="radio" name="q20"> A. $X_1$ adalah Closed Itemset karena memiliki support 0,40.</label>
+    <label class="opt" onclick="checkOption(this, true, 'q20')"><input type="radio" name="q20"> B. $X_1$ BUKAN Closed Itemset karena memiliki superset langsung $X_2$ dengan nilai support yang persis sama ($0{,}40$).</label>
+    <label class="opt" onclick="checkOption(this, false, 'q20')"><input type="radio" name="q20"> C. $X_2$ adalah Maximal Itemset karena support-nya lebih besar dari $X_3$.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q20')"><input type="radio" name="q20"> D. $X_3$ bukan Closed Itemset karena memiliki 4 item.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q20')"><input type="radio" name="q20"> E. Ketiga himpunan tersebut adalah Maximal Itemset.</label>
+  </div>
+  <button class="toggle-pembahasan" onclick="toggleSolution('sol20')">💡 Tampilkan Pembahasan</button>
+  <div class="pembahasan" id="sol20">
+    <div class="kunci">Kunci Jawaban: B</div>
+    <div class="pembahasan-title">Pembahasan Mendalam:</div>
+    <div class="step-box">
+      • <b>Definisi Closed Itemset:</b> Himpunan sering $X$ adalah *closed* jika TIDAK ADA superset langsung $Y \supset X$ sedemikian rupa sehingga $\text{Supp}(Y) = \text{Supp}(X)$. Karena $X_2 = \{A,B,C\} \supset X_1 = \{A,B\}$ dan keduanya ber-support $0{,}40$, maka $X_1$ <b>tidak closed</b>.<br>
+      • $X_2$ adalah <b>Closed</b> (karena superset-nya $X_3$ punya support lebih rendah, $0{,}20 \ne 0{,}40$), tetapi $X_2$ bukan Maximal (karena masih punya superset frequent $X_3$).<br>
+      • $X_3$ adalah <b>Maximal Itemset</b> (dan otomatis juga Closed).
+    </div>
+  </div>
+</div>
+
+<!-- SOAL 21 -->
+<div class="q-card" data-category="asosiasi">
+  <div class="q-header">
+    <span class="q-num">Soal 21. (Association Rule - Leverage & Conviction)</span>
+    <div><span class="q-badge badge-pg">PG</span></div>
+  </div>
+  <div class="q-text">
+    Dalam teori aturan asosiasi, metrik <b>Conviction</b> didefinisikan sebagai $\text{Conv}(X \Rightarrow Y) = \frac{1 - \text{Supp}(Y)}{1 - \text{Conf}(X \Rightarrow Y)}$. Nilai Conviction akan bernilai <b>tak hingga ($\infty$)</b> apabila...
+  </div>
+  <div class="q-options">
+    <label class="opt" onclick="checkOption(this, false, 'q21')"><input type="radio" name="q21"> A. Nilai $\text{Supp}(Y) = 1$</label>
+    <label class="opt" onclick="checkOption(this, true, 'q21')"><input type="radio" name="q21"> B. Nilai $\text{Conf}(X \Rightarrow Y) = 1$ (aturan berlaku sempurna tanpa pernah salah)</label>
+    <label class="opt" onclick="checkOption(this, false, 'q21')"><input type="radio" name="q21"> C. Nilai $\text{Lift}(X \Rightarrow Y) = 1$</label>
+    <label class="opt" onclick="checkOption(this, false, 'q21')"><input type="radio" name="q21"> D. Nilai $\text{Supp}(X \cup Y) = 0$</label>
+    <label class="opt" onclick="checkOption(this, false, 'q21')"><input type="radio" name="q21"> E. Nilai Leverage sama dengan nol</label>
+  </div>
+  <button class="toggle-pembahasan" onclick="toggleSolution('sol21')">💡 Tampilkan Pembahasan</button>
+  <div class="pembahasan" id="sol21">
+    <div class="kunci">Kunci Jawaban: B</div>
+    <div class="pembahasan-title">Pembahasan Mendalam:</div>
+    <p>
+      Penyebut rumus Conviction adalah $1 - \text{Conf}(X \Rightarrow Y)$, yang mengukur proporsi kasus di mana $X$ muncul tetapi kesimpulan $Y$ salah. Jika aturan memiliki kepercayaan sempurna ($\text{Conf} = 1$), penyebut bernilai nol sehingga nilai Conviction menuju $\infty$. Berbeda dengan Lift yang simetris, Conviction bersifat direksional / asimetris.
+    </p>
+  </div>
+</div>
+
+<!-- SOAL 22 -->
+<div class="q-card" data-category="asosiasi">
+  <div class="q-header">
+    <span class="q-num">Soal 22. (Association Rule - Aturan Redundan)</span>
+    <div><span class="q-badge badge-pg">PG</span></div>
+  </div>
+  <div class="q-text">
+    Sebuah aturan asosiasi $R_1: \{A, B\} \Rightarrow \{C\}$ dikatakan <b>redundant (berlebih)</b> terhadap aturan $R_2: \{A\} \Rightarrow \{C\}$ apabila...
+  </div>
+  <div class="q-options">
+    <label class="opt" onclick="checkOption(this, true, 'q22')"><input type="radio" name="q22"> A. $\text{Conf}(R_1) \le \text{Conf}(R_2)$ (penambahan item $B$ pada anteseden tidak meningkatkan nilai confidence aturan).</label>
+    <label class="opt" onclick="checkOption(this, false, 'q22')"><input type="radio" name="q22"> B. Nilai support $R_1$ lebih besar daripada nilai support $R_2$.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q22')"><input type="radio" name="q22"> C. Lift kedua aturan persis bernilai 1.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q22')"><input type="radio" name="q22"> D. Aturan $R_1$ memiliki jumlah item genap sedangkan $R_2$ ganjil.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q22')"><input type="radio" name="q22"> E. Item $C$ adalah item yang paling jarang dibeli di populasi.</label>
+  </div>
+  <button class="toggle-pembahasan" onclick="toggleSolution('sol22')">💡 Tampilkan Pembahasan</button>
+  <div class="pembahasan" id="sol22">
+    <div class="kunci">Kunci Jawaban: A</div>
+    <div class="pembahasan-title">Pembahasan Mendalam:</div>
+    <p>
+      Aturan yang lebih spesifik ($R_1$) dianggap mubazir / redundan jika aturan yang lebih umum ($R_2$) sudah memiliki tingkat kepastian (confidence) yang sama atau lebih tinggi. Menambahkan syarat ekstra $\{B\}$ tanpa memberikan peningkatan confidence hanya mempersempit cakupan populasi tanpa nilai tambah informasi.
+    </p>
+  </div>
+</div>
+
+<!-- SOAL 23 -->
+<div class="q-card" data-category="asosiasi">
+  <div class="q-header">
+    <span class="q-num">Soal 23. (Penerapan Resmi BPS - Multimorbiditas)</span>
+    <div><span class="q-badge badge-pg">PG</span></div>
+  </div>
+  <div class="q-text">
+    Dalam penerapan praktikum Modul 11 menggunakan data SUSENAS, analisis asosiasi diaplikasikan untuk meneliti...
+  </div>
+  <div class="q-options">
+    <label class="opt" onclick="checkOption(this, false, 'q23')"><input type="radio" name="q23"> A. Hubungan linier antara inflasi dan suku bunga acuan BI.</label>
+    <label class="opt" onclick="checkOption(this, true, 'q23')"><input type="radio" name="q23"> B. Pola ko-insidensi (multimorbiditas) berbagai jenis keterbatasan fisik dan mental pada rumah tangga rentan.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q23')"><input type="radio" name="q23"> C. Peramalan jumlah kunjungan wisatawan mancanegara bulanan.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q23')"><input type="radio" name="q23"> D. Pengelompokan kabupaten berdasarkan Indeks Pembangunan Manusia.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q23')"><input type="radio" name="q23"> E. Penaksiran koefisien regresi logistik bersyarat.</label>
+  </div>
+  <button class="toggle-pembahasan" onclick="toggleSolution('sol23')">💡 Tampilkan Pembahasan</button>
+  <div class="pembahasan" id="sol23">
+    <div class="kunci">Kunci Jawaban: B</div>
+    <div class="pembahasan-title">Pembahasan Mendalam:</div>
+    <p>
+      Pada subbab 11.7 Buku Praktikum DMBD, data transaksi dianalogikan sebagai rumah tangga, dan "barang belanjaan" adalah indikator-indikator keterbatasan (penglihatan, pendengaran, berjalan, mengingat, mengurus diri). Aturan asosiasi digunakan untuk menemukan keterbatasan mana yang cenderung muncul bersamaan pada rumah tangga miskin.
+    </p>
+  </div>
+</div>
+
+<!-- SOAL 24 -->
+<div class="q-card" data-category="klaster">
+  <div class="q-header">
+    <span class="q-num">Soal 24. (Hierarki - Metode Linkage)</span>
+    <div><span class="q-badge badge-pg">PG</span></div>
+  </div>
+  <div class="q-text">
+    Metode penggabungan klaster hierarki agglomeratif yang cenderung menghasilkan efek perantaian (<i>chaining effect</i>) di mana klaster memanjang seperti benang tipis adalah...
+  </div>
+  <div class="q-options">
+    <label class="opt" onclick="checkOption(this, true, 'q24')"><input type="radio" name="q24"> A. Single Linkage (Jarak Terdekat)</label>
+    <label class="opt" onclick="checkOption(this, false, 'q24')"><input type="radio" name="q24"> B. Complete Linkage (Jarak Terjauh)</label>
+    <label class="opt" onclick="checkOption(this, false, 'q24')"><input type="radio" name="q24"> C. Average Linkage (Jarak Rata-rata)</label>
+    <label class="opt" onclick="checkOption(this, false, 'q24')"><input type="radio" name="q24"> D. Ward's Minimum Variance Method</label>
+    <label class="opt" onclick="checkOption(this, false, 'q24')"><input type="radio" name="q24"> E. Centroid Linkage</label>
+  </div>
+  <button class="toggle-pembahasan" onclick="toggleSolution('sol24')">💡 Tampilkan Pembahasan</button>
+  <div class="pembahasan" id="sol24">
+    <div class="kunci">Kunci Jawaban: A</div>
+    <div class="pembahasan-title">Pembahasan Mendalam:</div>
+    <p>
+      Single linkage mendefinisikan jarak antar-dua klaster sebagai jarak minimum antar-pasangan titik terdekat: $d(A, B) = \min_{x \in A, y \in B} d(x, y)$. Akibatnya, dua klaster yang sebenarnya terpisah jauh dapat menyatu hanya karena ada jembatan satu atau dua titik perantara di antara keduanya (fenomena <i>chaining</i>). Sebaliknya, Ward's method cenderung menghasilkan klaster berbentuk bulat dengan ukuran seimbang.
+    </p>
+  </div>
+</div>
+
+<!-- SOAL 25 -->
+<div class="q-card" data-category="klaster">
+  <div class="q-header">
+    <span class="q-num">Soal 25. (K-Means vs K-Medoids PAM)</span>
+    <div><span class="q-badge badge-pg">PG</span></div>
+  </div>
+  <div class="q-text">
+    Perbedaan konseptual paling krusial antara algoritma <b>K-Means</b> dan <b>K-Medoids (PAM)</b> adalah...
+  </div>
+  <div class="q-options">
+    <label class="opt" onclick="checkOption(this, false, 'q25')"><input type="radio" name="q25"> A. K-Means menggunakan medoid nyata sedangkan PAM menggunakan rata-rata artifisial.</label>
+    <label class="opt" onclick="checkOption(this, true, 'q25')"><input type="radio" name="q25"> B. Pusat klaster pada PAM adalah titik data aktual di dalam populasi (medoid) dan dapat menggunakan jarak Manhattan/Gower, sehingga PAM jauh lebih tahan terhadap pencilan dibanding K-Means.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q25')"><input type="radio" name="q25"> C. PAM hanya dapat dijalankan pada data berukuran lebih dari 1 juta baris.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q25')"><input type="radio" name="q25"> D. K-Means tidak memerlukan penentuan parameter $k$ di awal sedangkan PAM mewajibkannya.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q25')"><input type="radio" name="q25"> E. K-Means selalu menghasilkan nilai silhouette lebih tinggi daripada PAM.</label>
+  </div>
+  <button class="toggle-pembahasan" onclick="toggleSolution('sol25')">💡 Tampilkan Pembahasan</button>
+  <div class="pembahasan" id="sol25">
+    <div class="kunci">Kunci Jawaban: B</div>
+    <div class="pembahasan-title">Pembahasan Mendalam:</div>
+    <p>
+      K-Means menghitung pusat klaster sebagai rata-rata aritmetika ($\bar{x}$), yang sangat sensitif terhadap pencilan (outlier dapat menarik posisi centroid menjauh dari massa data). PAM (Partitioning Around Medoids) membatasi pusat klaster harus merupakan amatan riil (medoid) dan meminimalkan jumlah ketidaksamaan mutlak $L_1$, menjadikannya sangat robust.
+    </p>
+  </div>
+</div>
+
+<!-- SOAL 26 -->
+<div class="q-card" data-category="klaster">
+  <div class="q-header">
+    <span class="q-num">Soal 26. (k-Prototype - Huang 1997)</span>
+    <div><span class="q-badge badge-pg">PG</span></div>
+  </div>
+  <div class="q-text">
+    Algoritma <b>k-Prototype</b> mengelompokkan data dengan tipe campuran (numerik dan kategorik) dengan meminimalkan fungsi jarak $d(x_i, v_j) = d_{\text{num}}(x_i, v_j) + \gamma \cdot d_{\text{cat}}(x_i, v_j)$. Peran parameter $\gamma$ adalah...
+  </div>
+  <div class="q-options">
+    <label class="opt" onclick="checkOption(this, false, 'q26')"><input type="radio" name="q26"> A. Menentukan banyaknya iterasi maksimum konvergensi.</label>
+    <label class="opt" onclick="checkOption(this, true, 'q26')"><input type="radio" name="q26"> B. Faktor penimbang (weighting factor) untuk menyeimbangkan kontribusi variabel kategorik relatif terhadap variabel numerik.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q26')"><input type="radio" name="q26"> C. Ambang batas jarak pemotongan pohon dendrogram.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q26')"><input type="radio" name="q26"> D. Nilai peluang keanggotaan fuzzy pada k-Means.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q26')"><input type="radio" name="q26"> E. Derajat kebebasan uji statistik Chi-Square.</label>
+  </div>
+  <button class="toggle-pembahasan" onclick="toggleSolution('sol26')">💡 Tampilkan Pembahasan</button>
+  <div class="pembahasan" id="sol26">
+    <div class="kunci">Kunci Jawaban: B</div>
+    <div class="pembahasan-title">Pembahasan Mendalam:</div>
+    <p>
+      Jarak numerik dihitung via kuadrat jarak Euclidean, sedangkan jarak kategorik dihitung via ketidakcocokan biner (simple matching distance). Karena skala keduanya sangat berbeda, parameter penimbang $\gamma$ mengendalikan seberapa besar bobot peubah kategorik dibanding peubah numerik dalam menentukan partisi akhir.
+    </p>
+  </div>
+</div>
+
+<!-- SOAL 27 -->
+<div class="q-card" data-category="klaster">
+  <div class="q-header">
+    <span class="q-num">Soal 27. (DBSCAN - 3 Jenis Titik)</span>
+    <div><span class="q-badge badge-pg">PG</span> <span class="q-badge badge-hard">Bobot Tinggi</span></div>
+  </div>
+  <div class="q-text">
+    Diberikan parameter DBSCAN: radius $\varepsilon = 1{,}5$ dan $\text{MinPts} = 5$. Titik $P$ memiliki 3 tetangga dalam radius $\varepsilon$-nya (termasuk dirinya sendiri). Namun, salah satu tetangga dari $P$ adalah titik $Q$, dan $Q$ memiliki 7 tetangga dalam radius $\varepsilon$. Kategori titik $P$ dan $Q$ berturut-turut adalah...
+  </div>
+  <div class="q-options">
+    <label class="opt" onclick="checkOption(this, false, 'q27')"><input type="radio" name="q27"> A. $P$ adalah Noise, $Q$ adalah Core</label>
+    <label class="opt" onclick="checkOption(this, true, 'q27')"><input type="radio" name="q27"> B. $P$ adalah Border Point, $Q$ adalah Core Point</label>
+    <label class="opt" onclick="checkOption(this, false, 'q27')"><input type="radio" name="q27"> C. $P$ adalah Core Point, $Q$ adalah Core Point</label>
+    <label class="opt" onclick="checkOption(this, false, 'q27')"><input type="radio" name="q27"> D. $P$ adalah Border Point, $Q$ adalah Border Point</label>
+    <label class="opt" onclick="checkOption(this, false, 'q27')"><input type="radio" name="q27"> E. $P$ adalah Noise, $Q$ adalah Border Point</label>
+  </div>
+  <button class="toggle-pembahasan" onclick="toggleSolution('sol27')">💡 Tampilkan Pembahasan</button>
+  <div class="pembahasan" id="sol27">
+    <div class="kunci">Kunci Jawaban: B</div>
+    <div class="pembahasan-title">Pembahasan Mendalam:</div>
+    <div class="step-box">
+      • Titik $Q$: Memiliki $|N_\varepsilon(Q)| = 7 \ge \text{MinPts} (5) \implies$ <b>Core Point</b>.<br>
+      • Titik $P$: Memiliki $|N_\varepsilon(P)| = 3 < \text{MinPts} (5)$, tetapi $P \in N_\varepsilon(Q)$ di mana $Q$ adalah Core Point $\implies$ <b>Border Point</b>.<br>
+      Jika $P$ tidak bertetangga dengan core point mana pun, barulah $P$ diklasifikasikan sebagai Noise.
+    </div>
+  </div>
+</div>
+
+<!-- SOAL 28 -->
+<div class="q-card" data-category="klaster">
+  <div class="q-header">
+    <span class="q-num">Soal 28. (DBSCAN - Relasi Kepadatan Simetris)</span>
+    <div><span class="q-badge badge-pg">PG</span></div>
+  </div>
+  <div class="q-text">
+    Di antara relasi kepadatan pada algoritma DBSCAN berikut, manakah relasi yang bersifat <b>SIMETRIS</b> (berlaku bolak-balik: jika $p$ terhubung ke $q$, maka $q$ pasti terhubung ke $p$)?
+  </div>
+  <div class="q-options">
+    <label class="opt" onclick="checkOption(this, false, 'q28')"><input type="radio" name="q28"> A. Directly density-reachable</label>
+    <label class="opt" onclick="checkOption(this, false, 'q28')"><input type="radio" name="q28"> B. Density-reachable</label>
+    <label class="opt" onclick="checkOption(this, true, 'q28')"><input type="radio" name="q28"> C. Density-connected</label>
+    <label class="opt" onclick="checkOption(this, false, 'q28')"><input type="radio" name="q28"> D. Directly core-connected</label>
+    <label class="opt" onclick="checkOption(this, false, 'q28')"><input type="radio" name="q28"> E. Semuanya bersifat simetris</label>
+  </div>
+  <button class="toggle-pembahasan" onclick="toggleSolution('sol28')">💡 Tampilkan Pembahasan</button>
+  <div class="pembahasan" id="sol28">
+    <div class="kunci">Kunci Jawaban: C</div>
+    <div class="pembahasan-title">Pembahasan Mendalam:</div>
+    <p>
+      • <i>Directly density-reachable</i> asimetris jika melibatkan border point (border point bisa dijangkau dari core point, tapi core point tidak bisa dijangkau dari border point).<br>
+      • <i>Density-reachable</i> transitif tetapi tetap asimetris.<br>
+      • <b>Density-connected</b> bersifat <b>simetris</b>: $p$ dan $q$ density-connected jika terdapat titik inti $o$ sedemikian rupa sehingga $p$ dan $q$ keduanya density-reachable dari $o$.
+    </p>
+  </div>
+</div>
+
+<!-- SOAL 29 -->
+<div class="q-card" data-category="klaster">
+  <div class="q-header">
+    <span class="q-num">Soal 29. (OPTICS - Reachability Plot)</span>
+    <div><span class="q-badge badge-pg">PG</span></div>
+  </div>
+  <div class="q-text">
+    Dalam pembacaan diagram jangkauan (<i>Reachability Plot</i>) pada algoritma OPTICS, keberadaan sebuah klaster padat diindikasikan secara visual oleh...
+  </div>
+  <div class="q-options">
+    <label class="opt" onclick="checkOption(this, false, 'q29')"><input type="radio" name="q29"> A. Puncak-puncak tinggi yang tajam (peaks)</label>
+    <label class="opt" onclick="checkOption(this, true, 'q29')"><input type="radio" name="q29"> B. Bentuk cekungan lembah yang dalam (valleys / basins)</label>
+    <label class="opt" onclick="checkOption(this, false, 'q29')"><input type="radio" name="q29"> C. Garis horizontal datar pada nilai nol</label>
+    <label class="opt" onclick="checkOption(this, false, 'q29')"><input type="radio" name="q29"> D. Pola osilasi zig-zag acak</label>
+    <label class="opt" onclick="checkOption(this, false, 'q29')"><input type="radio" name="q29"> E. Titik-titik yang terputus di sumbu horizontal</label>
+  </div>
+  <button class="toggle-pembahasan" onclick="toggleSolution('sol29')">💡 Tampilkan Pembahasan</button>
+  <div class="pembahasan" id="sol29">
+    <div class="kunci">Kunci Jawaban: B</div>
+    <div class="pembahasan-title">Pembahasan Mendalam:</div>
+    <p>
+      Pada Reachability Plot, sumbu X adalah urutan objek (cluster ordering) dan sumbu Y adalah reachability-distance. Titik-titik dalam area padat memiliki reachability distance yang rendah, sehingga membentuk <b>lembah (valley)</b>. Lembah yang berada di dalam lembah lain menandakan struktur sub-kluster hierarki. Sebaliknya, puncak tajam menandakan derau (noise) atau pemisah antar-klaster.
+    </p>
+  </div>
+</div>
+
+<!-- SOAL 30 -->
+<div class="q-card" data-category="klaster">
+  <div class="q-header">
+    <span class="q-num">Soal 30. (Bi-Clustering - Cheng & Church MSR)</span>
+    <div><span class="q-badge badge-pg">PG</span> <span class="q-badge badge-hard">Bobot Tinggi</span></div>
+  </div>
+  <div class="q-text">
+    Algoritma bi-clustering Cheng &amp; Church (2000) mengevaluasi homogenitas submatriks $(I, J)$ menggunakan Mean Squared Residue (MSR) $H(I, J) \le \delta$. Rumus residu sel $r_{ij}$ adalah...
+  </div>
+  <div class="q-options">
+    <label class="opt" onclick="checkOption(this, true, 'q30')"><input type="radio" name="q30"> A. $r_{ij} = a_{ij} - a_{iJ} - a_{Ij} + a_{IJ}$</label>
+    <label class="opt" onclick="checkOption(this, false, 'q30')"><input type="radio" name="q30"> B. $r_{ij} = a_{ij} - (a_{iJ} + a_{Ij}) / 2$</label>
+    <label class="opt" onclick="checkOption(this, false, 'q30')"><input type="radio" name="q30"> C. $r_{ij} = (a_{ij} - a_{IJ})^2$</label>
+    <label class="opt" onclick="checkOption(this, false, 'q30')"><input type="radio" name="q30"> D. $r_{ij} = a_{ij} / (a_{iJ} \cdot a_{Ij})$</label>
+    <label class="opt" onclick="checkOption(this, false, 'q30')"><input type="radio" name="q30"> E. $r_{ij} = a_{ij} - a_{IJ}$</label>
+  </div>
+  <button class="toggle-pembahasan" onclick="toggleSolution('sol30')">💡 Tampilkan Pembahasan</button>
+  <div class="pembahasan" id="sol30">
+    <div class="kunci">Kunci Jawaban: A</div>
+    <div class="pembahasan-title">Pembahasan Mendalam:</div>
+    <div class="step-box">
+      Residu sel mengukur deviasi nilai elemen $a_{ij}$ terhadap efek aditif baris dan kolom:
+      $$r_{ij} = a_{ij} - a_{iJ} - a_{Ij} + a_{IJ}$$
+      Di mana: $a_{iJ}$ adalah rata-rata baris $i$, $a_{Ij}$ adalah rata-rata kolom $j$, dan $a_{IJ}$ adalah rata-rata seluruh elemen submatriks. Jika submatriks memiliki nilai konstan atau pola pergeseran aditif sempurna, maka $r_{ij} = 0$ dan MSR $H(I, J) = 0$.
+    </div>
+  </div>
+</div>
+
+<!-- SOAL 31 -->
+<div class="q-card" data-category="klaster">
+  <div class="q-header">
+    <span class="q-num">Soal 31. (Bi-Clustering - Masking Acak)</span>
+    <div><span class="q-badge badge-pg">PG</span></div>
+  </div>
+  <div class="q-text">
+    Setelah menemukan satu $\delta$-bicluster pada matriks data, langkah apa yang dilakukan algoritma Cheng &amp; Church agar bicluster yang sama tidak ditemukan kembali pada iterasi selanjutnya?
+  </div>
+  <div class="q-options">
+    <label class="opt" onclick="checkOption(this, false, 'q31')"><input type="radio" name="q31"> A. Menghapus seluruh baris dan kolom bicluster secara permanen dari dataset.</label>
+    <label class="opt" onclick="checkOption(this, true, 'q31')"><input type="radio" name="q31"> B. Melakukan <i>masking</i> dengan mengganti sel-sel bicluster yang telah ditemukan dengan nilai acak (random numbers).</label>
+    <label class="opt" onclick="checkOption(this, false, 'q31')"><input type="radio" name="q31"> C. Mengganti seluruh sel dengan nilai nol.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q31')"><input type="radio" name="q31"> D. Menstandarisasi ulang matriks menggunakan Z-score.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q31')"><input type="radio" name="q31"> E. Menghentikan algoritma karena biclustering hanya mampu menemukan satu klaster.</label>
+  </div>
+  <button class="toggle-pembahasan" onclick="toggleSolution('sol31')">💡 Tampilkan Pembahasan</button>
+  <div class="pembahasan" id="sol31">
+    <div class="kunci">Kunci Jawaban: B</div>
+    <div class="pembahasan-title">Pembahasan Mendalam:</div>
+    <p>
+      Baris dan kolom pada biclustering bersifat tumpang tindih (overlapping). Menghapus baris/kolom secara permanen akan mematikan peluang menemukan pola bicluster lain yang berbagi sebagian baris/kolom tersebut. Mengganti dengan angka acak merusak korelasi internal pada submatriks yang sudah ditemukan tanpa merusak baris/kolom untuk bicluster lainnya.
+    </p>
+  </div>
+</div>
+
+<!-- SOAL 32 -->
+<div class="q-card" data-category="klaster">
+  <div class="q-header">
+    <span class="q-num">Soal 32. (Tendensi Klaster - Hopkins Statistic)</span>
+    <div><span class="q-badge badge-pg">PG</span> <span class="q-badge badge-hard">Bobot Tinggi</span></div>
+  </div>
+  <div class="q-text">
+    Dalam uji kecenderungan berklaster (Clustering Tendency), analis menghitung <b>Hopkins Statistic ($H$)</b>. Berdasarkan kaidah baku Politeknik Statistika STIS, manakah interpretasi yang <b>BENAR</b> jika diperoleh nilai $H = 0{,}82$?
+  </div>
+  <div class="q-options">
+    <label class="opt" onclick="checkOption(this, false, 'q32')"><input type="radio" name="q32"> A. Data berdistribusi seragam (uniform/random); analisis klaster tidak boleh dilanjutkan.</label>
+    <label class="opt" onclick="checkOption(this, true, 'q32')"><input type="radio" name="q32"> B. Data memiliki kecenderungan berklaster yang signifikan pada tingkat kepercayaan 90% ($H > 0{,}75$), sehingga data layak diklasterkan.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q32')"><input type="radio" name="q32"> C. Data memiliki korelasi multikolinearitas yang sangat parah.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q32')"><input type="radio" name="q32"> D. Banyaknya klaster optimal dipastikan sebanyak 8 klaster.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q32')"><input type="radio" name="q32"> E. Tingkat kesalahan klasifikasi adalah 18%.</label>
+  </div>
+  <button class="toggle-pembahasan" onclick="toggleSolution('sol32')">💡 Tampilkan Pembahasan</button>
+  <div class="pembahasan" id="sol32">
+    <div class="kunci">Kunci Jawaban: B</div>
+    <div class="pembahasan-title">Pembahasan Mendalam:</div>
+    <div class="step-box">
+      Hopkins Statistic membandingkan jarak titik riil ($w_i$) terhadap jarak titik sintetis seragam ($u_i$):
+      $$H = \frac{\sum w_i}{\sum u_i + \sum w_i}$$
+      • Jika $H \approx 0{,}5 \implies$ Data acak / berdistribusi seragam (ilusi klaster jika dipaksa K-Means).<br>
+      • Jika $H > 0{,}75 \implies$ Ada tendensi klaster kuat yang signifikan pada tingkat kepercayaan 90%.<br>
+      • Jika $H \to 1{,}0 \implies$ Data sangat mengelompok secara padat.
+    </div>
+  </div>
+</div>
+
+<!-- SOAL 33 -->
+<div class="q-card" data-category="klaster">
+  <div class="q-header">
+    <span class="q-num">Soal 33. (VAT - Visual Assessment of Tendency)</span>
+    <div><span class="q-badge badge-pg">PG</span></div>
+  </div>
+  <div class="q-text">
+    Visual Assessment of Cluster Tendency (VAT) menghasilkan gambar <i>Ordered Dissimilarity Image (ODI)</i>. Tanda visual utama bahwa data memang memiliki struktur pengelompokan yang nyata adalah...
+  </div>
+  <div class="q-options">
+    <label class="opt" onclick="checkOption(this, false, 'q33')"><input type="radio" name="q33"> A. Gambar berupa abu-abu merata tanpa ada variasi warna.</label>
+    <label class="opt" onclick="checkOption(this, true, 'q33')"><input type="radio" name="q33"> B. Terbentuknya balok-balok persegi hitam pekat (dark diagonal blocks) di sepanjang diagonal utama matriks.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q33')"><input type="radio" name="q33"> C. Munculnya lingkaran-lingkaran konsentris berwarna putih.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q33')"><input type="radio" name="q33"> D. Garis-garis vertikal hitam yang memotong seluruh matriks.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q33')"><input type="radio" name="q33"> E. Nilai determinan matriks disimilaritas sama dengan nol.</label>
+  </div>
+  <button class="toggle-pembahasan" onclick="toggleSolution('sol33')">💡 Tampilkan Pembahasan</button>
+  <div class="pembahasan" id="sol33">
+    <div class="kunci">Kunci Jawaban: B</div>
+    <div class="pembahasan-title">Pembahasan Mendalam:</div>
+    <p>
+      Algoritma VAT mengurutkan baris dan kolom matriks disimilaritas menggunakan penelusuran minimum spanning tree (mirip Prim's Algorithm). Titik-titik yang saling berdekatan diletakkan berdampingan. Jika data berklaster, jarak intra-klaster yang kecil akan membentuk balok persegi gelap di sepanjang diagonal utama. Jika data acak seragam, citra ODI akan tampak abu-abu homogen tanpa balok diagonal.
+    </p>
+  </div>
+</div>
+
+<!-- SOAL 34 -->
+<div class="q-card" data-category="klaster">
+  <div class="q-header">
+    <span class="q-num">Soal 34. (Silhouette Coefficient)</span>
+    <div><span class="q-badge badge-pg">PG</span></div>
+  </div>
+  <div class="q-text">
+    Koefisien Silhouette untuk objek $i$ dirumuskan sebagai $s(i) = \frac{b(i) - a(i)}{\max(a(i), b(i))}$. Jika diperoleh nilai $s(i) = -0{,}45$, apakah artinya?
+  </div>
+  <div class="q-options">
+    <label class="opt" onclick="checkOption(this, false, 'q34')"><input type="radio" name="q34"> A. Titik $i$ berada tepat di pusat klasternya.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q34')"><input type="radio" name="q34"> B. Titik $i$ berada di perbatasan netral antara dua klaster.</label>
+    <label class="opt" onclick="checkOption(this, true, 'q34')"><input type="radio" name="q34"> C. Titik $i$ kemungkinan besar salah ditempatkan (misclassified) karena jaraknya ke klaster lain ($b(i)$) lebih dekat daripada jarak ke titik-titik di klasternya sendiri ($a(i)$).</label>
+    <label class="opt" onclick="checkOption(this, false, 'q34')"><input type="radio" name="q34"> D. Jumlah klaster $k$ harus ditambah sebanyak 45%.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q34')"><input type="radio" name="q34"> E. Titik $i$ merupakan titik medoid ideal.</label>
+  </div>
+  <button class="toggle-pembahasan" onclick="toggleSolution('sol34')">💡 Tampilkan Pembahasan</button>
+  <div class="pembahasan" id="sol34">
+    <div class="kunci">Kunci Jawaban: C</div>
+    <div class="pembahasan-title">Pembahasan Mendalam:</div>
+    <p>
+      • $a(i)$ = rata-rata jarak $i$ ke titik lain di klasternya sendiri.<br>
+      • $b(i)$ = rata-rata jarak $i$ ke titik di klaster tetangga terdekat.<br>
+      Jika $s(i) < 0$, berarti $a(i) > b(i)$, yang menandakan bahwa objek tersebut rata-rata lebih dekat dengan anggota klaster lain dibanding dengan anggota klasternya sendiri (indikasi salah penempatan klaster).
+    </p>
+  </div>
+</div>
+
+<!-- SOAL 35 -->
+<div class="q-card" data-category="klaster">
+  <div class="q-header">
+    <span class="q-num">Soal 35. (Dunn Index)</span>
+    <div><span class="q-badge badge-pg">PG</span></div>
+  </div>
+  <div class="q-text">
+    Dalam evaluasi validitas internal hasil pengelompokan, <b>Dunn Index</b> didefinisikan sebagai rasio antara jarak separasi minimum antar-klaster terhadap diameter maksimum intra-klaster:
+    $$\text{Dunn} = \frac{\min_{i \ne j} d(C_i, C_j)}{\max_k \text{diam}(C_k)}$$
+    Partisi klaster yang paling ideal ditandai oleh nilai Dunn Index yang...
+  </div>
+  <div class="q-options">
+    <label class="opt" onclick="checkOption(this, false, 'q35')"><input type="radio" name="q35"> A. Mendekati nol</label>
+    <label class="opt" onclick="checkOption(this, true, 'q35')"><input type="radio" name="q35"> B. Semakin tinggi / maksimal</label>
+    <label class="opt" onclick="checkOption(this, false, 'q35')"><input type="radio" name="q35"> C. Bernilai negatif</label>
+    <label class="opt" onclick="checkOption(this, false, 'q35')"><input type="radio" name="q35"> D. Tepat bernilai 0,5</label>
+    <label class="opt" onclick="checkOption(this, false, 'q35')"><input type="radio" name="q35"> E. Sama dengan nilai AIC</label>
+  </div>
+  <button class="toggle-pembahasan" onclick="toggleSolution('sol35')">💡 Tampilkan Pembahasan</button>
+  <div class="pembahasan" id="sol35">
+    <div class="kunci">Kunci Jawaban: B</div>
+    <div class="pembahasan-title">Pembahasan Mendalam:</div>
+    <p>
+      Klaster yang baik harus memenuhi dua kriteria: <b>Compactness</b> (diameter dalam klaster kecil $\implies$ penyebut kecil) dan <b>Separation</b> (jarak antar-klaster berjauhan $\implies$ pembilang besar). Oleh karena itu, semakin besar nilai Dunn Index, semakin padat dan terpisah jelas klaster-klaster yang terbentuk.
+    </p>
+  </div>
+</div>
+
+<!-- SOAL 36 -->
+<div class="q-card" data-category="klaster">
+  <div class="q-header">
+    <span class="q-num">Soal 36. (Validasi Eksternal - Adjusted Rand Index)</span>
+    <div><span class="q-badge badge-pg">PG</span> <span class="q-badge badge-hard">Bobot Tinggi</span></div>
+  </div>
+  <div class="q-text">
+    Mengapa dalam membandingkan hasil pengelompokan dengan label acuan (ground truth), analis dianjurkan menggunakan <b>Adjusted Rand Index (ARI)</b> alih-alih Rand Index (RI) biasa?
+  </div>
+  <div class="q-options">
+    <label class="opt" onclick="checkOption(this, false, 'q36')"><input type="radio" name="q36"> A. Karena RI biasa selalu menghasilkan nilai negatif.</label>
+    <label class="opt" onclick="checkOption(this, true, 'q36')"><input type="radio" name="q36"> B. Karena ARI melakukan penyesuaian terhadap peluang kesepakatan acak (chance agreement) sehingga nilai ekspektasi untuk partisi acak adalah 0, sedangkan RI memiliki baseline acak yang selalu positif dan tergantung jumlah klaster.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q36')"><input type="radio" name="q36"> C. Karena ARI tidak memerlukan matriks kontinjensi pasangan titik.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q36')"><input type="radio" name="q36"> D. Karena RI hanya dapat digunakan jika $k = 2$.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q36')"><input type="radio" name="q36"> E. Karena ARI mengabaikan titik-titik yang masuk kategori noise.</label>
+  </div>
+  <button class="toggle-pembahasan" onclick="toggleSolution('sol36')">💡 Tampilkan Pembahasan</button>
+  <div class="pembahasan" id="sol36">
+    <div class="kunci">Kunci Jawaban: B</div>
+    <div class="pembahasan-title">Pembahasan Mendalam:</div>
+    <p>
+      Rand Index (RI) menghitung proporsi pasangan titik yang konsisten: $\frac{f_{11} + f_{00}}{\binom{N}{2}}$. Masalahnya, dua pembagian acak murni sekalipun akan memiliki nilai RI yang cukup besar karena pasangan berbeda ($f_{00}$) mendominasi. Adjusted Rand Index mengoreksi nilai ekspektasi: $\text{ARI} = \frac{\text{RI} - E[\text{RI}]}{\max(\text{RI}) - E[\text{RI}]}$. Rentang $\text{ARI} \in [-1, 1]$, di mana 1 = sempurna, dan 0 = murni tebakan acak.
+    </p>
+  </div>
+</div>
+
+<!-- SOAL 37 -->
+<div class="q-card" data-category="klaster">
+  <div class="q-header">
+    <span class="q-num">Soal 37. (Big Data - CLARA vs PAM)</span>
+    <div><span class="q-badge badge-pg">PG</span></div>
+  </div>
+  <div class="q-text">
+    Untuk mengelompokkan 100.000 data sensus pertanian menggunakan metode k-Medoid, algoritma PAM standar mengalami <i>out of memory</i> atau waktu komputasi macet karena kompleksitasnya $O(k(n-k)^2)$. Algoritma <b>CLARA (Clustering Large Applications)</b> mengatasi kendala tersebut dengan cara...
+  </div>
+  <div class="q-options">
+    <label class="opt" onclick="checkOption(this, true, 'q37')"><input type="radio" name="q37"> A. Menarik sampel acak berulang berukuran kecil ($40 + 2k$), menjalankan PAM pada sampel untuk menemukan medoid, lalu memetakan seluruh $n$ data ke medoid terbaik.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q37')"><input type="radio" name="q37"> B. Mengubah variabel kontinu menjadi biner 0 dan 1.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q37')"><input type="radio" name="q37"> C. Mengganti jarak Manhattan dengan regresi kuadrat terkecil linier.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q37')"><input type="radio" name="q37"> D. Menghapus 90% data amatan yang dianggap pencilan.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q37')"><input type="radio" name="q37"> E. Mengubah algoritma menjadi hierarki agglomeratif dengan single linkage.</label>
+  </div>
+  <button class="toggle-pembahasan" onclick="toggleSolution('sol37')">💡 Tampilkan Pembahasan</button>
+  <div class="pembahasan" id="sol37">
+    <div class="kunci">Kunci Jawaban: A</div>
+    <div class="pembahasan-title">Pembahasan Mendalam:</div>
+    <p>
+      CLARA (Kaufman &amp; Rousseeuw, 1990) mereduksi kompleksitas komputasi menjadi $O(k s^2 + k(n-k))$ di mana ukuran sampel $s = 40 + 2k \ll n$. Dengan melakukan penarikan sampel berulang (biasanya 5 sub-sampel), CLARA mengevaluasi medoid mana yang menghasilkan rata-rata ketidaksamaan terendah untuk keseluruhan dataset $n$.
+    </p>
+  </div>
+</div>
+
+<!-- SOAL 38 -->
+<div class="q-card" data-category="fuzzy">
+  <div class="q-header">
+    <span class="q-num">Soal 38. (Teori Fuzzy - Support, Core, Boundary)</span>
+    <div><span class="q-badge badge-pg">PG</span></div>
+  </div>
+  <div class="q-text">
+    Diberikan fungsi keanggotaan trapesium $\mu_A(x)$ dengan parameter $(a, b, c, d) = (20, 30, 50, 70)$. Himpunan <b>Core</b> dan <b>Support</b> dari himpunan fuzzy $A$ berturut-turut adalah...
+  </div>
+  <div class="q-options">
+    <label class="opt" onclick="checkOption(this, false, 'q38')"><input type="radio" name="q38"> A. Core = $(20, 70)$; Support = $[30, 50]$</label>
+    <label class="opt" onclick="checkOption(this, true, 'q38')"><input type="radio" name="q38"> B. Core = $[30, 50]$; Support = $(20, 70)$</label>
+    <label class="opt" onclick="checkOption(this, false, 'q38')"><input type="radio" name="q38"> C. Core = $[20, 30]$; Support = $[50, 70]$</label>
+    <label class="opt" onclick="checkOption(this, false, 'q38')"><input type="radio" name="q38"> D. Core = $\{30\}$; Support = $\{50\}$</label>
+    <label class="opt" onclick="checkOption(this, false, 'q38')"><input type="radio" name="q38"> E. Core = $[20, 70]$; Support = $(30, 50)$</label>
+  </div>
+  <button class="toggle-pembahasan" onclick="toggleSolution('sol38')">💡 Tampilkan Pembahasan</button>
+  <div class="pembahasan" id="sol38">
+    <div class="kunci">Kunci Jawaban: B</div>
+    <div class="pembahasan-title">Pembahasan Mendalam:</div>
+    <div class="step-box">
+      • <b>Core:</b> Daerah di mana derajat keanggotaan bernilai penuh ($\mu = 1$). Pada trapesium $[b, c] \implies [30, 50]$.<br>
+      • <b>Support:</b> Daerah di mana derajat keanggotaan bernilai positif ($\mu > 0$). Pada selang terbuka $(a, d) \implies (20, 70)$.<br>
+      • <b>Boundary:</b> Daerah di mana $0 < \mu < 1$, yaitu $(20, 30) \cup (50, 70)$.
+    </div>
+  </div>
+</div>
+
+<!-- SOAL 39 -->
+<div class="q-card" data-category="fuzzy">
+  <div class="q-header">
+    <span class="q-num">Soal 39. (Teori Fuzzy - Hukum Logika yang Gugur)</span>
+    <div><span class="q-badge badge-pg">PG</span> <span class="q-badge badge-hard">Bobot Tinggi</span></div>
+  </div>
+  <div class="q-text">
+    Dalam logika fuzzy standar Zadeh dengan komplemen $\mu_{\bar{A}} = 1 - \mu_A$ dan irisan $\mu_{A \cap \bar{A}} = \min(\mu_A, \mu_{\bar{A}})$, hukum logika klasik manakah yang <b>TIDAK BERLAKU</b> jika $\mu_A(x) = 0{,}6$?
+  </div>
+  <div class="q-options">
+    <label class="opt" onclick="checkOption(this, false, 'q39')"><input type="radio" name="q39"> A. Hukum Komutatif ($A \cup B = B \cup A$)</label>
+    <label class="opt" onclick="checkOption(this, false, 'q39')"><input type="radio" name="q39"> B. Hukum Asosiatif ($A \cap (B \cap C) = (A \cap B) \cap C$)</label>
+    <label class="opt" onclick="checkOption(this, true, 'q39')"><input type="radio" name="q39"> C. Hukum Pertentangan (Law of Contradiction: $A \cap \bar{A} = \emptyset$) dan Hukum Penyisihan Jalan Tengah (Law of Excluded Middle: $A \cup \bar{A} = U$)</label>
+    <label class="opt" onclick="checkOption(this, false, 'q39')"><input type="radio" name="q39"> D. Hukum Idempoten ($A \cap A = A$)</label>
+    <label class="opt" onclick="checkOption(this, false, 'q39')"><input type="radio" name="q39"> E. Hukum De Morgan</label>
+  </div>
+  <button class="toggle-pembahasan" onclick="toggleSolution('sol39')">💡 Tampilkan Pembahasan</button>
+  <div class="pembahasan" id="sol39">
+    <div class="kunci">Kunci Jawaban: C</div>
+    <div class="pembahasan-title">Pembahasan Mendalam:</div>
+    <div class="step-box">
+      Jika $\mu_A = 0{,}6$, maka $\mu_{\bar{A}} = 1 - 0{,}6 = 0{,}4$.<br>
+      • Irisan: $\min(\mu_A, \mu_{\bar{A}}) = \min(0{,}6; 0{,}4) = \mathbf{0{,}40 \ne 0}$ (Law of Contradiction gugur!).<br>
+      • Gabungan: $\max(\mu_A, \mu_{\bar{A}}) = \max(0{,}6; 0{,}4) = \mathbf{0{,}60 \ne 1}$ (Law of Excluded Middle gugur!).<br>
+      Pada himpunan fuzzy, suatu objek dapat sekaligus memiliki derajat keanggotaan pada suatu himpunan dan komplemennya.
+    </div>
+  </div>
+</div>
+
+<!-- SOAL 40 -->
+<div class="q-card" data-category="fuzzy">
+  <div class="q-header">
+    <span class="q-num">Soal 40. (Aritmatika Fuzzy - Penjumlahan Interval)</span>
+    <div><span class="q-badge badge-pg">PG</span></div>
+  </div>
+  <div class="q-text">
+    Dua bilangan fuzzy segitiga dijumlahkan: $\tilde{A} = (1, 3, 5)$ dan $\tilde{B} = (2, 4, 7)$. Berapakah bentuk bilangan fuzzy segitiga hasil penjumlahan $\tilde{A} \oplus \tilde{B}$?
+  </div>
+  <div class="q-options">
+    <label class="opt" onclick="checkOption(this, true, 'q40')"><input type="radio" name="q40"> A. $(3, 7, 12)$</label>
+    <label class="opt" onclick="checkOption(this, false, 'q40')"><input type="radio" name="q40"> B. $(2, 12, 35)$</label>
+    <label class="opt" onclick="checkOption(this, false, 'q40')"><input type="radio" name="q40"> C. $(1, 4, 7)$</label>
+    <label class="opt" onclick="checkOption(this, false, 'q40')"><input type="radio" name="q40"> D. $(3, 6, 10)$</label>
+    <label class="opt" onclick="checkOption(this, false, 'q40')"><input type="radio" name="q40"> E. $(1{,}5; 3{,}5; 6{,}0)$</label>
+  </div>
+  <button class="toggle-pembahasan" onclick="toggleSolution('sol40')">💡 Tampilkan Pembahasan</button>
+  <div class="pembahasan" id="sol40">
+    <div class="kunci">Kunci Jawaban: A</div>
+    <div class="pembahasan-title">Pembahasan Mendalam:</div>
+    <div class="step-box">
+      Penjumlahan bilangan fuzzy segitiga $(a_1, b_1, c_1) \oplus (a_2, b_2, c_2)$:
+      $$\tilde{A} \oplus \tilde{B} = (a_1 + a_2,\, b_1 + b_2,\, c_1 + c_2)$$
+      $$= (1 + 2,\, 3 + 4,\, 5 + 7) = \mathbf{(3, 7, 12)}$$
+      Perhatikan bahwa lebar support $\tilde{A}$ adalah $5 - 1 = 4$, lebar support $\tilde{B}$ adalah $7 - 2 = 5$, dan lebar hasil adalah $12 - 3 = 9 = 4 + 5$ (akumulasi ketidakpastian bertambah).
+    </div>
+  </div>
+</div>
+
+<!-- SOAL 41 -->
+<div class="q-card" data-category="fuzzy">
+  <div class="q-header">
+    <span class="q-num">Soal 41. (FIS - Mamdani vs Sugeno)</span>
+    <div><span class="q-badge badge-pg">PG</span></div>
+  </div>
+  <div class="q-text">
+    Dalam Sistem Inferensi Fuzzy (FIS), perbedaan arsitektur utama antara <b>Metode Mamdani</b> dan <b>Metode Sugeno (TSK)</b> terletak pada...
+  </div>
+  <div class="q-options">
+    <label class="opt" onclick="checkOption(this, false, 'q41')"><input type="radio" name="q41"> A. Mamdani menggunakan t-norm sedangkan Sugeno menggunakan s-norm pada anteseden.</label>
+    <label class="opt" onclick="checkOption(this, true, 'q41')"><input type="radio" name="q41"> B. Konsekuen Mamdani berupa himpunan fuzzy (kurva luasan) yang memerlukan defuzzifikasi integral luasan (Centroid), sedangkan konsekuen Sugeno berupa konstanta atau fungsi matematika linier tegas.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q41')"><input type="radio" name="q41"> C. Sugeno tidak menggunakan basis aturan (rule base).</label>
+    <label class="opt" onclick="checkOption(this, false, 'q41')"><input type="radio" name="q41"> D. Mamdani hanya dapat menerima satu variabel input.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q41')"><input type="radio" name="q41"> E. Biaya komputasi Sugeno jauh lebih lambat daripada Mamdani.</label>
+  </div>
+  <button class="toggle-pembahasan" onclick="toggleSolution('sol41')">💡 Tampilkan Pembahasan</button>
+  <div class="pembahasan" id="sol41">
+    <div class="kunci">Kunci Jawaban: B</div>
+    <div class="pembahasan-title">Pembahasan Mendalam:</div>
+    <p>
+      • <b>Mamdani:</b> Aturan berbentuk <i>IF x is A THEN y is B</i> (B adalah himpunan fuzzy). Defuzzifikasi menghitung titik berat luasan $\int z \mu(z) dz / \int \mu(z) dz$. Sangat intuitif untuk sistem pakar manusia.<br>
+      • <b>Sugeno:</b> Aturan berbentuk <i>IF x is A THEN z = f(x)</i> (konstanta atau linear $px + qy + r$). Defuzzifikasi adalah rata-rata terboboti $\frac{\sum \alpha_i z_i}{\sum \alpha_i}$. Sangat efisien untuk kendali dan pemodelan numerik.
+    </p>
+  </div>
+</div>
+
+<!-- SOAL 42 -->
+<div class="q-card" data-category="fuzzy">
+  <div class="q-header">
+    <span class="q-num">Soal 42. (FIS - Defuzzifikasi Sugeno Orde 0)</span>
+    <div><span class="q-badge badge-pg">PG</span> <span class="q-badge badge-hard">Bobot Tinggi</span></div>
+  </div>
+  <div class="q-text">
+    Sebuah sistem Sugeno Orde Nol memiliki dua aturan yang menyala:
+    • Aturan 1: Firing strength $\alpha_1 = 0{,}6$, konsekuen $c_1 = 80$<br>
+    • Aturan 2: Firing strength $\alpha_2 = 0{,}4$, konsekuen $c_2 = 50$<br>
+    Berapakah nilai keluaran tegas (defuzzifikasi) $z^*$?
+  </div>
+  <div class="q-options">
+    <label class="opt" onclick="checkOption(this, false, 'q42')"><input type="radio" name="q42"> A. $65{,}0$</label>
+    <label class="opt" onclick="checkOption(this, true, 'q42')"><input type="radio" name="q42"> B. $68{,}0$</label>
+    <label class="opt" onclick="checkOption(this, false, 'q42')"><input type="radio" name="q42"> C. $72{,}0$</label>
+    <label class="opt" onclick="checkOption(this, false, 'q42')"><input type="radio" name="q42"> D. $60{,}0$</label>
+    <label class="opt" onclick="checkOption(this, false, 'q42')"><input type="radio" name="q42"> E. $58{,}5$</label>
+  </div>
+  <button class="toggle-pembahasan" onclick="toggleSolution('sol42')">💡 Tampilkan Pembahasan</button>
+  <div class="pembahasan" id="sol42">
+    <div class="kunci">Kunci Jawaban: B</div>
+    <div class="pembahasan-title">Pembahasan Mendalam:</div>
+    <div class="step-box">
+      Rumus defuzzifikasi Sugeno:
+      $$z^* = \frac{\sum \alpha_i c_i}{\sum \alpha_i} = \frac{(0{,}6 \times 80) + (0{,}4 \times 50)}{0{,}6 + 0{,}4} = \frac{48 + 20}{1{,}0} = \mathbf{68{,}0}$$
+      Jika $\sum \alpha_i \ne 1$, pembagian dengan total $\sum \alpha_i$ menjadi sangat krusial (salah satu dari 10 jebakan klasik ujian!).
+    </div>
+  </div>
+</div>
+
+<!-- SOAL 43 -->
+<div class="q-card" data-category="fuzzy">
+  <div class="q-header">
+    <span class="q-num">Soal 43. (FCM - Peran Fuzzifier m)</span>
+    <div><span class="q-badge badge-pg">PG</span></div>
+  </div>
+  <div class="q-text">
+    Dalam fungsi objektif Fuzzy C-Means (FCM) $J_m = \sum_{i=1}^n \sum_{j=1}^c u_{ij}^m d^2(x_i, v_j)$, parameter $m > 1$ adalah pembobot kekaburan (fuzzifier). Jika nilai $m$ mendekati $1$ ($m \to 1^+$), maka perilaku FCM akan...
+  </div>
+  <div class="q-options">
+    <label class="opt" onclick="checkOption(this, true, 'q43')"><input type="radio" name="q43"> A. Mendekati perilaku K-Means konvensional (hard clustering) di mana derajat keanggotaan mendekati 0 atau 1.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q43')"><input type="radio" name="q43"> B. Menghasilkan keanggotaan yang sepenuhnya seragam ($u_{ij} \to 1/c$).</label>
+    <label class="opt" onclick="checkOption(this, false, 'q43')"><input type="radio" name="q43"> C. Menyebabkan fungsi objektif meledak menjadi tak hingga.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q43')"><input type="radio" name="q43"> D. Mengubah algoritma menjadi hierarki single linkage.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q43')"><input type="radio" name="q43"> E. Menghasilkan jumlah klaster sebanyak jumlah amatan ($c = n$).</label>
+  </div>
+  <button class="toggle-pembahasan" onclick="toggleSolution('sol43')">💡 Tampilkan Pembahasan</button>
+  <div class="pembahasan" id="sol43">
+    <div class="kunci">Kunci Jawaban: A</div>
+    <div class="pembahasan-title">Pembahasan Mendalam:</div>
+    <p>
+      Eksponen pada rumus pembaruan keanggotaan adalah $\frac{2}{m-1}$. Saat $m \to 1^+$, eksponen menuju $\infty$. Titik yang jaraknya sedikit saja lebih dekat ke suatu pusat akan langsung mendapatkan keanggotaan 1 dan 0 pada klaster lain (batas menjadi tegas / crisp seperti K-Means). Sebaliknya jika $m \to \infty$, eksponen menuju 0 sehingga semua $u_{ij} \to \frac{1}{c}$.
+    </p>
+  </div>
+</div>
+
+<!-- SOAL 44 -->
+<div class="q-card" data-category="fuzzy">
+  <div class="q-header">
+    <span class="q-num">Soal 44. (FCM - Perhitungan Satu Titik Manual)</span>
+    <div><span class="q-badge badge-pg">PG</span> <span class="q-badge badge-hard">Bobot Tinggi</span></div>
+  </div>
+  <div class="q-text">
+    Diberikan dua pusat klaster 1-dimensi $v_1 = 3$ dan $v_2 = 8$. Titik data $x = 2$ diuji dengan $m = 2$. Berapakah derajat keanggotaan titik $x = 2$ pada Klaster 1 ($u_{11}$)?
+  </div>
+  <div class="q-options">
+    <label class="opt" onclick="checkOption(this, false, 'q44')"><input type="radio" name="q44"> A. $0{,}5000$</label>
+    <label class="opt" onclick="checkOption(this, true, 'q44')"><input type="radio" name="q44"> B. $\frac{36}{37} \approx 0{,}9730$</label>
+    <label class="opt" onclick="checkOption(this, false, 'q44')"><input type="radio" name="q44"> C. $\frac{6}{7} \approx 0{,}8571$</label>
+    <label class="opt" onclick="checkOption(this, false, 'q44')"><input type="radio" name="q44"> D. $1{,}0000$</label>
+    <label class="opt" onclick="checkOption(this, false, 'q44')"><input type="radio" name="q44"> E. $\frac{1}{37} \approx 0{,}0270$</label>
+  </div>
+  <button class="toggle-pembahasan" onclick="toggleSolution('sol44')">💡 Tampilkan Pembahasan</button>
+  <div class="pembahasan" id="sol44">
+    <div class="kunci">Kunci Jawaban: B</div>
+    <div class="pembahasan-title">Pembahasan Mendalam:</div>
+    <div class="step-box">
+      Jarak $d_{11} = |2 - 3| = 1$; Jarak $d_{12} = |2 - 8| = 6$.<br>
+      Eksponen $\frac{2}{m-1} = \frac{2}{2-1} = 2$.<br>
+      $$u_{11} = \frac{(1/d_{11})^2}{(1/d_{11})^2 + (1/d_{12})^2} = \frac{(1/1)^2}{(1/1)^2 + (1/6)^2} = \frac{1}{1 + \frac{1}{36}} = \frac{1}{\frac{37}{36}} = \frac{36}{37} \approx \mathbf{0{,}9730}$$
+      Nilai keanggotaan pada klaster 2: $u_{12} = 1 - \frac{36}{37} = \frac{1}{37} \approx 0{,}0270$.
+    </div>
+  </div>
+</div>
+
+<!-- SOAL 45 -->
+<div class="q-card" data-category="fuzzy">
+  <div class="q-header">
+    <span class="q-num">Soal 45. (Varian FCM - Gustafson-Kessel)</span>
+    <div><span class="q-badge badge-pg">PG</span></div>
+  </div>
+  <div class="q-text">
+    Kelebihan utama algoritma <b>Gustafson–Kessel (GK)</b> dibandingkan FCM konvensional adalah...
+  </div>
+  <div class="q-options">
+    <label class="opt" onclick="checkOption(this, false, 'q45')"><input type="radio" name="q45"> A. Tidak membutuhkan proses iteratif sama sekali.</label>
+    <label class="opt" onclick="checkOption(this, true, 'q45')"><input type="radio" name="q45"> B. Mampu mendeteksi klaster yang berbentuk lonjong/elips dengan orientasi kemiringan kovarians berbeda karena menggunakan jarak Mahalanobis adaptif per klaster.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q45')"><input type="radio" name="q45"> C. Menaksir parameter lebih sedikit dibandingkan FCM biasa.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q45')"><input type="radio" name="q45"> D. Menghilangkan seluruh nilai keanggotaan parsial.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q45')"><input type="radio" name="q45"> E. Kebal terhadap data dimensi tinggi di atas 10.000 fitur.</label>
+  </div>
+  <button class="toggle-pembahasan" onclick="toggleSolution('sol45')">💡 Tampilkan Pembahasan</button>
+  <div class="pembahasan" id="sol45">
+    <div class="kunci">Kunci Jawaban: B</div>
+    <div class="pembahasan-title">Pembahasan Mendalam:</div>
+    <p>
+      FCM menggunakan jarak Euclidean biasa yang secara implisit mengasumsikan bentuk klaster selalu bulat sferis. Gustafson-Kessel menaksir matriks kovarians lokal per klaster $F_j$ dengan pengekang determinan bernilai tetap, memungkinkan deteksi klaster berbentuk hiper-elipsoid miring. Biayanya: GK menaksir $c \times \frac{p(p+1)}{2}$ parameter kovarians tambahan (rawan overfit di data bulat).
+    </p>
+  </div>
+</div>
+
+<!-- SOAL 46 -->
+<div class="q-card" data-category="fuzzy">
+  <div class="q-header">
+    <span class="q-num">Soal 46. (Varian FCM - Possibilistic C-Means)</span>
+    <div><span class="q-badge badge-pg">PG</span></div>
+  </div>
+  <div class="q-text">
+    Kelemahan fatal FCM terhadap pencilan (outliers) adalah kendala $\sum_{j=1}^c u_{ij} = 1$ yang memaksa outlier tetap membagikan keanggotaan total 1, sehingga titik yang sangat jauh pun bisa memperoleh nilai keanggotaan tinggi semu. Solusi yang ditawarkan oleh <b>Possibilistic C-Means (PCM)</b> adalah...
+  </div>
+  <div class="q-options">
+    <label class="opt" onclick="checkOption(this, true, 'q46')"><input type="radio" name="q46"> A. Melepaskan kendala $\sum u_{ij} = 1$ dan menggantinya dengan derajat tipikalitas mutlak $t_{ij} \in [0, 1]$, sehingga outlier akan memiliki nilai tipikalitas mendekati 0 di seluruh klaster.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q46')"><input type="radio" name="q46"> B. Menghapus titik outlier secara manual sebelum pemodelan.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q46')"><input type="radio" name="q46"> C. Mengganti semua derajat keanggotaan menjadi bilangan biner.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q46')"><input type="radio" name="q46"> D. Memperbesar jumlah klaster $c$ sebanyak jumlah outlier.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q46')"><input type="radio" name="q46"> E. Mengganti fuzzifier $m$ menjadi bernilai negatif.</label>
+  </div>
+  <button class="toggle-pembahasan" onclick="toggleSolution('sol46')">💡 Tampilkan Pembahasan</button>
+  <div class="pembahasan" id="sol46">
+    <div class="kunci">Kunci Jawaban: A</div>
+    <div class="pembahasan-title">Pembahasan Mendalam:</div>
+    <p>
+      PCM (Krishnapuram &amp; Keller, 1993) mengganti konsep keanggotaan relatif bersyarat (probabilistik) menjadi kesesuaian mutlak (possibilistik/tipikalitas). Jika suatu amatan berada sangat jauh dari semua pusat klaster, ia tidak dipaksa membagi total nilai 1, melainkan memperoleh nilai tipikalitas rendah pada semua klaster ($t_{i1} \approx 0, t_{i2} \approx 0$).
+    </p>
+  </div>
+</div>
+
+<!-- SOAL 47 -->
+<div class="q-card" data-category="fuzzy">
+  <div class="q-header">
+    <span class="q-num">Soal 47. (Fuzzy Spasial - Regularisasi Tetangga)</span>
+    <div><span class="q-badge badge-pg">PG</span> <span class="q-badge badge-hard">Bobot Tinggi</span></div>
+  </div>
+  <div class="q-text">
+    Dalam clustering data wilayah (spasial), FCM biasa menghasilkan pola peta berbintik (<i>salt-and-pepper</i>). Analis menerapkan regularisasi spasial $u_{ij}^* \propto u_{ij} (\bar{u}_{ij})^\alpha$. Berdasarkan hasil kajian di Slide Pertemuan 11, mengapa analis <b>TIDAK BOLEH</b> memilih nilai $\alpha$ hanya dengan mengejar "peta yang paling mulus"?
+  </div>
+  <div class="q-options">
+    <label class="opt" onclick="checkOption(this, false, 'q47')"><input type="radio" name="q47"> A. Karena peta mulus membutuhkan memori komputer yang terlalu besar.</label>
+    <label class="opt" onclick="checkOption(this, true, 'q47')"><input type="radio" name="q47"> B. Karena nilai $\alpha$ yang terlalu besar (misal $\alpha=2{,}0$) memang menghasilkan peta sangat mulus tetapi skor akurasi (ARI) justru anjlok akibat terhapusnya kantong-kantong anomali asli (enclave). Peta mulus $\ne$ klaster yang benar!</label>
+    <label class="opt" onclick="checkOption(this, false, 'q47')"><input type="radio" name="q47"> C. Karena regularisasi spasial hanya boleh digunakan pada data raster citra satelit.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q47')"><input type="radio" name="q47"> D. Karena nilai $\alpha > 0$ membatalkan fungsi objektif FCM.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q47')"><input type="radio" name="q47"> E. Karena indeks Moran's I akan selalu bernilai nol.</label>
+  </div>
+  <button class="toggle-pembahasan" onclick="toggleSolution('sol47')">💡 Tampilkan Pembahasan</button>
+  <div class="pembahasan" id="sol47">
+    <div class="kunci">Kunci Jawaban: B</div>
+    <div class="pembahasan-title">Pembahasan Mendalam:</div>
+    <p>
+      Pada eksperimen simulasi Slide 38, ARI memuncak pada $\alpha = 0{,}25$ (ARI = 0,811) lalu anjlok ke 0,588 pada $\alpha = 2{,}0$. Regularisasi yang terlalu kuat akan memaksa amatan menyamakan diri dengan tetangganya secara berlebihan, sehingga kantong-kantong wilayah unik yang nyata (*genuine enclaves*, misal kawasan industri di tengah pedesaan) akan tersapu rata dan hilang.
+    </p>
+  </div>
+</div>
+
+<!-- SOAL 48 -->
+<div class="q-card" data-category="lanjut">
+  <div class="q-header">
+    <span class="q-num">Soal 48. (GPBoost - Data Bertingkat SUSENAS)</span>
+    <div><span class="q-badge badge-pg">PG</span> <span class="q-badge badge-hard">Bobot Tinggi</span></div>
+  </div>
+  <div class="q-text">
+    Pada data survei rumah tangga bersarang dalam wilayah (SUSENAS BPS), diperoleh nilai <b>Intraclass Correlation (ICC) = 0,18</b>. Mengapa penggunaan model OLS biasa atau tree-boosting standar (XGBoost biasa) <b>TIDAK TEPAT</b> dan direkomendasikan menggunakan <b>GPBoost</b>?
+  </div>
+  <div class="q-options">
+    <label class="opt" onclick="checkOption(this, true, 'q48')"><input type="radio" name="q48"> A. Karena ICC > 0,05 melanggar asumsi independensi observasi (iid); GPBoost menggabungkan keunggulan Tree-Boosting untuk efek tetap non-linier dengan Model Campuran Linier (Mixed Effects) untuk efek acak wilayah.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q48')"><input type="radio" name="q48"> B. Karena XGBoost tidak mampu memproses data dengan lebih dari 100 baris amatan.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q48')"><input type="radio" name="q48"> C. Karena ICC yang besar membuktikan bahwa antar-wilayah tidak memiliki variasi pengeluaran sama sekali.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q48')"><input type="radio" name="q48"> D. Karena GPBoost tidak memerlukan data target sama sekali (unsupervised).</label>
+    <label class="opt" onclick="checkOption(this, false, 'q48')"><input type="radio" name="q48"> E. Karena OLS hanya bisa digunakan jika jumlah wilayah di atas 10.000.</label>
+  </div>
+  <button class="toggle-pembahasan" onclick="toggleSolution('sol48')">💡 Tampilkan Pembahasan</button>
+  <div class="pembahasan" id="sol48">
+    <div class="kunci">Kunci Jawaban: A</div>
+    <div class="pembahasan-title">Pembahasan Mendalam:</div>
+    <div class="step-box">
+      $\text{ICC} = \frac{\sigma_b^2}{\sigma_b^2 + \sigma_\varepsilon^2} = 0{,}18$ berarti 18% variasi pengeluaran dijelaskan oleh perbedaan antar-wilayah. Jika model mengabaikan struktur kelompok, standar error akan bias ke bawah (terlalu percaya diri semu). GPBoost merumuskan $y = F(X) + Zb + \varepsilon$, di mana $F(X)$ dimodelkan via tree-boosting dan $Zb$ via efek acak Gaussian Process/LMM.
+    </div>
+  </div>
+</div>
+
+<!-- SOAL 49 -->
+<div class="q-card" data-category="lanjut">
+  <div class="q-header">
+    <span class="q-num">Soal 49. (LightGBM - GOSS dan EFB)</span>
+    <div><span class="q-badge badge-pg">PG</span></div>
+  </div>
+  <div class="q-text">
+    Dua inovasi arsitektur utama yang menjadikan <b>LightGBM</b> jauh lebih cepat dan hemat memori dibandingkan XGBoost konvensional pada data besar adalah...
+  </div>
+  <div class="q-options">
+    <label class="opt" onclick="checkOption(this, false, 'q49')"><input type="radio" name="q49"> A. Backpropagation dan Stochastic Gradient Descent</label>
+    <label class="opt" onclick="checkOption(this, true, 'q49')"><input type="radio" name="q49"> B. GOSS (Gradient-based One-Side Sampling) dan EFB (Exclusive Feature Bundling)</label>
+    <label class="opt" onclick="checkOption(this, false, 'q49')"><input type="radio" name="q49"> C. Bagging dan Random Feature Selection mtry</label>
+    <label class="opt" onclick="checkOption(this, false, 'q49')"><input type="radio" name="q49"> D. Kernel Trick RBF dan Support Vectors</label>
+    <label class="opt" onclick="checkOption(this, false, 'q49')"><input type="radio" name="q49"> E. Laplace Smoothing dan Pruning 1-SE</label>
+  </div>
+  <button class="toggle-pembahasan" onclick="toggleSolution('sol49')">💡 Tampilkan Pembahasan</button>
+  <div class="pembahasan" id="sol49">
+    <div class="kunci">Kunci Jawaban: B</div>
+    <div class="pembahasan-title">Pembahasan Mendalam:</div>
+    <p>
+      • <b>GOSS:</b> Mempertahankan amatan dengan gradien besar (error tinggi) dan menyampel acak amatan bergradien kecil, mereduksi jumlah baris latih tanpa merusak distribusi data.<br>
+      • <b>EFB:</b> Menggabungkan peubah jarang (*sparse features*) yang saling eksklusif ke dalam satu fitur terpadu, mereduksi jumlah kolom.<br>
+      Ditambah algoritma binning histogram 256 bin dan pertumbuhan pohon <i>Leaf-wise</i>, LightGBM mampu melatih data jutaan baris dalam hitungan detik.
+    </p>
+  </div>
+</div>
+
+<!-- SOAL 50 -->
+<div class="q-card" data-category="lanjut">
+  <div class="q-header">
+    <span class="q-num">Soal 50. (LSTM - Gerbang Sel dan Split Kronologis)</span>
+    <div><span class="q-badge badge-pg">PG</span> <span class="q-badge badge-hard">Bobot Tinggi</span></div>
+  </div>
+  <div class="q-text">
+    Dalam pemodelan deret waktu menggunakan <b>Long Short-Term Memory (LSTM)</b>, mengapa pembagian data latih dan uji <b>WAJIB KRONOLOGIS</b> (berurutan waktu) dan gerbang apakah yang berfungsi menentukan seberapa banyak memori lama pada <i>Cell State</i> yang harus dibuang?
+  </div>
+  <div class="q-options">
+    <label class="opt" onclick="checkOption(this, true, 'q50')"><input type="radio" name="q50"> A. Split kronologis wajib untuk mencegah kebocoran informasi masa depan (data leakage); gerbang pembuang memori adalah <b>Forget Gate ($f_t$)</b>.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q50')"><input type="radio" name="q50"> B. Split acak lebih disukai; gerbang pembuang memori adalah Input Gate.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q50')"><input type="radio" name="q50"> C. Split kronologis wajib agar fungsi aktivasi sigmoid tidak melompat; gerbang pembuang memori adalah Output Gate.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q50')"><input type="radio" name="q50"> D. Split berstrata wajib; gerbang pembuang memori adalah ReLU Gate.</label>
+    <label class="opt" onclick="checkOption(this, false, 'q50')"><input type="radio" name="q50"> E. Deret waktu tidak memerlukan pembagian data latih dan uji.</label>
+  </div>
+  <button class="toggle-pembahasan" onclick="toggleSolution('sol50')">💡 Tampilkan Pembahasan</button>
+  <div class="pembahasan" id="sol50">
+    <div class="kunci">Kunci Jawaban: A</div>
+    <div class="pembahasan-title">Pembahasan Mendalam:</div>
+    <p>
+      1. Jika data deret waktu diacak secara random, model akan menggunakan informasi masa depan $t+1$ untuk memprediksi masa lalu $t$ (*data leakage*), menghasilkan performa uji yang tampak sempurna palsu.<br>
+      2. <b>Forget Gate</b> $f_t = \sigma(W_f [h_{t-1}, x_t] + b_f)$ mengalikan state sel lama $C_{t-1}$ dengan angka $0 \le f_t \le 1$. Nilai 0 berarti lupakan total informasi lama, sedangkan nilai 1 berarti pertahankan seluruhnya.
+    </p>
+  </div>
+</div>
+
+<!-- ========================================================================= -->
+<!-- BAGIAN II: SOAL ESAI PERHITUNGAN MANUAL (1 s.d. 10) -->
+<!-- ========================================================================= -->
+
+<h2 class="section-title">Bagian II: Soal Esai Perhitungan Manual &amp; Komprehensif (10 Butir)</h2>
+
+<!-- ESAI 1 -->
+<div class="q-card" data-category="esai">
+  <div class="q-header">
+    <span class="q-num">Soal Esai 1. (Sistem Inferensi Fuzzy - Perhitungan Manual Prioritas Kecamatan)</span>
+    <div><span class="q-badge badge-esai">Esai</span> <span class="q-badge badge-hard">Bobot 15%</span></div>
+  </div>
+  <div class="q-text">
+    <p><b>Deskripsi Soal:</b></p>
+    Sebuah kabupaten mengevaluasi prioritas bantuan sosial kecamatan ($z \in [0, 100]$) berdasarkan dua indikator:
+    1. Pengeluaran per kapita ($x$, dalam ribu Rp) dengan semesta $[700, 1000]$:
+       - $\mu_{\text{rendah}}(x) = \frac{1000 - x}{300}$ untuk $700 \le x \le 1000$
+       - $\mu_{\text{tinggi}}(x) = \frac{x - 700}{300}$ untuk $700 \le x \le 1000$
+    2. Akses sanitasi layak ($y$, dalam persen) dengan semesta $[40, 80]$:
+       - $\mu_{\text{buruk}}(y) = \frac{80 - y}{40}$ untuk $40 \le y \le 80$
+       - $\mu_{\text{baik}}(y) = \frac{y - 40}{40}$ untuk $40 \le y \le 80$
+    
+    <p>Basis Aturan Sugeno Orde Nol yang ditetapkan oleh tim ahli adalah:</p>
+    <ul>
+      <li>$R_1$: JIKA $x$ rendah DAN $y$ buruk MAKA prioritas $z = 90$</li>
+      <li>$R_2$: JIKA $x$ rendah DAN $y$ baik MAKA prioritas $z = 65$</li>
+      <li>$R_3$: JIKA $x$ tinggi DAN $y$ buruk MAKA prioritas $z = 55$</li>
+      <li>$R_4$: JIKA $x$ tinggi DAN $y$ baik MAKA prioritas $z = 25$</li>
+    </ul>
+    
+    <b>Tugas Anda:</b><br>
+    Jika Kecamatan Sukamaju memiliki pengeluaran per kapita $x = 850$ ribu Rp dan akses sanitasi $y = 55\%$:
+    <ol type="a">
+      <li>Hitunglah derajat keanggotaan untuk masing-masing peubah masukan!</li>
+      <li>Hitunglah kekuatan penyalaan (firing strength $\alpha_i$) dari keempat aturan menggunakan t-norm minimum!</li>
+      <li>Hitunglah total nilai $\sum_{i=1}^4 \alpha_i$ dan jelaskan mengapa nilai ini tidak selalu sama dengan 1!</li>
+      <li>Lakukan defuzzifikasi Sugeno Orde Nol untuk memperoleh skor prioritas tegas $z^*$!</li>
+    </ol>
+  </div>
+  <button class="toggle-pembahasan" onclick="toggleSolution('sol_esai1')">💡 Tampilkan Pembahasan Lengkap</button>
+  <div class="pembahasan" id="sol_esai1">
+    <div class="pembahasan-title">Solusi &amp; Langkah Hitung Tuntas:</div>
+    <div class="step-box">
+      <div class="step-h">a. Fuzzifikasi Masukan ($x = 850$, $y = 55$)</div>
+      • Pengeluaran $x = 850$:
+      $$\mu_{\text{rendah}}(850) = \frac{1000 - 850}{300} = \frac{150}{300} = \mathbf{0{,}500}$$
+      $$\mu_{\text{tinggi}}(850) = \frac{850 - 700}{300} = \frac{150}{300} = \mathbf{0{,}500}$$
+      • Sanitasi $y = 55$:
+      $$\mu_{\text{buruk}}(55) = \frac{80 - 55}{40} = \frac{25}{40} = \mathbf{0{,}625}$$
+      $$\mu_{\text{baik}}(55) = \frac{55 - 40}{40} = \frac{15}{40} = \mathbf{0{,}375}$$
+    </div>
+
+    <div class="step-box">
+      <div class="step-h">b. Firing Strength Aturan ($\alpha_i = \min$)</div>
+      • $R_1$: $\alpha_1 = \min(\mu_{\text{rendah}}, \mu_{\text{buruk}}) = \min(0{,}500;\, 0{,}625) = \mathbf{0{,}500}$<br>
+      • $R_2$: $\alpha_2 = \min(\mu_{\text{rendah}}, \mu_{\text{baik}}) = \min(0{,}500;\, 0{,}375) = \mathbf{0{,}375}$<br>
+      • $R_3$: $\alpha_3 = \min(\mu_{\text{tinggi}}, \mu_{\text{buruk}}) = \min(0{,}500;\, 0{,}625) = \mathbf{0{,}500}$<br>
+      • $R_4$: $\alpha_4 = \min(\mu_{\text{tinggi}}, \mu_{\text{baik}}) = \min(0{,}500;\, 0{,}375) = \mathbf{0{,}375}$
+    </div>
+
+    <div class="step-box">
+      <div class="step-h">c. Penjumlahan Firing Strength</div>
+      $$\sum_{i=1}^4 \alpha_i = 0{,}500 + 0{,}375 + 0{,}500 + 0{,}375 = \mathbf{1{,}750}$$
+      <b>Penjelasan STIS:</b> Derajat penyalaan aturan fuzzy bukanlah fungsi probabilitas diskrit yang tersumpah berselisih 1, melainkan nilai derajat kebenaran lokal dari masing-masing aturan. Karena operator t-norm minimum memotong anteseden secara bebas, total $\sum \alpha_i$ hampir selalu tidak sama dengan 1.
+    </div>
+
+    <div class="step-box">
+      <div class="step-h">d. Defuzzifikasi Sugeno Orde Nol ($z^*$)</div>
+      Tabel perhitungan terbobot:
+      <table>
+        <tr><th>Aturan</th><th>$\alpha_i$</th><th>$c_i$</th><th>$\alpha_i \cdot c_i$</th></tr>
+        <tr><td>$R_1$</td><td>0,500</td><td>90</td><td>45,000</td></tr>
+        <tr><td>$R_2$</td><td>0,375</td><td>65</td><td>24,375</td></tr>
+        <tr><td>$R_3$</td><td>0,500</td><td>55</td><td>27,500</td></tr>
+        <tr><td>$R_4$</td><td>0,375</td><td>25</td><td>9,375</td></tr>
+        <tr style="font-weight:bold"><td colspan="3">Jumlah</td><td><b>106,250</b></td></tr>
+      </table>
+      $$z^* = \frac{\sum_{i=1}^4 \alpha_i c_i}{\sum_{i=1}^4 \alpha_i} = \frac{106{,}250}{1{,}750} = \mathbf{60{,}714}$$
+      <b>Kesimpulan:</b> Skor prioritas Kecamatan Sukamaju adalah <b>60,71</b> (prioritas sedang-tinggi).
+    </div>
+  </div>
+</div>
+
+<!-- ESAI 2 -->
+<div class="q-card" data-category="esai">
+  <div class="q-header">
+    <span class="q-num">Soal Esai 2. (Fuzzy C-Means - Satu Iterasi Perhitungan Tangan)</span>
+    <div><span class="q-badge badge-esai">Esai</span> <span class="q-badge badge-hard">Bobot 15%</span></div>
+  </div>
+  <div class="q-text">
+    <p><b>Deskripsi Soal:</b></p>
+    Diberikan 5 titik data satu dimensi: $X = \{2, 3, 4, 8, 9\}$.<br>
+    Parameter: jumlah klaster $c = 2$, fuzzifier $m = 2$.<br>
+    Pusat awal ditetapkan pada: $v_1 = 3{,}0$ dan $v_2 = 8{,}0$.<br>
+    
+    <b>Tugas Anda:</b>
+    <ol type="a">
+      <li>Hitunglah matriks keanggotaan awal $U^{(1)}$ ($5 \times 2$) untuk seluruh amatan! (Tunjukkan perhitungan detail untuk $x_1 = 2$ dan amatan khusus $x_2 = 3$ yang berimpit dengan pusat).</li>
+      <li>Hitunglah posisi pusat klaster baru $v_1^{(1)}$ dan $v_2^{(1)}$ setelah iterasi pertama!</li>
+      <li>Jelaskan bagaimana sifat fungsi objektif $J_m$ pada optimisasi berselang-seling ini dan apa jaminan konvergensinya!</li>
+    </ol>
+  </div>
+  <button class="toggle-pembahasan" onclick="toggleSolution('sol_esai2')">💡 Tampilkan Pembahasan Lengkap</button>
+  <div class="pembahasan" id="sol_esai2">
+    <div class="pembahasan-title">Solusi &amp; Langkah Hitung Tuntas:</div>
+    <div class="step-box">
+      <div class="step-h">a. Menghitung Matriks Keanggotaan $U$</div>
+      Rumus: $u_{ij} = \left[ \sum_{l=1}^2 \left(\frac{d_{ij}}{d_{il}}\right)^{\frac{2}{m-1}} \right]^{-1}$. Karena $m = 2 \implies \frac{2}{m-1} = 2$.
+      <br><br>
+      • <b>Untuk $x_1 = 2$:</b> $d_{11} = |2 - 3| = 1$; $d_{12} = |2 - 8| = 6$.
+      $$u_{11} = \frac{1/1^2}{1/1^2 + 1/6^2} = \frac{1}{1 + 1/36} = \frac{36}{37} \approx \mathbf{0{,}9730}; \quad u_{12} = 1 - 0{,}9730 = \mathbf{0{,}0270}$$
+      • <b>Untuk $x_2 = 3$:</b> Titik $x_2$ berimpit dengan $v_1$ ($d_{21} = 0$). Sesuai kaidah limit FCM:
+      $$u_{21} = \mathbf{1{,}0000}; \quad u_{22} = \mathbf{0{,}0000}$$
+      • <b>Untuk $x_3 = 4$:</b> $d_{31} = |4 - 3| = 1$; $d_{32} = |4 - 8| = 4$.
+      $$u_{31} = \frac{1/1^2}{1/1^2 + 1/4^2} = \frac{1}{1 + 1/16} = \frac{16}{17} \approx \mathbf{0{,}9412}; \quad u_{32} = 1 - 0{,}9412 = \mathbf{0{,}0588}$$
+      • <b>Untuk $x_4 = 8$:</b> Berimpit dengan $v_2$ ($d_{42} = 0$).
+      $$u_{41} = \mathbf{0{,}0000}; \quad u_{42} = \mathbf{1{,}0000}$$
+      • <b>Untuk $x_5 = 9$:</b> $d_{51} = |9 - 3| = 6$; $d_{52} = |9 - 8| = 1$.
+      $$u_{51} = \frac{1/36}{1/36 + 1/1} = \frac{1}{37} \approx \mathbf{0{,}0270}; \quad u_{52} = \mathbf{0{,}9730}$$
+    </div>
+
+    <div class="step-box">
+      <div class="step-h">b. Menghitung Pusat Klaster Baru ($v_j$)</div>
+      Rumus: $v_j = \frac{\sum_{i=1}^5 u_{ij}^2 \cdot x_i}{\sum_{i=1}^5 u_{ij}^2}$.<br>
+      • Untuk Klaster 1:
+      $$\sum u_{i1}^2 = (0{,}9730)^2 + 1^2 + (0{,}9412)^2 + 0^2 + (0{,}0270)^2 \approx 0{,}9467 + 1 + 0{,}8859 + 0 + 0{,}0007 = \mathbf{2{,}8333}$$
+      $$\sum u_{i1}^2 x_i = (0{,}9467 \times 2) + (1 \times 3) + (0{,}8859 \times 4) + 0 + (0{,}0007 \times 9)$$
+      $$= 1{,}8934 + 3{,}0000 + 3{,}5436 + 0{,}0063 = \mathbf{8{,}4433}$$
+      $$v_1^{(1)} = \frac{8{,}4433}{2{,}8333} \approx \mathbf{2{,}980}$$
+      • Untuk Klaster 2:
+      $$\sum u_{i2}^2 = (0{,}0270)^2 + 0^2 + (0{,}0588)^2 + 1^2 + (0{,}9730)^2 \approx 0{,}0007 + 0 + 0{,}0035 + 1 + 0{,}9467 = \mathbf{1{,}9509}$$
+      $$\sum u_{i2}^2 x_i = (0{,}0007 \times 2) + 0 + (0{,}035 \times 4) + (1 \times 8) + (0{,}9467 \times 9)$$
+      $$= 0{,}0014 + 0 + 0{,}0140 + 8{,}0000 + 8{,}5203 = \mathbf{16{,}5357}$$
+      $$v_2^{(1)} = \frac{16{,}5357}{1{,}9509} \approx \mathbf{8{,}476}$$
+    </div>
+
+    <div class="step-box">
+      <div class="step-h">c. Sifat Konvergensi Fungsi Objektif</div>
+      Pada setiap iterasi pembaruan berselang-seling, nilai fungsi objektif $J_m$ <b>dijamin selalu menurun secara monoton</b> ($J^{(0)} = 2{,}887 \to J^{(1)} = 2{,}425$). Namun, FCM hanya menjamin konvergensi ke <b>optimum lokal</b> (bukan global), sehingga sensitif terhadap pemilihan pusat awal.
+    </div>
+  </div>
+</div>
+
+<!-- ESAI 3 -->
+<div class="q-card" data-category="esai">
+  <div class="q-header">
+    <span class="q-num">Soal Esai 3. (Bi-Clustering - Cheng & Church MSR)</span>
+    <div><span class="q-badge badge-esai">Esai</span> <span class="q-badge badge-hard">Bobot 10%</span></div>
+  </div>
+  <div class="q-text">
+    <p><b>Deskripsi Soal:</b></p>
+    Diberikan sebuah submatriks ekspresi gen/kondisi berukuran $3 \times 3$ sebagai berikut:
+    <table>
+      <tr><th>Gen \ Kondisi</th><th>$C_1$</th><th>$C_2$</th><th>$C_3$</th></tr>
+      <tr><th>$G_1$</th><td>10</td><td>12</td><td>14</td></tr>
+      <tr><th>$G_2$</th><td>15</td><td>17</td><td>19</td></tr>
+      <tr><th>$G_3$</th><td>20</td><td>22</td><td>24</td></tr>
+    </table>
+    
+    <b>Tugas Anda:</b>
+    <ol type="a">
+      <li>Hitunglah rata-rata setiap baris ($a_{iJ}$), rata-rata setiap kolom ($a_{Ij}$), dan rata-rata keseluruhan matriks ($a_{IJ}$)!</li>
+      <li>Hitunglah nilai residu sel $r_{ij} = a_{ij} - a_{iJ} - a_{Ij} + a_{IJ}$ untuk setiap sel!</li>
+      <li>Berapakah nilai Mean Squared Residue (MSR) $H(I, J)$ dari submatriks tersebut? Berikan interpretasi geometris tipe bicluster ini!</li>
+    </ol>
+  </div>
+  <button class="toggle-pembahasan" onclick="toggleSolution('sol_esai3')">💡 Tampilkan Pembahasan Lengkap</button>
+  <div class="pembahasan" id="sol_esai3">
+    <div class="pembahasan-title">Solusi &amp; Langkah Hitung Tuntas:</div>
+    <div class="step-box">
+      <div class="step-h">a. Menghitung Rata-rata Marjinal</div>
+      • Rata-rata Baris:
+      $a_{1J} = \frac{10+12+14}{3} = 12$; $a_{2J} = \frac{15+17+19}{3} = 17$; $a_{3J} = \frac{20+22+24}{3} = 22$.<br>
+      • Rata-rata Kolom:
+      $a_{I1} = \frac{10+15+20}{3} = 15$; $a_{I2} = \frac{12+17+22}{3} = 17$; $a_{I3} = \frac{14+19+24}{3} = 19$.<br>
+      • Rata-rata Total Matriks:
+      $a_{IJ} = \frac{12 + 17 + 22}{3} = \mathbf{17}$.
+    </div>
+
+    <div class="step-box">
+      <div class="step-h">b. Menghitung Residu Sel ($r_{ij}$)</div>
+      $$r_{ij} = a_{ij} - a_{iJ} - a_{Ij} + a_{IJ}$$
+      • Baris 1:
+      $r_{11} = 10 - 12 - 15 + 17 = \mathbf{0}$<br>
+      $r_{12} = 12 - 12 - 17 + 17 = \mathbf{0}$<br>
+      $r_{13} = 14 - 12 - 19 + 17 = \mathbf{0}$<br>
+      • Baris 2:
+      $r_{21} = 15 - 17 - 15 + 17 = \mathbf{0}$<br>
+      $r_{22} = 17 - 17 - 17 + 17 = \mathbf{0}$<br>
+      $r_{23} = 19 - 17 - 19 + 17 = \mathbf{0}$<br>
+      • Baris 3:
+      $r_{31} = 20 - 22 - 15 + 17 = \mathbf{0}$<br>
+      $r_{32} = 22 - 22 - 17 + 17 = \mathbf{0}$<br>
+      $r_{33} = 24 - 22 - 19 + 17 = \mathbf{0}$
+    </div>
+
+    <div class="step-box">
+      <div class="step-h">c. Nilai MSR &amp; Tipe Bicluster</div>
+      $$H(I, J) = \frac{1}{3 \times 3} \sum_{i=1}^3 \sum_{j=1}^3 r_{ij}^2 = \frac{0}{9} = \mathbf{0}$$
+      <b>Interpretasi:</b> Submatriks ini memiliki MSR $= 0$, yang menandakan sebuah <b>Bicluster Aditif Sempurna (Coherent Values with Additive Model)</b>. Hubungan linier antar baris sejajar sempurna: nilai profil gen naik secara paralel dengan selisih tetap $+5$ antar-gen dan $+2$ antar-kondisi ($a_{ij} = \mu + \alpha_i + \beta_j$).
+    </div>
+  </div>
+</div>
+
+<!-- ESAI 4 -->
+<div class="q-card" data-category="esai">
+  <div class="q-header">
+    <span class="q-num">Soal Esai 4. (Klasifikasi Imbalance & Threshold Moving)</span>
+    <div><span class="q-badge badge-esai">Esai</span> <span class="q-badge badge-hard">Bobot 10%</span></div>
+  </div>
+  <div class="q-text">
+    <p><b>Deskripsi Soal:</b></p>
+    Dalam mendeteksi fraud penerima bantuan sosial (target: fraud = 1, jujur = 0), model memprediksi probabilitas kecurangan. Dari data uji 500 amatan, dilakukan evaluasi pada 4 pilihan ambang batas ($p^*$):
+    <table>
+      <tr><th>Ambang ($p^*$)</th><th>True Positive (TP)</th><th>False Positive (FP)</th><th>False Negative (FN)</th><th>True Negative (TN)</th></tr>
+      <tr><td>0,50 (baku)</td><td>15</td><td>5</td><td>35</td><td>445</td></tr>
+      <tr><td>0,30</td><td>35</td><td>20</td><td>15</td><td>430</td></tr>
+      <tr><td>0,20</td><td>45</td><td>45</td><td>5</td><td>405</td></tr>
+      <tr><td>0,10</td><td>48</td><td>90</td><td>2</td><td>360</td></tr>
+    </table>
+    
+    <b>Tugas Anda:</b>
+    <ol type="a">
+      <li>Hitung Sensitivitas dan Spesifisitas untuk masing-masing ambang batas!</li>
+      <li>Hitung Indeks Youden ($J = \text{Sens} + \text{Spec} - 1$) untuk keempat ambang tersebut!</li>
+      <li>Berdasarkan kriteria Youden, ambang manakah yang optimal? Jelaskan pertimbangan kebijakan publik jika instansi sangat mementingkan tidak adanya fraud yang lolos!</li>
+    </ol>
+  </div>
+  <button class="toggle-pembahasan" onclick="toggleSolution('sol_esai4')">💡 Tampilkan Pembahasan Lengkap</button>
+  <div class="pembahasan" id="sol_esai4">
+    <div class="pembahasan-title">Solusi &amp; Langkah Hitung Tuntas:</div>
+    <div class="step-box">
+      Total kasus fraud sebenarnya $= TP + FN = 15 + 35 = 50$ amatan.<br>
+      Total kasus jujur sebenarnya $= FP + TN = 5 + 445 = 450$ amatan.<br><br>
+      <table>
+        <tr><th>Ambang $p^*$</th><th>Sensitivitas ($TP / 50$)</th><th>Spesifisitas ($TN / 450$)</th><th>Indeks Youden ($J$)</th></tr>
+        <tr><td>0,50</td><td>$15/50 = 0{,}300$</td><td>$445/450 = 0{,}9889$</td><td>$0{,}300 + 0{,}9889 - 1 = \mathbf{0{,}2889}$</td></tr>
+        <tr><td>0,30</td><td>$35/50 = 0{,}700$</td><td>$430/450 = 0{,}9556$</td><td>$0{,}700 + 0{,}9556 - 1 = \mathbf{0{,}6556}$</td></tr>
+        <tr><td><b>0,20</b></td><td>$45/50 = \mathbf{0{,}900}$</td><td>$405/450 = \mathbf{0{,}9000}$</td><td>$0{,}900 + 0{,}9000 - 1 = \mathbf{0{,}8000}$ (MAKSIMAL)</td></tr>
+        <tr><td>0,10</td><td>$48/50 = 0{,}960$</td><td>$360/450 = 0{,}8000$</td><td>$0{,}960 + 0{,}8000 - 1 = \mathbf{0{,}7600}$</td></tr>
+      </table>
+    </div>
+    <div class="step-box">
+      <div class="step-h">Kesimpulan &amp; Rekomendasi Kebijakan</div>
+      1. Secara matematis, ambang <b>$p^* = 0{,}20$</b> adalah yang paling optimal karena menghasilkan Indeks Youden tertinggi ($J = 0{,}8000$) dengan keseimbangan sangat baik (Sensitivitas 90%, Spesifisitas 90%).<br>
+      2. Namun jika instansi memiliki mandat hukum ketat di mana <i>fraud yang lolos harus ditekan semaksimal mungkin</i> (biaya FN sangat mahal), instansi dapat memilih ambang <b>$p^* = 0{,}10$</b> (Sensitivitas 96%, hanya 2 fraud yang lolos) dengan konsekuensi harus melakukan verifikasi faktual lapangan pada lebih banyak amatan (FP meningkat menjadi 90).
+    </div>
+  </div>
+</div>
+
+<!-- ESAI 5 -->
+<div class="q-card" data-category="esai">
+  <div class="q-header">
+    <span class="q-num">Soal Esai 5. (Association Rules - Penambangan Manual)</span>
+    <div><span class="q-badge badge-esai">Esai</span> <span class="q-badge badge-hard">Bobot 10%</span></div>
+  </div>
+  <div class="q-text">
+    <p><b>Deskripsi Soal:</b></p>
+    Diberikan basis data transaksi ritel sederhana berisi 5 transaksi:
+    <ul>
+      <li>$T_1$: {Beras, Telur, Minyak}</li>
+      <li>$T_2$: {Beras, Gula, Minyak}</li>
+      <li>$T_3$: {Beras, Telur}</li>
+      <li>$T_4$: {Telur, Minyak}</li>
+      <li>$T_5$: {Beras, Telur, Minyak, Gula}</li>
+    </ul>
+    Ditetapkan ambang minimum support $\text{minsup} = 40\%$ (minimal muncul di 2 transaksi) dan minimum confidence $\text{minconf} = 60\%$.
+    
+    <b>Tugas Anda:</b>
+    <ol type="a">
+      <li>Daftarkan seluruh 1-itemset dan 2-itemset yang memenuhi minsup (frequent)!</li>
+      <li>Hitunglah Support, Confidence, dan Lift untuk aturan: $\{\text{Beras}, \text{Minyak}\} \Rightarrow \{\text{Telur}\}$!</li>
+      <li>Apakah aturan tersebut lolos kriteria dan bernilai bisnis? Jelaskan!</li>
+    </ol>
+  </div>
+  <button class="toggle-pembahasan" onclick="toggleSolution('sol_esai5')">💡 Tampilkan Pembahasan Lengkap</button>
+  <div class="pembahasan" id="sol_esai5">
+    <div class="pembahasan-title">Solusi &amp; Langkah Hitung Tuntas:</div>
+    <div class="step-box">
+      Total transaksi $N = 5$. Syarat minsup $40\% = 2$ transaksi.<br>
+      • <b>1-itemset:</b><br>
+      - {Beras}: 4 transaksi ($80\%$) $\checkmark$<br>
+      - {Telur}: 4 transaksi ($80\%$) $\checkmark$<br>
+      - {Minyak}: 4 transaksi ($80\%$) $\checkmark$<br>
+      - {Gula}: 2 transaksi ($40\%$) $\checkmark$<br>
+      • <b>2-itemset:</b><br>
+      - {Beras, Telur}: muncul di $T_1, T_3, T_5 \implies 3$ kali ($60\%$) $\checkmark$<br>
+      - {Beras, Minyak}: muncul di $T_1, T_2, T_5 \implies 3$ kali ($60\%$) $\checkmark$<br>
+      - {Beras, Gula}: muncul di $T_2, T_5 \implies 2$ kali ($40\%$) $\checkmark$<br>
+      - {Telur, Minyak}: muncul di $T_1, T_4, T_5 \implies 3$ kali ($60\%$) $\checkmark$<br>
+      - {Telur, Gula}: muncul di $T_5 \implies 1$ kali ($20\%$, gugur $\times$)<br>
+      - {Minyak, Gula}: muncul di $T_2, T_5 \implies 2$ kali ($40\%$) $\checkmark$
+    </div>
+
+    <div class="step-box">
+      <div class="step-h">Evaluasi Aturan $\{\text{Beras}, \text{Minyak}\} \Rightarrow \{\text{Telur}\}$</div>
+      • Himpunan gabungan: $\{\text{Beras}, \text{Minyak}, \text{Telur}\}$ muncul di $T_1, T_5 \implies 2$ kali ($40\%$).<br>
+      • Support aturan: $\text{Supp} = \frac{2}{5} = \mathbf{0{,}40}$ (Lolos minsup 40%).<br>
+      • Confidence: $\text{Conf} = \frac{\text{Supp}(\{\text{Beras}, \text{Minyak}, \text{Telur}\})}{\text{Supp}(\{\text{Beras}, \text{Minyak}\})} = \frac{2/5}{3/5} = \frac{2}{3} \approx \mathbf{0{,}6667}$ (66,67% $\implies$ Lolos minconf 60%).<br>
+      • Lift: $\text{Lift} = \frac{\text{Conf}}{\text{Supp}(\{\text{Telur}\})} = \frac{2/3}{4/5} = \frac{2/3}{0{,}8} = \frac{10}{12} \approx \mathbf{0{,}8333}$.
+    </div>
+
+    <div class="step-box">
+      <div class="step-h">Kesimpulan Bisnis</div>
+      Meskipun aturan ini lolos ambang batas support ($40\%$) dan confidence ($66{,}67\%$), aturan ini <b>TIDAK bernilai bisnis</b> karena nilai $\text{Lift} = 0{,}8333 < 1$. Angka confidence 66,7% sebenarnya lebih rendah daripada frekuensi pembelian telur secara umum di seluruh populasi (80%). Menaruh beras dan minyak bersamaan tidak mendorong pembelian telur.
+    </div>
+  </div>
+</div>
+
+<!-- ESAI 6 -->
+<div class="q-card" data-category="esai">
+  <div class="q-header">
+    <span class="q-num">Soal Esai 6. (DBSCAN & OPTICS - Analisis Spasial)</span>
+    <div><span class="q-badge badge-esai">Esai</span> <span class="q-badge badge-hard">Bobot 10%</span></div>
+  </div>
+  <div class="q-text">
+    <p><b>Deskripsi Soal:</b></p>
+    Diberikan 4 titik data pada bidang 2D: $A(1, 1)$, $B(2, 1)$, $C(2, 2)$, dan $D(5, 5)$.<br>
+    Parameter DBSCAN yang digunakan: $\varepsilon = 1{,}5$ dan $\text{MinPts} = 3$ (menggunakan jarak Euclidean biasa).
+    
+    <b>Tugas Anda:</b>
+    <ol type="a">
+      <li>Hitung matriks jarak Euclidean antar seluruh pasangan titik!</li>
+      <li>Tentukan isi lingkungan tetangga $N_\varepsilon$ untuk masing-masing titik!</li>
+      <li>Klasifikasikan titik-titik tersebut ke dalam Core, Border, atau Noise Point!</li>
+      <li>Jelaskan klaster yang terbentuk pada hasil akhir DBSCAN!</li>
+    </ol>
+  </div>
+  <button class="toggle-pembahasan" onclick="toggleSolution('sol_esai6')">💡 Tampilkan Pembahasan Lengkap</button>
+  <div class="pembahasan" id="sol_esai6">
+    <div class="pembahasan-title">Solusi &amp; Langkah Hitung Tuntas:</div>
+    <div class="step-box">
+      <div class="step-h">a. Matriks Jarak Euclidean ($d = \sqrt{(x_1-x_2)^2 + (y_1-y_2)^2}$)</div>
+      • $d(A, B) = \sqrt{(1-2)^2 + (1-1)^2} = 1{,}00$<br>
+      • $d(A, C) = \sqrt{(1-2)^2 + (1-2)^2} = \sqrt{1 + 1} \approx 1{,}414$<br>
+      • $d(B, C) = \sqrt{(2-2)^2 + (1-2)^2} = 1{,}00$<br>
+      • $d(A, D) = \sqrt{(1-5)^2 + (1-5)^2} = \sqrt{16+16} \approx 5{,}657$<br>
+      • $d(B, D) = \sqrt{(2-5)^2 + (1-5)^2} = \sqrt{9+16} = 5{,}00$<br>
+      • $d(C, D) = \sqrt{(2-5)^2 + (2-5)^2} = \sqrt{9+9} \approx 4{,}243$
+    </div>
+
+    <div class="step-box">
+      <div class="step-h">b. Lingkungan Tetangga $N_{\varepsilon = 1{,}5}$</div>
+      • $N_\varepsilon(A)$: $d(A,A)=0, d(A,B)=1, d(A,C)=1{,}414 \implies \{A, B, C\}$ (Jumlah = 3)<br>
+      • $N_\varepsilon(B)$: $d(B,B)=0, d(B,A)=1, d(B,C)=1 \implies \{B, A, C\}$ (Jumlah = 3)<br>
+      • $N_\varepsilon(C)$: $d(C,C)=0, d(C,A)=1{,}414, d(C,B)=1 \implies \{C, A, B\}$ (Jumlah = 3)<br>
+      • $N_\varepsilon(D)$: Hanya dirinya sendiri $\{D\}$ (Jumlah = 1)
+    </div>
+
+    <div class="step-box">
+      <div class="step-h">c. Klasifikasi Titik ($\text{MinPts} = 3$)</div>
+      • Titik $A$: $|N_\varepsilon(A)| = 3 \ge 3 \implies$ <b>Core Point</b>.<br>
+      • Titik $B$: $|N_\varepsilon(B)| = 3 \ge 3 \implies$ <b>Core Point</b>.<br>
+      • Titik $C$: $|N_\varepsilon(C)| = 3 \ge 3 \implies$ <b>Core Point</b>.<br>
+      • Titik $D$: $|N_\varepsilon(D)| = 1 < 3$ dan tidak berada dalam radius core mana pun $\implies$ <b>Noise Point</b>.
+    </div>
+
+    <div class="step-box">
+      <div class="step-h">d. Klaster Akhir yang Terbentuk</div>
+      Karena $A, B, C$ semuanya adalah Core Point dan saling bertetangga, mereka saling <i>density-connected</i>.<br>
+      Hasil DBSCAN membentuk <b>1 Klaster</b>: $\{A, B, C\}$, sedangkan titik $D$ dinyatakan sebagai <b>Noise/Outlier</b>.
+    </div>
+  </div>
+</div>
+
+<!-- ESAI 7 -->
+<div class="q-card" data-category="esai">
+  <div class="q-header">
+    <span class="q-num">Soal Esai 7. (Hopkins Statistic & Clustering Tendency)</span>
+    <div><span class="q-badge badge-esai">Esai</span> <span class="q-badge badge-hard">Bobot 10%</span></div>
+  </div>
+  <div class="q-text">
+    <p><b>Deskripsi Soal:</b></p>
+    Sebelum melakukan segmentasi wilayah berdasarkan data kemiskinan dan ketenagakerjaan, seorang fungsional statistisi BPS melakukan pengujian kecenderungan berklaster menggunakan <b>Hopkins Statistic ($H$)</b>.
+    
+    <b>Tugas Anda:</b>
+    <ol type="a">
+      <li>Tuliskan formulasi matematis statistik Hopkins $H$ dan jelaskan arti masing-masing variabel $u_i$ dan $w_i$!</li>
+      <li>Tuliskan rumusan hipotesis nol ($H_0$) dan hipotesis alternatif ($H_1$) dari uji Hopkins ini!</li>
+      <li>Jika diperoleh nilai hitung $H = 0{,}48$, apakah rekomendasi yang harus diberikan kepada tim pimpinan? Mengapa memaksakan K-Means pada data tersebut berbahaya?</li>
+    </ol>
+  </div>
+  <button class="toggle-pembahasan" onclick="toggleSolution('sol_esai7')">💡 Tampilkan Pembahasan Lengkap</button>
+  <div class="pembahasan" id="sol_esai7">
+    <div class="pembahasan-title">Solusi &amp; Langkah Hitung Tuntas:</div>
+    <div class="step-box">
+      <div class="step-h">a. Formulasi Matematis Hopkins Statistic</div>
+      $$H = \frac{\sum_{i=1}^p w_i}{\sum_{i=1}^p u_i + \sum_{i=1}^p w_i}$$
+      Di mana:
+      • $p$ = jumlah sampel acak.<br>
+      • $u_i$ = jarak dari titik sintetis berdistribusi seragam ($y_i \in Y$) ke tetangga terdekatnya di data asli $D$.<br>
+      • $w_i$ = jarak dari sampel titik data asli ($x_i \in X$) ke tetangga terdekatnya di $D \setminus \{x_i\}$.
+    </div>
+
+    <div class="step-box">
+      <div class="step-h">b. Hipotesis Pengujian</div>
+      • $H_0$: Data berdistribusi seragam secara spasial (data tidak memiliki kecenderungan membentuk klaster alami / acak murni).<br>
+      • $H_1$: Data tidak berdistribusi seragam (data memiliki struktur pengelompokan yang bermakna secara spasial).
+    </div>
+
+    <div class="step-box">
+      <div class="step-h">c. Analisis Kasus $H = 0{,}48$ &amp; Bahaya Ilusi Klaster</div>
+      Nilai $H = 0{,}48 \approx 0{,}50$ menunjukkan bahwa jarak antar titik riil sama besarnya dengan jarak titik sintetis seragam. <b>Gagal tolak $H_0$</b>.<br>
+      <b>Rekomendasi:</b> <b>Jangan lakukan analisis klaster!</b><br>
+      <b>Bahaya Ilusi Klaster:</b> Algoritma partisi seperti K-Means akan <i>selalu</i> membagi data ke dalam $k$ kelompok dan menghasilkan output klaster bagaimanapun bentuk datanya, bahkan pada data derau acak murni sekalipun. Memaksakan K-Means pada $H \approx 0{,}5$ akan menghasilkan "klaster fiktif" yang tidak memiliki substansi kebijakan riil di lapangan.
+    </div>
+  </div>
+</div>
+
+<!-- ESAI 8 -->
+<div class="q-card" data-category="esai">
+  <div class="q-header">
+    <span class="q-num">Soal Esai 8. (Metrik Validasi Klaster - Perhitungan Silhouette)</span>
+    <div><span class="q-badge badge-esai">Esai</span> <span class="q-badge badge-hard">Bobot 10%</span></div>
+  </div>
+  <div class="q-text">
+    <p><b>Deskripsi Soal:</b></p>
+    Diberikan sebuah partisi hasil pengelompokan dengan 2 klaster:
+    • Klaster 1: $C_1 = \{P_1(1, 1), P_2(1, 2)\}$<br>
+    • Klaster 2: $C_2 = \{Q_1(4, 1), Q_2(4, 2)\}$<br>
+    
+    <b>Tugas Anda:</b>
+    <ol type="a">
+      <li>Hitunglah nilai $a(P_1)$ (jarak rata-rata intra-klaster) dan $b(P_1)$ (jarak rata-rata inter-klaster terdekat) untuk titik $P_1$!</li>
+      <li>Hitunglah koefisien Silhouette $s(P_1)$ untuk titik $P_1$!</li>
+      <li>Secara simetri, berapa rata-rata nilai Silhouette seluruh partisi ($\bar{S}$)? Berikan interpretasi menurut kriteria Kaufman &amp; Rousseeuw!</li>
+    </ol>
+  </div>
+  <button class="toggle-pembahasan" onclick="toggleSolution('sol_esai8')">💡 Tampilkan Pembahasan Lengkap</button>
+  <div class="pembahasan" id="sol_esai8">
+    <div class="pembahasan-title">Solusi &amp; Langkah Hitung Tuntas:</div>
+    <div class="step-box">
+      <div class="step-h">a. Menghitung $a(P_1)$ dan $b(P_1)$</div>
+      Titik $P_1 = (1, 1)$.<br>
+      • Jarak ke anggota sesama Klaster 1 ($P_2 = (1, 2)$):
+      $$a(P_1) = d(P_1, P_2) = \sqrt{(1-1)^2 + (1-2)^2} = \mathbf{1{,}00}$$
+      • Jarak ke anggota Klaster tetangga terdekat ($C_2$):
+      $$d(P_1, Q_1) = \sqrt{(1-4)^2 + (1-1)^2} = 3{,}00$$
+      $$d(P_1, Q_2) = \sqrt{(1-4)^2 + (1-2)^2} = \sqrt{9 + 1} = \sqrt{10} \approx 3{,}162$$
+      $$b(P_1) = \frac{3{,}00 + 3{,}162}{2} = \mathbf{3{,}081}$$
+    </div>
+
+    <div class="step-box">
+      <div class="step-h">b. Menghitung Koefisien Silhouette $s(P_1)$</div>
+      $$s(P_1) = \frac{b(P_1) - a(P_1)}{\max(a(P_1), b(P_1))} = \frac{3{,}081 - 1{,}00}{\max(1{,}00;\, 3{,}081)} = \frac{2{,}081}{3{,}081} \approx \mathbf{0{,}6754}$$
+    </div>
+
+    <div class="step-box">
+      <div class="step-h">c. Rata-rata Silhouette Seluruh Partisi &amp; Interpretasi</div>
+      Berdasarkan simetri geometri persegi panjang, seluruh titik ($P_1, P_2, Q_1, Q_2$) memiliki nilai siluet yang sama persis $\approx 0{,}675$.<br>
+      Maka rata-rata Silhouette: $\bar{S} \approx \mathbf{0{,}68}$.<br>
+      <b>Interpretasi Kaufman &amp; Rousseeuw:</b> Nilai $\bar{S} \in [0{,}51;\, 0{,}70]$ mengindikasikan bahwa partisi ini memiliki <b>struktur klaster yang masuk akal dan meyakinkan (reasonable structure)</b>. Jarak pemisahan antar-klaster (3 unit) jauh melampaui diameter dalam klaster (1 unit).
+    </div>
+  </div>
+</div>
+
+<!-- ESAI 9 -->
+<div class="q-card" data-category="esai">
+  <div class="q-header">
+    <span class="q-num">Soal Esai 9. (Data Bertingkat & Algoritma GPBoost)</span>
+    <div><span class="q-badge badge-esai">Esai</span> <span class="q-badge badge-hard">Bobot 10%</span></div>
+  </div>
+  <div class="q-text">
+    <p><b>Deskripsi Soal:</b></p>
+    Dalam kajian Modul 13 Buku Praktikum DMBD, dilakukan pemodelan pengeluaran rumah tangga menggunakan data bertingkat di mana rumah tangga bersarang dalam 50 kabupaten. Hasil dekomposisi ragam model intersep acak menunjukkan variansi antar-kabupaten $\sigma_b^2 = 18{,}5$ dan variansi galat dalam-kabupaten $\sigma_\varepsilon^2 = 81{,}5$.
+    
+    <b>Tugas Anda:</b>
+    <ol type="a">
+      <li>Hitunglah nilai Koefisien Korelasi Intrakelas (ICC)!</li>
+      <li>Jelaskan secara teoritis mengapa model regresi linier OLS standar maupun XGBoost standar akan menghasilkan estimasi galat baku yang bias (terlalu optimis) pada kondisi ICC ini!</li>
+      <li>Jelaskan bagaimana algoritma <b>GPBoost</b> mengintegrasikan Gradient Tree-Boosting dan Gaussian Process / Linear Mixed Models untuk menyelesaikan masalah tersebut!</li>
+    </ol>
+  </div>
+  <button class="toggle-pembahasan" onclick="toggleSolution('sol_esai9')">💡 Tampilkan Pembahasan Lengkap</button>
+  <div class="pembahasan" id="sol_esai9">
+    <div class="pembahasan-title">Solusi &amp; Langkah Hitung Tuntas:</div>
+    <div class="step-box">
+      <div class="step-h">a. Menghitung Intraclass Correlation (ICC)</div>
+      $$\text{ICC} = \frac{\sigma_b^2}{\sigma_b^2 + \sigma_\varepsilon^2} = \frac{18{,}5}{18{,}5 + 81{,}5} = \frac{18{,}5}{100{,}0} = \mathbf{0{,}185} \quad (18{,}5\%)$$
+    </div>
+
+    <div class="step-box">
+      <div class="step-h">b. Bahaya OLS &amp; Standar Tree-Boosting</div>
+      Dengan $\text{ICC} = 18{,}5\% > 5\%$, amatan di dalam satu kabupaten saling berkorelasi secara positif (melanggar asumsi i.i.d.).<br>
+      • <b>Pada OLS:</b> Matriks kovarians galat bukan lagi $\sigma^2 I$, melainkan berbentuk blok diagonal. OLS akan meremehkan galat baku koefisien (standar error terlalu kecil semu), menyebabkan nilai $p$-value terlalu kecil dan menghasilkan variabel yang tampak signifikan padahal tidak (kesalahan Tipe I).<br>
+      • <b>Pada XGBoost biasa:</b> Memasukkan kode kabupaten sebagai peubah kategorik biasa akan menyebabkan overfitting parah pada kabupaten dengan sampel sedikit, dan gagal menangkap struktur korelasi acak wilayah.
+    </div>
+
+    <div class="step-box">
+      <div class="step-h">c. Mekanisme Kerja GPBoost (Sigrist 2022)</div>
+      GPBoost memisahkan model menjadi dua komponen:
+      $$y = F(X) + Z b + \varepsilon, \quad b \sim N(0, \Sigma)$$
+      1. Komponen $F(X)$ adalah fungsi non-linier peubah level individu/rumah tangga yang ditaksir menggunakan <b>Gradient Tree-Boosting</b>.<br>
+      2. Komponen $Z b$ adalah efek acak pengelompokan wilayah yang ditaksir menggunakan <b>Linear Mixed Model / Gaussian Process</b>.<br>
+      Algoritma melakukan optimisasi bergantian (alternating): pohon dibentuk untuk memprediksi residu dari komponen efek acak, lalu parameter variansi efek acak diestimasi ulang menggunakan Restricted Maximum Likelihood (REML).
+    </div>
+  </div>
+</div>
+
+<!-- ESAI 10 -->
+<div class="q-card" data-category="esai">
+  <div class="q-header">
+    <span class="q-num">Soal Esai 10. (LSTM Deret Waktu - Tiga Gerbang Matematis)</span>
+    <div><span class="q-badge badge-esai">Esai</span> <span class="q-badge badge-hard">Bobot 10%</span></div>
+  </div>
+  <div class="q-text">
+    <p><b>Deskripsi Soal:</b></p>
+    Modul 16 Buku Praktikum membahas pemodelan peramalan deret waktu statistik resmi menggunakan arsitektur <b>Long Short-Term Memory (LSTM)</b>.
+    
+    <b>Tugas Anda:</b>
+    <ol type="a">
+      <li>Tuliskan persamaan matematis lengkap untuk ketiga gerbang utama sel LSTM: <i>Forget Gate ($f_t$)</i>, <i>Input Gate ($i_t$)</i>, dan <i>Output Gate ($o_t$)</i>!</li>
+      <li>Tuliskan persamaan pembaruan <i>Cell State ($C_t$)</i> dan <i>Hidden State ($h_t$)</i>! Jelaskan fungsi fungsi aktivasi $\tanh$ pada pembaruan tersebut!</li>
+      <li>Jelaskan apa yang dimaksud dengan <i>Data Leakage</i> pada peramalan deret waktu dan bagaimana metode pembagian data (split) yang benar untuk mencegahnya!</li>
+    </ol>
+  </div>
+  <button class="toggle-pembahasan" onclick="toggleSolution('sol_esai10')">💡 Tampilkan Pembahasan Lengkap</button>
+  <div class="pembahasan" id="sol_esai10">
+    <div class="pembahasan-title">Solusi &amp; Langkah Hitung Tuntas:</div>
+    <div class="step-box">
+      <div class="step-h">a. Persamaan Tiga Gerbang LSTM</div>
+      Dengan masukan langkah saat ini $x_t$ dan hidden state langkah sebelumnya $h_{t-1}$:
+      1. <b>Forget Gate ($f_t$):</b>
+         $$f_t = \sigma(W_f \cdot [h_{t-1}, x_t] + b_f)$$
+         Mengatur proporsi informasi memori lama $C_{t-1}$ yang dibuang ($0 \le f_t \le 1$).
+      2. <b>Input Gate ($i_t$) &amp; Kandidat Sel ($\tilde{C}_t$):</b>
+         $$i_t = \sigma(W_i \cdot [h_{t-1}, x_t] + b_i)$$
+         $$\tilde{C}_t = \tanh(W_c \cdot [h_{t-1}, x_t] + b_c)$$
+         $i_t$ menyaring seberapa besar kandidat informasi baru $\tilde{C}_t$ yang akan dimasukkan.
+      3. <b>Output Gate ($o_t$):</b>
+         $$o_t = \sigma(W_o \cdot [h_{t-1}, x_t] + b_o)$$
+         Menentukan bagian mana dari cell state yang akan dikeluarkan menjadi output prediksi.
+    </div>
+
+    <div class="step-box">
+      <div class="step-h">b. Pembaruan State</div>
+      • <b>Pembaruan Cell State ($C_t$):</b>
+      $$C_t = f_t * C_{t-1} + i_t * \tilde{C}_t$$
+      Operasi $*$ adalah perkalian elemen-per-elemen (Hadamard product). Jalur ini berfungsi seperti "jalan tol linier" bebas hambatan yang memungkinkan gradien mengalir tanpa lenyap (*solving vanishing gradient*).<br>
+      • <b>Pembaruan Hidden State ($h_t$):</b>
+      $$h_t = o_t * \tanh(C_t)$$
+      Fungsi $\tanh$ menormalkan nilai memori sel kembali ke rentang $[-1, 1]$ sebelum difilter oleh gerbang keluaran $o_t$.
+    </div>
+
+    <div class="step-box">
+      <div class="step-h">c. Data Leakage &amp; Pembagian Kronologis</div>
+      • <b>Data Leakage (Kebocoran Masa Depan):</b> Terjadi jika data deret waktu dibagi secara acak (random split). Titik waktu $t+1$ masuk data latih sementara titik $t$ masuk data uji. Model akan "mencontek" masa depan untuk menebak masa lalu, menghasilkan metrik akurasi latih yang tinggi semu tetapi gagal total saat diterapkan di masa depan nyata.<br>
+      • <b>Solusi yang Sah:</b> <b>Pembagian Kronologis Wajib</b>: Misal 80% periode awal (bulan 1–96) dialokasikan sebagai data latih, dan 20% periode akhir (bulan 97–120) dialokasikan sebagai data uji.
+    </div>
+  </div>
+</div>
+
+</main>
+
+<footer>
+  <p>© 2026 Bank Soal Resmi Persiapan UAS Data Mining • Politeknik Statistika STIS | Modul 8 s.d. 16</p>
+</footer>
+
+<script src="katex/katex.min.js"></script>
+<script src="katex/contrib/auto-render.min.js"></script>
+<script>
+renderMathInElement(document.body, {
+  delimiters: [
+    {left: "$$", right: "$$", display: true},
+    {left: "$", right: "$", display: false}
+  ],
+  throwOnError: false
+});
+
+function toggleSolution(id) {
+  const el = document.getElementById(id);
+  if (el) {
+    el.classList.toggle('show');
+  }
+}
+
+function toggleAllSolutions(show) {
+  const all = document.querySelectorAll('.pembahasan');
+  all.forEach(el => {
+    if (show) el.classList.add('show');
+    else el.classList.remove('show');
+  });
+}
+
+function checkOption(label, isCorrect, groupName) {
+  const parent = label.closest('.q-options');
+  const labels = parent.querySelectorAll('.opt');
+  labels.forEach(l => {
+    l.classList.remove('correct-choice', 'wrong-choice');
+  });
+  if (isCorrect) {
+    label.classList.add('correct-choice');
+  } else {
+    label.classList.add('wrong-choice');
+    // Also highlight correct answer
+    labels.forEach(l => {
+      const onclickAttr = l.getAttribute('onclick') || '';
+      if (onclickAttr.includes('true')) {
+        l.classList.add('correct-choice');
+      }
+    });
+  }
+  // Auto show explanation for that card
+  const card = label.closest('.q-card');
+  const sol = card.querySelector('.pembahasan');
+  if (sol) sol.classList.add('show');
+}
+
+function filterQuestions(cat) {
+  const btns = document.querySelectorAll('.btn-filter');
+  btns.forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+
+  const cards = document.querySelectorAll('.q-card');
+  cards.forEach(card => {
+    const cardCat = card.getAttribute('data-category');
+    if (cat === 'all' || cardCat === cat) {
+      card.style.display = 'block';
+    } else {
+      card.style.display = 'none';
+    }
+  });
+}
+</script>
+</body>
+</html>

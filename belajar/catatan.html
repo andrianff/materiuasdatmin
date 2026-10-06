@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Catatan Kertas UAS Data Mining – Apriori & FP-Growth</title>
+<meta name="description" content="Catatan ringkas gaya kertas bergaris untuk UAS Data Mining: Apriori, FP-Tree, FP-Growth.">
+<link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="katex/katex.min.css">
+<style>
+body{margin:0;background:#cfc7b8;font-family:'Patrick Hand','Comic Sans MS',cursive;color:#1d2a5c;font-size:18px}
+.bar{position:sticky;top:0;background:#3b3226;color:#fff;padding:8px 18px;display:flex;gap:16px;align-items:center;z-index:5;font-family:sans-serif;font-size:14px}
+.bar a,.bar button{color:#ffd98a;background:none;border:1px solid #ffd98a88;border-radius:6px;padding:4px 12px;cursor:pointer;text-decoration:none;font:inherit}
+.page{width:210mm;min-height:297mm;margin:22px auto;padding:16mm 14mm 14mm 24mm;background:
+ linear-gradient(90deg,transparent 18mm,#e0525266 18mm,#e0525266 18.4mm,transparent 18.4mm),
+ repeating-linear-gradient(#fffef6,#fffef6 27px,#a9c6e6 27px,#a9c6e6 28px);
+ box-shadow:0 6px 24px #0005;position:relative;line-height:28px;box-sizing:border-box}
+.page:before{content:"";position:absolute;left:7mm;top:30mm;bottom:30mm;width:9px;background:radial-gradient(circle,#cfc7b8 4px,transparent 5px) 0 0/9px 60px repeat-y}
+h1{font-family:Caveat,cursive;font-size:40px;line-height:44px;margin:0 0 6px;color:#c0392b;text-decoration:underline wavy #e0525299;text-underline-offset:6px}
+h2{font-family:Caveat,cursive;font-size:30px;line-height:28px;margin:14px 0 0;color:#0b5cad;border-bottom:2px dashed #0b5cad77;display:inline-block}
+p,li{margin:0}
+ul{margin:0;padding-left:20px;list-style:'➜ '}
+ol{margin:0;padding-left:22px}
+.hl{background:linear-gradient(transparent 55%,#ffe94f99 55%);padding:0 2px}
+.hl2{background:linear-gradient(transparent 55%,#8be8a899 55%);padding:0 2px}
+.red{color:#c0392b}.grn{color:#16803c}
+.box{border:2px solid #c0392b;border-radius:8px 14px 10px 16px;padding:0 10px;margin:6px 0;background:#fff8e1aa}
+.sticky{position:absolute;right:10mm;width:48mm;background:#fff176;transform:rotate(2.5deg);padding:6px 10px;line-height:22px;font-size:15px;box-shadow:2px 4px 8px #0004}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:0 18px}
+table{border-collapse:collapse;line-height:22px;margin:4px 0;font-size:16px}
+td,th{border:1.5px solid #1d2a5c;padding:0 8px;text-align:center}
+th{background:#dbe8ff}
+img.fig{width:100%;border:2px solid #1d2a5c;border-radius:4px;display:block;margin:4px 0;background:#fff;transform:rotate(-.4deg)}
+.katex{font-size:1.05em;color:#14246b}
+.katex-display{margin:2px 0}
+.tag{font-size:14px;color:#777;position:absolute;bottom:6mm;right:14mm}
+@media print{.bar{display:none}body{background:#fff}.page{margin:0;box-shadow:none;page-break-after:always}}
+@media(max-width:820px){.page{width:auto;margin:0;padding-left:22mm}.cols{grid-template-columns:1fr}.sticky{position:static;transform:none;width:auto;margin:6px 0}}
+</style>
+</head>
+<body>
+<div class="bar"><b>📝 Catatan Kertas – Data Mining Pert. 8</b><a href="index.html">← Versi lengkap</a><button onclick="print()">🖨️ Print / PDF</button></div>
+
+<!-- HAL 1 -->
+<div class="page">
+<h1>Association Rule — Apriori</h1>
+<p>Market basket analysis · dicetus <span class="hl">Agrawal dkk 1993</span></p>
+<h2>Konsep dasar</h2>
+<ul>
+<li>Cari aturan asosiatif <b>"if … then …"</b> antar item</li>
+<li>2 tahap: <span class="hl">① frequent pattern</span> → <span class="hl">② bentuk rule</span></li>
+<li>Syarat: <b>min support</b> &amp; <b>min confidence</b></li>
+</ul>
+<div class="sticky" style="top:30mm">Contoh: {roti,mentega}→{susu} (sup 40%, conf 50%)<br>= 50% yg beli roti+mentega juga beli susu</div>
+<h2>Rumus</h2>
+<div class="box">
+$$\text{Sup}(A)=\frac{\#\text{trx memuat }A}{\#\text{total trx}}\qquad \text{Sup}(A\cap B)=\frac{\#(A\text{ dan }B)}{\#\text{total}}$$
+$$\text{Conf}(A\to B)=P(B|A)=\frac{\#(A\text{ dan }B)}{\#A}$$
+</div>
+<p>Conf <span class="red">tidak simetris</span>, support simetris.</p>
+<h2>Istilah</h2>
+<ul>
+<li>$I$ = semua item; $D$ = semua transaksi</li>
+<li>$k$-itemset = itemset isi $k$ item</li>
+<li>Frekuensi itemset = # trx memuat itemset</li>
+<li><b>Frequent</b> = frekuensi $\ge\Phi$ ; $F_k$ = himp. frequent $k$-item</li>
+<li><b>Antecedent</b> (if) boleh &gt;1 ; <b>Consequent</b> (then) hanya <span class="red">1</span></li>
+</ul>
+<h2>Langkah Apriori</h2>
+<ol>
+<li>Tentukan $\Phi$</li>
+<li>Cari semua frequent itemset ($F_1,F_2,\dots$ sampai kosong)</li>
+<li>Tiap frequent itemset: ambil 1 unsur $s$; rule <b>if $(ss-s)$ then $s$</b></li>
+<li>Hitung sup &amp; conf → pilih conf ≥ min</li>
+<li>Pilih <span class="hl">sup × conf terbesar</span></li>
+</ol>
+<div class="box"><b>Prinsip Apriori:</b> Z bukan frequent ⇒ $Z\cup A$ <span class="red">pasti bukan</span> frequent.<br>Join: itemset dg item awal sama, mis. {A,B}+{A,F}→{A,B,F}</div>
+<div class="tag">hal 1</div>
+</div>
+
+<!-- HAL 2 -->
+<div class="page">
+<h2 style="margin-top:0">Contoh Apriori (10 trx, Φ = 3)</h2>
+<p>T1 CED · T2 AFD · T3 DGBF · T4 EDGB · T5 BAC · T6 FABG · T7 GD · T8 CGE · T9 FAB · T10 BD</p>
+<img class="fig" src="img/r-017.jpg" alt="Σ item">
+<p>$F_1$: semua (A4 B6 C3 D6 E3 F4 G5) ≥3</p>
+<p>Pasangan Σ ≥3: AB, AF, BD, BF, BG, DG</p>
+<div class="box">$F_2=\{AB,AF,BD,BF,BG,DG\}$</div>
+<p>Calon 3: ABF=2, BDF=1, BDG=2, BFG=2 → <span class="red">&lt;3</span></p>
+<div class="box">$F_3=\{\}\Rightarrow F_4..F_7=\{\}$</div>
+<h2>Rule dari $F_2$ → 6×2 = 12 rule</h2>
+<div class="cols">
+<div>
+<table><tr><th>Rule</th><th>Sup</th><th>Conf</th></tr>
+<tr><td>A→B</td><td>33,3%</td><td class="grn">3/4=75%</td></tr>
+<tr><td>B→A</td><td>33,3%</td><td>3/6=50%</td></tr>
+<tr><td>A→F</td><td>33,3%</td><td class="grn">75%</td></tr>
+<tr><td>F→A</td><td>33,3%</td><td class="grn">75%</td></tr>
+<tr><td>B→D</td><td>33,3%</td><td>50%</td></tr>
+<tr><td>D→B</td><td>33,3%</td><td>50%</td></tr></table>
+</div>
+<div>
+<table><tr><th>Rule</th><th>Sup</th><th>Conf</th></tr>
+<tr><td>B→F</td><td>33,3%</td><td>50%</td></tr>
+<tr><td>F→B</td><td>33,3%</td><td class="grn">75%</td></tr>
+<tr><td>B→G</td><td>33,3%</td><td>50%</td></tr>
+<tr><td>G→B</td><td>33,3%</td><td>60%</td></tr>
+<tr><td>D→G</td><td>33,3%</td><td>50%</td></tr>
+<tr><td>G→D</td><td>33,3%</td><td>60%</td></tr></table>
+</div></div>
+<p>Conf ≥70%: A→B, A→F, F→A, F→B (sup×conf = 0,249975 semua sama → semua dipakai)</p>
+<h2>Latihan Kopma (sup 30%, conf 70%)</h2>
+<p>14 trx → min count = 4,2 ⇒ <b>≥5</b>. $F_2$: Beans-Squash 6, Beans-Corn 5, Asp-Squash 5, Asp-Beans 5. $F_3=\{\}$.</p>
+<p><span class="grn">Rule:</span> Squash→Beans (85,7%), Asp→Squash (83,3%), Squash→Asp (71,4%), Asp→Beans (83,3%)</p>
+<div class="tag">hal 2</div>
+</div>
+
+<!-- HAL 3 -->
+<div class="page">
+<h1>FP-Tree &amp; FP-Growth</h1>
+<h2>Kenapa?</h2>
+<ul>
+<li>Apriori: scan DB berulang → <span class="red">bottleneck</span>, banyak kandidat</li>
+<li>FP-Tree (<span class="hl">Zhao et al. 2003</span>): data dimampatkan jadi <b>pohon</b>, <span class="hl2">tanpa candidate generation</span></li>
+</ul>
+<h2>Isi FP-Tree</h2>
+<ul>
+<li>Root 'null' + subtree + <b>tabel frequent header</b></li>
+<li>Tiap node: <b>label item</b>, <b>support count</b>, <b>pointer</b> (putus-putus ke node berlabel sama)</li>
+<li>Best: 1 path · Worst: = data asli (+ pointer)</li>
+<li>Urut support menurun = heuristik</li>
+</ul>
+<h2>Bangun FP-Tree (min count 2)</h2>
+<ol>
+<li>Scan → hitung support tiap item</li>
+<li>Buang item &lt; min (f,r,z,g,h)</li>
+<li>Urutkan tiap trx: frekuensi ↓ (a8 b7 c6 d5 e3)</li>
+<li>Masukkan trx satu-satu: <span class="hl">prefix sama → count+1</span>, beda → cabang baru (count 1)</li>
+<li>Hubungkan node sama label (link)</li>
+</ol>
+<img class="fig" src="img/r-048.jpg" alt="FP-Tree">
+<div class="sticky" style="top:100mm;right:6mm;width:42mm">Walau b muncul di T1 &amp; T2, path <b>disjoint</b> karena prefix beda!</div>
+<div class="tag">hal 3</div>
+</div>
+
+<!-- HAL 4 -->
+<div class="page">
+<h2 style="margin-top:0">FP-Growth</h2>
+<ul>
+<li><b>Bottom-up</b> (leaf → root), <b>divide &amp; conquer</b>, rekursif</li>
+<li>Suffix: e → de, ce, be, ae → … lalu d → cd … dst</li>
+</ul>
+<h2>3 Tugas Utama</h2>
+<ol>
+<li><b>Conditional Pattern Base</b> = prefix path + suffix pattern</li>
+<li><b>Conditional FP-Tree</b>: jumlahkan count per item di base; buang yg &lt; min</li>
+<li><b>Cari frequent itemset</b>: single path → kombinasi item; bukan → FP-Growth rekursif</li>
+</ol>
+<img class="fig" src="img/r-051.jpg" alt="Prefix path">
+<h2>Cond. FP-Tree untuk e (min 2)</h2>
+<ol>
+<li>Jumlah count e = 1+1+1 = 3 ≥ 2 → {e} frequent</li>
+<li><span class="hl">Update count</span> prefix path jd # trx yg memuat e (a=2, b=1, c=1)</li>
+<li><span class="hl">Hapus node e</span></li>
+<li><span class="hl">Buang item tak sering</span>: b = 1 &lt; 2 → buang (be ✗). c=2, d=2 tetap</li>
+<li>Rekursif: de (→ ade), ce, ae</li>
+</ol>
+<h2>Hasil akhir</h2>
+<table><tr><th>suffix</th><th>frequent itemsets</th></tr>
+<tr><td>e</td><td>e, de, ade, ce, ae</td></tr>
+<tr><td>d</td><td>d, cd, bcd, acd, bd, abd, ad</td></tr>
+<tr><td>c</td><td>c, bc, abc, ac</td></tr>
+<tr><td>b</td><td>b, ab</td></tr>
+<tr><td>a</td><td>a</td></tr></table>
+<div class="tag">hal 4</div>
+</div>
+
+<!-- HAL 5 -->
+<div class="page">
+<h2 style="margin-top:0">Latihan FP-Growth: item Grape (min sup = 4)</h2>
+<ol>
+<li>Count: Cheese 9, Bread 5, Egg 5, Grape 5, Orange 4, Apple 3, Milk 2 → buang Apple, Milk</li>
+<li>Urutan: Cheese, Bread, Egg, Grape, Orange</li>
+<li>Prefix path ke Grape (cond. pattern base):<br>{Ch,Br}:1 · {Ch}:1 · {Ch,Eg}:1 · {Ch,Br,Eg}:1 · {Ch,Br}:1</li>
+<li>Count di base: Cheese 5, Bread 3, Egg 2 → hanya <b>Cheese</b> ≥ 4</li>
+<li>Cond. FP-tree Grape: null → Cheese:5 (single path)</li>
+</ol>
+<div class="box"><b>Hasil:</b> {Grape}:5 dan {Cheese, Grape}:5</div>
+<h2>Apriori vs FP-Growth</h2>
+<table>
+<tr><th></th><th>Apriori</th><th>FP-Growth</th></tr>
+<tr><td>Kandidat</td><td>Ya</td><td>Tidak</td></tr>
+<tr><td>Scan DB</td><td>Berulang</td><td>2×</td></tr>
+<tr><td>Struktur</td><td>Tabel kandidat</td><td>FP-Tree</td></tr>
+<tr><td>Strategi</td><td>Level-wise</td><td>Divide &amp; conquer</td></tr>
+</table>
+<h2>Cek cepat ✓</h2>
+<ul>
+<li>Sup penyebut = semua trx; Conf penyebut = trx antecedent</li>
+<li># rule dari $F_2$ = $2\times|F_2|$</li>
+<li>$F_k=\{\}$ ⇒ stop</li>
+<li>Min support persen → ubah ke count: $\lceil \text{sup}\times N\rceil$</li>
+</ul>
+<div class="sticky" style="top:150mm">Semangat UAS! 💪<br>Kuncinya: teliti hitung count!</div>
+<div class="tag">hal 5</div>
+</div>
+
+<script src="katex/katex.min.js"></script>
+<script src="katex/contrib/auto-render.min.js"></script>
+<script>renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:true},{left:"$",right:"$",display:false}],throwOnError:false});</script>
+</body>
+</html>

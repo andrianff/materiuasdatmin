@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bahan Belajar UAS Data Mining – Association Rule: Apriori, FP-Tree & FP-Growth</title>
+<meta name="description" content="Ringkasan lengkap Pertemuan 8 Data Mining: Algoritma Apriori, FP-Tree, FP-Growth, lengkap rumus, contoh hitung, dan gambar.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="katex/katex.min.css">
+<style>
+:root{--bg:#0b1020;--panel:#131a30;--panel2:#1a2342;--line:#27315a;--tx:#e6e9f5;--mut:#9aa6cf;
+--a:#7c8cff;--b:#31d0aa;--c:#ffb454;--d:#ff6b8b;}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(1200px 600px at 80% -10%,#1e2a6a55,transparent),var(--bg);color:var(--tx);font:16px/1.7 Inter,system-ui,sans-serif}
+aside{position:fixed;inset:0 auto 0 0;width:270px;background:#0e1430ee;backdrop-filter:blur(10px);border-right:1px solid var(--line);padding:22px 16px;overflow:auto;z-index:10}
+aside h2{font-size:14px;letter-spacing:.12em;text-transform:uppercase;color:var(--a);margin:0 0 14px}
+aside a{display:block;color:var(--mut);text-decoration:none;padding:7px 12px;border-radius:8px;font-size:14px;transition:.2s}
+aside a:hover,aside a.on{background:var(--panel2);color:#fff;transform:translateX(3px)}
+aside .sep{height:1px;background:var(--line);margin:12px 0}
+main{margin-left:270px;max-width:1000px;padding:40px 44px 100px}
+.hero{padding:38px;border-radius:22px;background:linear-gradient(135deg,#3b4bd8,#7c3aed 55%,#e0457b);box-shadow:0 20px 60px #4a3fe055;margin-bottom:34px}
+.hero h1{margin:0 0 8px;font-size:34px;line-height:1.2;font-weight:800}
+.hero p{margin:0;opacity:.92}
+.tags span{display:inline-block;background:#ffffff26;border-radius:99px;padding:3px 13px;font-size:13px;margin:14px 6px 0 0}
+section{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:28px 32px;margin-bottom:26px;animation:up .6s both}
+@keyframes up{from{opacity:0;transform:translateY(14px)}to{opacity:1}}
+h2.t{margin:0 0 14px;font-size:25px;font-weight:800;background:linear-gradient(90deg,var(--a),var(--b));-webkit-background-clip:text;background-clip:text;color:transparent}
+h3{margin:24px 0 8px;font-size:18px;color:var(--c)}
+h4{margin:16px 0 6px;color:var(--b)}
+p{margin:8px 0}
+li{margin:4px 0}
+b,strong{color:#fff}
+em{color:#cfd6ff}
+.box{border-radius:14px;padding:14px 18px;margin:14px 0;border:1px solid}
+.def{background:#7c8cff14;border-color:#7c8cff55}
+.formula{background:#31d0aa12;border-color:#31d0aa55;text-align:center;overflow-x:auto}
+.formula .lbl{display:block;text-align:left;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--b);font-weight:700}
+.tip{background:#ffb45414;border-color:#ffb45466}
+.tip:before{content:"💡 Tips UAS  ";font-weight:800;color:var(--c)}
+.warn{background:#ff6b8b14;border-color:#ff6b8b66}
+.warn:before{content:"⚠️ Awas  ";font-weight:800;color:var(--d)}
+figure{margin:18px 0;text-align:center}
+figure img{max-width:100%;border-radius:12px;border:1px solid var(--line);background:#fff;cursor:zoom-in;transition:.25s}
+figure img:hover{transform:scale(1.015);box-shadow:0 10px 40px #0008}
+figcaption{font-size:13px;color:var(--mut);margin-top:6px}
+table{border-collapse:collapse;margin:12px auto;font-size:14.5px}
+th,td{border:1px solid var(--line);padding:6px 14px;text-align:center}
+th{background:var(--panel2);color:var(--a)}
+tr:nth-child(even) td{background:#ffffff06}
+td.l{text-align:left}
+.ok{color:var(--b);font-weight:700}.no{color:var(--d)}
+code{font-family:'JetBrains Mono',monospace;background:#0006;padding:1px 7px;border-radius:6px;font-size:.9em;color:#ffd9a0}
+ol.steps{counter-reset:s;list-style:none;padding:0}
+ol.steps>li{counter-increment:s;position:relative;padding:8px 8px 8px 48px;background:var(--panel2);border-radius:12px;margin:8px 0}
+ol.steps>li:before{content:counter(s);position:absolute;left:12px;top:8px;width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--a),var(--b));color:#06101f;font-weight:800;display:grid;place-items:center;font-size:14px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.card{background:var(--panel2);border-radius:14px;padding:12px 18px;border:1px solid var(--line)}
+details{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:10px 16px;margin:10px 0}
+summary{cursor:pointer;font-weight:700;color:var(--a)}
+#lb{position:fixed;inset:0;background:#000d;display:none;place-items:center;z-index:99;cursor:zoom-out}
+#lb img{max-width:94vw;max-height:94vh;border-radius:8px}
+.katex-display{overflow-x:auto;overflow-y:hidden;margin:.6em 0}
+.katex{font-size:1.1em}
+@media(max-width:900px){aside{display:none}main{margin:0;padding:18px}.grid2{grid-template-columns:1fr}}
+@media print{aside{display:none}main{margin:0}body{background:#fff;color:#000}section{break-inside:avoid}}
+</style>
+</head>
+<body>
+<aside>
+<h2>Daftar Isi</h2>
+<a href="#intro">1. Pendahuluan</a>
+<a href="#istilah">2. Terminologi</a>
+<a href="#metode">3. Support & Confidence</a>
+<a href="#apriori">4. Algoritma Apriori</a>
+<a href="#contoh">5. Contoh Apriori Lengkap</a>
+<a href="#aturan">6. Pembentukan Aturan</a>
+<div class="sep"></div>
+<a href="#fptree">7. FP-Tree</a>
+<a href="#buat">8. Membangun FP-Tree</a>
+<a href="#fpgrowth">9. FP-Growth</a>
+<a href="#cond">10. Conditional FP-Tree</a>
+<a href="#hasil">11. Hasil Akhir FP-Growth</a>
+<div class="sep"></div>
+<a href="#latihan">12. Latihan + Pembahasan</a>
+<a href="#banding">13. Apriori vs FP-Growth</a>
+<a href="#cek">14. Checklist UAS</a>
+<div class="sep"></div>
+<a href="catatan.html">📝 Versi Catatan Kertas →</a>
+</aside>
+
+<main>
+<header class="hero">
+<h1>Association Rule Mining<br>Apriori · FP-Tree · FP-Growth</h1>
+<p>Bahan belajar UAS Data Mining — Pertemuan 8 (Politeknik Statistika STIS)</p>
+<div class="tags"><span>Market Basket Analysis</span><span>Support</span><span>Confidence</span><span>Frequent Itemset</span><span>Divide &amp; Conquer</span></div>
+</header>
+
+<!-- 1 -->
+<section id="intro">
+<h2 class="t">1. Pendahuluan</h2>
+<div class="box def"><b>Analisis asosiasi</b> (<em>association rule mining</em>) adalah teknik data mining untuk menemukan <b>aturan asosiatif</b> antara suatu kombinasi item.</div>
+<ul>
+<li>Contoh: seberapa besar kemungkinan pelanggan membeli <b>roti bersamaan dengan susu</b>.</li>
+<li>Terkenal lewat aplikasi analisis isi keranjang belanja di pasar swalayan → disebut juga <b><em>market basket analysis</em></b>.</li>
+<li>Dicetuskan oleh <b>Agrawal dkk. (1993)</b>.</li>
+<li>Termasuk teknik dasar dari teknik data mining lain; tahap khususnya: <b>analisis pola frekuensi tinggi</b> (<em>frequent pattern mining</em>).</li>
+</ul>
+<h3>Manfaat bagi pemilik swalayan</h3>
+<ul><li>Mengatur penempatan barang</li><li>Merancang kampanye pemasaran (kupon diskon untuk kombinasi barang tertentu)</li><li>dll.</li></ul>
+<figure><img src="img/r-001.jpg" alt="Market basket"><figcaption>Ilustrasi market basket analysis</figcaption></figure>
+</section>
+
+<!-- 2 -->
+<section id="istilah">
+<h2 class="t">2. Terminologi</h2>
+<p>Data historis (<em>data latihan / training data</em>, data pengalaman) dipakai algoritma untuk menemukan pengetahuan: <b>item-item belanja yang sering dibeli secara bersamaan</b>.</p>
+<p>Penting-tidaknya aturan asosiatif diukur dengan dua parameter:</p>
+<div class="grid2">
+<div class="card"><b>Support</b> (nilai penunjang)<br>Persentase kombinasi item tersebut dalam database.</div>
+<div class="card"><b>Confidence</b> (nilai kepastian)<br>Kuatnya hubungan antar item dalam aturan asosiatif.</div>
+</div>
+<p>Bentuk aturan: <b>"if … then …"</b> / "jika … maka …".</p>
+<div class="box def">Contoh: $\{\text{roti},\text{mentega}\}\rightarrow\{\text{susu}\}$ (support = 40%, confidence = 50%)
+<ul><li>50% dari transaksi yang memuat roti &amp; mentega juga memuat susu.</li>
+<li>40% dari <em>seluruh</em> transaksi memuat ketiga item itu.</li></ul></div>
+<p>Analisis asosiasi = proses menemukan <b>semua aturan asosiatif yang memenuhi syarat minimum support (<em>minimum support</em>) dan minimum confidence</b>.</p>
+
+<h3>Notasi & definisi</h3>
+<table>
+<tr><th>Simbol</th><th>Arti</th></tr>
+<tr><td>$I$</td><td class="l">Himpunan seluruh item. Mis. {Asparagus, Beans, …, Tomatoes}</td></tr>
+<tr><td>$D$</td><td class="l">Himpunan seluruh transaksi. Mis. {T1, T2, …, T14}</td></tr>
+<tr><td><em>Item set</em></td><td class="l">Himpunan item / item-item di $I$. Mis. $A=\{a,b,c\}$ → {a},{b},{c},{a,b},{a,c},{b,c}</td></tr>
+<tr><td><em>Proper subset</em></td><td class="l">Himpunan bagian murni (tanpa himpunan itu sendiri). Untuk $A=\{a,b,c\}$: ∅, 1 unsur, 2 unsur</td></tr>
+<tr><td>$k$-item set</td><td class="l">Item set yang terdiri dari $k$ item. Mis. 3-itemset = 3 item</td></tr>
+<tr><td>Frekuensi item set</td><td class="l">Jumlah transaksi di $D$ yang memuat item set tertentu</td></tr>
+<tr><td>Frequent item set</td><td class="l">Item set yang muncul ≥ "sekian" kali di $D$ ("sekian" disimbolkan $\Phi$)</td></tr>
+<tr><td>$F_k$</td><td class="l">Himpunan semua frequent item set yang terdiri dari $k$ item</td></tr>
+</table>
+<figure><img src="img/r-002.jpg" alt="Tabel transaksi sayuran"><figcaption>Data transaksi pasar sayuran Kopma STIS (14 transaksi)</figcaption></figure>
+<div class="box def"><b>Contoh frekuensi:</b> Beans &amp; Broccoli bersamaan = <b>3</b> transaksi; Beans, Squash &amp; Tomatoes bersamaan = <b>2</b> transaksi.<br>
+<b>Contoh frequent:</b> $\Phi=3$; {Asparagus, Beans} dibeli bersama 5 kali, $5\ge3$ → <b>frequent item set</b>.</div>
+</section>
+
+<!-- 3 -->
+<section id="metode">
+<h2 class="t">3. Metodologi: Support & Confidence</h2>
+<p>Dua tahap utama:</p>
+<ol class="steps"><li><b>Analisis pola frekuensi tinggi</b> (<em>frequent pattern mining</em>) — cari kombinasi item yang memenuhi minimum support.</li>
+<li><b>Pembentukan aturan asosiatif</b> — dari frequent itemset cari aturan yang memenuhi minimum confidence.</li></ol>
+
+<div class="box formula"><span class="lbl">Support 1 item</span>
+$$\text{Support}(A)=\frac{\text{Jumlah transaksi mengandung }A}{\text{Total transaksi}}$$</div>
+<div class="box formula"><span class="lbl">Support 2 item</span>
+$$\text{Support}(A\cap B)=\frac{\text{Jumlah transaksi mengandung }A\text{ dan }B}{\text{Total transaksi}}$$</div>
+<div class="box formula"><span class="lbl">Confidence aturan A → B</span>
+$$\text{Confidence}=P(B\mid A)=\frac{\text{Jumlah transaksi mengandung }A\text{ dan }B}{\text{Jumlah transaksi mengandung }A}$$</div>
+<p>Bentuk setara (versi slide pembentukan aturan):</p>
+<div class="box formula">
+$$\text{SUPPORT}=\frac{\sum \text{item yang dibeli sekaligus}}{\sum \text{jumlah seluruh transaksi}}\times100\%$$
+$$\text{CONFIDENCE}=\frac{\sum \text{item yang dibeli sekaligus}}{\sum \text{jumlah transaksi pada bagian antecedent}}\times100\%$$</div>
+<div class="box tip"><b>Support</b> penyebutnya = <u>semua transaksi</u>. <b>Confidence</b> penyebutnya = <u>transaksi yang memuat antecedent</u>. Support simetris ($A\to B$ sama dengan $B\to A$), confidence <u>tidak</u> simetris.</div>
+</section>
+
+<!-- 4 -->
+<section id="apriori">
+<h2 class="t">4. Algoritma Apriori</h2>
+<h3>Langkah umum</h3>
+<ol class="steps">
+<li>Tentukan $\Phi$ (minimum support count).</li>
+<li>Tentukan semua <em>frequent item set</em>.</li>
+<li>Untuk setiap frequent item set: ambil sebuah unsur $s$; sisanya $ss-s$; masukkan ke rule <b>If ($ss-s$) then $s$</b>. Lakukan untuk semua unsur.</li>
+</ol>
+<div class="box warn">Dalam slide: <em>antecedent</em> = $(ss-s)$ (bagian "if"), <em>consequent</em> = $s$ (bagian "then"). Antecedent boleh &gt;1 unsur, consequent hanya <b>1 unsur</b>.</div>
+
+<h3>Aturan Apriori (anti-monotone)</h3>
+<div class="box formula"><span class="lbl">Prinsip Apriori</span>
+<b>Jika $Z$ bukan frequent itemset, maka $Z\cup A$ pasti bukan frequent itemset, untuk setiap $A$.</b></div>
+<p>Dipakai untuk meringankan pencarian $F_3,F_4,F_5,\dots$ → candidate yang punya subset tidak frequent langsung dibuang (<em>pruning</em>).</p>
+
+<h3>Penggabungan (join) kandidat</h3>
+<ul><li>Kombinasi itemset di $F_{k-1}$ digabung menjadi calon $k$-itemset.</li>
+<li>Itemset yang digabung harus punya <b>kesamaan pada item-item pertamanya</b> (semua kecuali item terakhir). Mis. {A,B} dan {A,F} sama di item pertama A → jadi {A,B,F}.</li></ul>
+<div class="box tip">Berhenti saat $F_k=\emptyset$. Kalau $F_3=\{\}$, maka $F_4,F_5,\dots$ otomatis kosong.</div>
+</section>
+
+<!-- 5 -->
+<section id="contoh">
+<h2 class="t">5. Contoh Apriori Lengkap (10 transaksi, A–G)</h2>
+<figure><img src="img/r-014.jpg" alt="Data pembelian"><figcaption>Data pembelian: T1 {C,E,D}, T2 {A,F,D}, T3 {D,G,B,F}, T4 {E,D,G,B}, T5 {B,A,C}, T6 {F,A,B,G}, T7 {G,D}, T8 {C,G,E}, T9 {F,A,B}, T10 {B,D}</figcaption></figure>
+<h3>Langkah 1–2: tabel biner & hitung tiap item</h3>
+<figure><img src="img/r-016.jpg" alt="Tabel biner"><figcaption>Pisahkan item → tabel biner (0/1)</figcaption></figure>
+<figure><img src="img/r-017.jpg" alt="Jumlah tiap item"><figcaption>Σ per item: A=4, B=6, C=3, D=6, E=3, F=4, G=5</figcaption></figure>
+<p>Ditetapkan $\Phi=3$ → semua item ≥ 3, maka</p>
+$$F_1=\{\{A\},\{B\},\{C\},\{D\},\{E\},\{F\},\{G\}\}$$
+<p>Slide juga menyebut "minimum support 70%" sebagai ilustrasi, tetapi perhitungan memakai $\Phi=3$ (support count).</p>
+
+<h3>Langkah 3: calon 2-itemset</h3>
+<p>Semua pasangan: AB, AC, AD, AE, AF, AG, BC, BD, BE, BF, BG, CD, CE, CF, CG, DE, DF, DG, EF, EG, FG. Tiap pasangan dibuatkan tabel; <b>P</b> = dibeli bersama, <b>S</b> = tidak bersama; <b>Σ</b> = frekuensi pasangan.</p>
+<figure><img src="img/r-019.jpg" alt="Tabel 2 itemset"><figcaption>Tabel calon 2-itemset (1)</figcaption></figure>
+<figure><img src="img/r-020.jpg" alt="Lanjutan 1"><figcaption>Lanjutan (2)</figcaption></figure>
+<figure><img src="img/r-021.jpg" alt="Lanjutan 2"><figcaption>Lanjutan (3)</figcaption></figure>
+<table>
+<tr><th>Pasangan</th><th>AB</th><th>AC</th><th>AD</th><th>AE</th><th>AF</th><th>AG</th><th>BC</th><th>BD</th><th>BE</th><th>BF</th><th>BG</th></tr>
+<tr><th>Σ</th><td class="ok">3</td><td>1</td><td>1</td><td>0</td><td class="ok">3</td><td>1</td><td>1</td><td class="ok">3</td><td>1</td><td class="ok">3</td><td class="ok">3</td></tr>
+<tr><th>Pasangan</th><th>CD</th><th>CE</th><th>CF</th><th>CG</th><th>DE</th><th>DF</th><th>DG</th><th>EF</th><th>EG</th><th>FG</th><th></th></tr>
+<tr><th>Σ</th><td>1</td><td>2</td><td>1</td><td>1</td><td>2</td><td>2</td><td class="ok">3</td><td>0</td><td>2</td><td>2</td><td></td></tr>
+</table>
+<p>Yang $\Sigma\ge\Phi=3$:</p>
+$$F_2=\{\{A,B\},\{A,F\},\{B,D\},\{B,F\},\{B,G\},\{D,G\}\}$$
+
+<h3>Langkah 4: calon 3-itemset</h3>
+<p>Gabungkan itemset yang punya item pertama sama: {A,B}+{A,F}→{A,B,F}; {B,D}+{B,F}→{B,D,F}; {B,D}+{B,G}→{B,D,G}; {B,F}+{B,G}→{B,F,G}.</p>
+<figure><img src="img/r-025.jpg" alt="Calon 3-itemset"><figcaption>Calon {A,B,F}, {B,D,F}, {B,D,G}, {B,F,G}: Σ = 2, 1, 2, 2 (&lt; 3)</figcaption></figure>
+$$F_3=\{\}\;\Rightarrow\;F_4=F_5=F_6=F_7=\{\}$$
+</section>
+
+<!-- 6 -->
+<section id="aturan">
+<h2 class="t">6. Pembentukan Aturan Asosiasi</h2>
+<p>$F_1$ tidak dipakai (hanya 1 item). Dari $F_2$ tiap pasangan menghasilkan 2 rule (bolak-balik) → <b>6 pasangan × 2 = 12 rule</b>.</p>
+<figure><img src="img/r-027.jpg" alt="Pembentukan aturan"><figcaption>Penyusunan rule dari F2 (jika ss-s = A, s = B → if buy A then buy B, dst.)</figcaption></figure>
+<h3>Hitung support & confidence</h3>
+<div class="box formula">
+$$\text{Support}(A\to B)=\frac{3}{10}\times100\%=33{,}33\%\qquad \text{Confidence}(A\to B)=\frac{3}{4}\times100\%=75\%$$</div>
+<p>3 transaksi memuat A &amp; B (T5, T6, T9); transaksi yang memuat A ada 4 (T2, T5, T6, T9).</p>
+<figure><img src="img/r-032.jpg" alt="Hasil support confidence"><figcaption>Hasil perhitungan 12 rule</figcaption></figure>
+<table>
+<tr><th>Rule</th><th>Support</th><th>Confidence</th><th>Sup × Conf</th></tr>
+<tr><td class="l">If A then B</td><td>33,33%</td><td>3/4 = 75%</td><td>0,249975</td></tr>
+<tr><td class="l">If B then A</td><td>33,33%</td><td>3/6 = 50%</td><td>—</td></tr>
+<tr><td class="l">If A then F</td><td>33,33%</td><td>3/4 = 75%</td><td>0,249975</td></tr>
+<tr><td class="l">If F then A</td><td>33,33%</td><td>3/4 = 75%</td><td>0,249975</td></tr>
+<tr><td class="l">If B then D</td><td>33,33%</td><td>3/6 = 50%</td><td>—</td></tr>
+<tr><td class="l">If D then B</td><td>33,33%</td><td>3/6 = 50%</td><td>—</td></tr>
+<tr><td class="l">If B then F</td><td>33,33%</td><td>3/6 = 50%</td><td>—</td></tr>
+<tr><td class="l">If F then B</td><td>33,33%</td><td>3/4 = 75%</td><td>0,249975</td></tr>
+<tr><td class="l">If B then G</td><td>33,33%</td><td>3/6 = 50%</td><td>—</td></tr>
+<tr><td class="l">If G then B</td><td>33,33%</td><td>3/5 = 60%</td><td>—</td></tr>
+<tr><td class="l">If D then G</td><td>33,33%</td><td>3/6 = 50%</td><td>—</td></tr>
+<tr><td class="l">If G then D</td><td>33,33%</td><td>3/5 = 60%</td><td>—</td></tr>
+</table>
+<p>Ambil rule dengan <b>confidence ≥ 70%</b>, lalu hitung <b>support × confidence</b>; yang <b>terbesar</b> dipakai sebagai rule saat menjual.</p>
+<figure><img src="img/r-033.jpg" alt="Support x confidence"><figcaption>Tabel Support × Confidence</figcaption></figure>
+<p>Karena keempatnya sama (0,249975), semuanya jadi rule:</p>
+<ul>
+<li>Jika membeli A maka akan membeli B (support 33,33%, confidence 75%)</li>
+<li>Jika membeli A maka akan membeli F (33,33%; 75%)</li>
+<li>Jika membeli F maka akan membeli A (33,33%; 75%)</li>
+<li>Jika membeli F maka akan membeli B (33,33%; 75%)</li>
+</ul>
+</section>
+
+<!-- 7 -->
+<section id="fptree">
+<h2 class="t">7. FP-Tree (Frequent Pattern Tree)</h2>
+<h3>Mengapa FP-Tree?</h3>
+<ul>
+<li>Apriori kurang baik bila banyak <em>frequent pattern</em>, banyak jenis item, namun minimum support rendah.</li>
+<li>Apriori lambat karena <em>scanning</em> database berulang-ulang.</li>
+<li><b>FP-Tree</b> dirancang mengatasi <b><em>bottleneck</em></b> penggalian data pada Apriori. Dicetuskan <b>Zhao et al. (2003)</b> (sesuai slide).</li>
+</ul>
+<h3>Ide / gagasan</h3>
+<ul><li>Pemampatan data dengan struktur <b>pohon</b> → menghindari scanning database berulang.</li>
+<li><b>Tidak memerlukan <em>candidate generation</em></b>.</li>
+<li>Dilanjutkan algoritma <b>FP-Growth</b> yang langsung mengekstrak frequent itemset dari FP-Tree dengan prinsip <b><em>divide and conquer</em></b>.</li></ul>
+<h3>Definisi FP-Tree</h3>
+<ul>
+<li>Terdiri atas <b>root</b> berlabel 'null', sekumpulan subtree sebagai child root, dan sebuah <b>tabel frequent header</b>.</li>
+<li>Setiap node mengandung <b>3 informasi</b>:
+<ol><li><b>label item</b> – jenis item yang diwakili node,</li><li><b>support count</b> – jumlah lintasan transaksi yang melalui node,</li><li><b>pointer penghubung</b> – menghubungkan node berlabel sama antar-lintasan (garis panah putus-putus).</li></ol></li>
+<li>Tiap baris tabel frequent header = label item + <em>head of nodelink</em> (menunjuk node pertama berlabel item itu di FP-Tree).</li></ul>
+<h3>Ukuran FP-Tree</h3>
+<ul><li>Biasanya <b>lebih kecil</b> dari data asli (banyak transaksi berprefix sama).</li>
+<li><b>Best case</b>: semua transaksi berisi item sama → 1 path.</li>
+<li><b>Worst case</b>: tiap transaksi unik → ukuran = data asli, bahkan kebutuhan simpan lebih besar (pointer &amp; counter).</li>
+<li>Bergantung urutan item. Urut berdasar support menurun biasa dipakai, tapi tidak selalu menghasilkan tree terkecil (heuristik).</li></ul>
+<p><b>Dua tahap FP-Growth:</b> (1) bentuk FP-Tree, (2) ekstrak frequent itemset dari FP-Tree dengan FP-Growth.</p>
+</section>
+
+<!-- 8 -->
+<section id="buat">
+<h2 class="t">8. Membangun FP-Tree (Contoh min support count = 2)</h2>
+<figure><img src="img/r-042.jpg" alt="Transaksi"><figcaption>Tabel transaksi 10 baris</figcaption></figure>
+<figure><img src="img/r-043.jpg" alt="Frekuensi"><figcaption>Frekuensi item: a=8, b=7, c=6, d=5, e=3, f=1, r=1, z=1, g=1, h=1</figcaption></figure>
+<div class="box tip"><b>Langkah:</b> (1) scan database, hitung support tiap item; (2) buang item yang support &lt; min (f, r, z, g, h); (3) urutkan item di tiap transaksi menurut frekuensi menurun (a, b, c, d, e).</div>
+<figure><img src="img/r-044.jpg" alt="Transaksi terurut"><figcaption>Transaksi setelah item tak frequent dibuang &amp; diurutkan</figcaption></figure>
+<ol class="steps">
+<li><b>T1 {a,b}</b>: buat node a, b; path null→a→b; count 1.
+<figure><img src="img/r-045.jpg" alt="T1"></figure></li>
+<li><b>T2 {b,c,d}</b>: buat 3 node b,c,d; path null→b→c→d; count 1. Walau T1 dan T2 sama-sama punya b, path <em>disjoint</em> karena prefix berbeda. Tambahkan <b>link</b> antar b.
+<figure><img src="img/r-046.jpg" alt="T2"></figure></li>
+<li><b>T3 {a,c,d,e}</b>: prefix a sama dengan T1 → path overlap, count a bertambah (a:2). Tambah link antar c dan antar d.
+<figure><img src="img/r-047.jpg" alt="T3"></figure></li>
+<li><b>Lanjutkan</b> sampai semua transaksi terpetakan. Hasil akhir FP-Tree:
+<figure><img src="img/r-048.jpg" alt="FP-Tree lengkap"><figcaption>FP-Tree lengkap: a:8, b:5 (di bawah a), b:2, c:3, c:1, c:2, dst.</figcaption></figure></li>
+</ol>
+<div class="box warn">Aturan inti: kalau prefix sama → <b>naikkan count</b> node yang sudah ada; kalau beda → <b>buat cabang baru</b> dengan count 1. Selalu hubungkan node berlabel sama dengan pointer.</div>
+</section>
+
+<!-- 9 -->
+<section id="fpgrowth">
+<h2 class="t">9. Algoritma FP-Growth</h2>
+<h3>Tiga tugas utama</h3>
+<ol class="steps">
+<li><b>Pembangkitan <em>Conditional Pattern Base</em></b> — subdatabase berisi <em>prefix path</em> (lintasan prefix) dan <em>suffix pattern</em> (pola akhiran), didapat dari FP-Tree yang telah dibangun.</li>
+<li><b>Pembangkitan <em>Conditional FP-Tree</em></b> — support count tiap item di conditional pattern base dijumlahkan; item dengan support count ≥ minimum support count dibangkitkan dengan conditional FP-Tree.</li>
+<li><b>Pencarian frequent itemset</b> — bila conditional FP-Tree berupa <b>lintasan tunggal (single path)</b>, frequent itemset diperoleh dengan <b>mengombinasikan item</b> pada conditional FP-Tree. Jika bukan single path, lakukan FP-Growth <b>secara rekursif</b>.</li>
+</ol>
+<h3>Sifat</h3>
+<ul><li>Mengekstrak frequent itemset dari FP-Tree.</li><li>Algoritma <b><em>bottom-up</em></b> — dari <em>leaf</em> menuju <em>root</em>.</li>
+<li><b>Divide and conquer</b>: pertama cari frequent itemset yang berakhir di <b>e</b>, kemudian de, dst.; lalu d, kemudian cd, dst.</li>
+<li>Pertama ekstrak <b>prefix path sub-tree</b> yang berakhir di item (set).</li></ul>
+<figure><img src="img/r-051.jpg" alt="Prefix path sub-tree"><figcaption>FP-Tree lengkap dipecah menjadi prefix path sub-tree untuk node e, d, c, b, a</figcaption></figure>
+<p>Setiap prefix path sub-tree diproses <b>rekursif</b>, hasil akhirnya digabung (merged). Mis. sub-tree untuk e dipakai mengekstrak itemset yang berakhir di e, lalu de, ce, be, ae; kemudian cde, bde, ade, dst.</p>
+<figure><img src="img/r-053.jpg" alt="Pohon pencarian"><figcaption>Urutan pencarian suffix (kiri) dan prefix path sub-tree yang berakhir di e (kanan)</figcaption></figure>
+</section>
+
+<!-- 10 -->
+<section id="cond">
+<h2 class="t">10. Contoh: Conditional FP-Tree untuk e (min support = 2)</h2>
+<ol class="steps">
+<li>Buat <b>prefix path sub-tree</b> untuk e.</li>
+<li>Cek apakah e frequent dengan menjumlahkan seluruh count pada garis putus-putus node e: 1+1+1 = <b>3 ≥ 2</b> → {e} diekstrak sebagai frequent itemset.</li>
+<li>Karena e frequent, cari frequent itemset yang berakhir di e: <b>de, ce, be, ae</b> secara <b>rekursif</b>. Untuk itu perlu <b>conditional FP-Tree</b> untuk e terlebih dahulu.</li>
+</ol>
+<div class="box def"><b>Conditional FP-Tree</b> = FP-Tree yang dibangun bila hanya mempertimbangkan transaksi yang mengandung itemset tertentu (lalu itemset itu dibuang dari seluruh transaksi).</div>
+<figure><img src="img/r-055.jpg" alt="Conditional FP-tree e"><figcaption>Transaksi yang mengandung e (T3, T4, T10) dan tree-nya</figcaption></figure>
+<h3>Cara membuat conditional FP-Tree untuk e</h3>
+<ol class="steps">
+<li><b>Update support count</b> pada prefix path agar menggambarkan jumlah transaksi yang mengandung e. Di contoh: <b>b dan c di-set ke 1, a ke 2</b>.
+<figure><img src="img/r-056.jpg" alt="Update count"></figure></li>
+<li><b>Hilangkan node e</b> (informasi tentang e tidak dibutuhkan lagi).
+<figure><img src="img/r-057.jpg" alt="Hapus e"></figure></li>
+<li><b>Hilangkan item tak sering</b> dari prefix path. b hanya punya support 1 (&lt;2) → <em>be</em> tidak sering → b dibuang.
+<figure><img src="img/r-058.jpg" alt="Hapus b"><figcaption>Pertanyaan slide: mengapa c dan d tidak dibuang? Karena c: 1+1 = 2 dan d: 1+1 = 2, keduanya ≥ minimum support 2.</figcaption></figure></li>
+<li><b>Gunakan conditional FP-Tree e</b> untuk menemukan itemset berakhiran <b>de, ce, ae</b> (be tidak dianggap karena b tidak ada di conditional tree e). Untuk tiap akhiran: cari prefix path, ekstrak frequent itemset, buat conditional FP-Tree, dst (rekursif). Mis. e → de → ade ({d,e}, {a,d,e} ditemukan frequent).</li>
+</ol>
+<figure><img src="img/r-060.jpg" alt="Cond de"><figcaption>Conditional FP-tree e → prefix paths berakhiran de → conditional FP-tree de (hanya a:2)</figcaption></figure>
+<figure><img src="img/r-061.jpg" alt="Cond ce"><figcaption>e → ce: {c,e} ditemukan frequent. Lanjut ae, lalu ulangi untuk b, dst.</figcaption></figure>
+</section>
+
+<!-- 11 -->
+<section id="hasil">
+<h2 class="t">11. Hasil Akhir FP-Growth</h2>
+<figure><img src="img/r-062.jpg" alt="Hasil akhir"><figcaption>Frequent itemset terurut berdasar suffix dan urutan penemuan</figcaption></figure>
+<table>
+<tr><th>Suffix</th><th>Frequent Itemsets</th></tr>
+<tr><td>e</td><td class="l">{e}, {d,e}, {a,d,e}, {c,e}, {a,e}</td></tr>
+<tr><td>d</td><td class="l">{d}, {c,d}, {b,c,d}, {a,c,d}, {b,d}, {a,b,d}, {a,d}</td></tr>
+<tr><td>c</td><td class="l">{c}, {b,c}, {a,b,c}, {a,c}</td></tr>
+<tr><td>b</td><td class="l">{b}, {a,b}</td></tr>
+<tr><td>a</td><td class="l">{a}</td></tr>
+</table>
+</section>
+
+<!-- 12 -->
+<section id="latihan">
+<h2 class="t">12. Latihan + Pembahasan</h2>
+<h3>Latihan 1 – Apriori data pasar sayuran Kopma STIS</h3>
+<p>Min support = 30%, min confidence = 70% (14 transaksi → min support count = $0{,}30\times14=4{,}2\Rightarrow\ge5$).</p>
+<figure><img src="img/r-063.jpg" alt="Latihan 1"></figure>
+<details open><summary>Pembahasan (dihitung ulang)</summary>
+<p><b>F1</b> (count): Asparagus 6, Beans 10, Broccoli 5, Corn 8, Green Peppers 5, Squash 7, Tomatoes 6 → semua ≥5, semua frequent.</p>
+<p><b>2-itemset</b> dengan count ≥ 5:</p>
+<table><tr><th>Itemset</th><th>Count</th><th>Support</th></tr>
+<tr><td>{Beans, Squash}</td><td>6</td><td>42,86%</td></tr>
+<tr><td>{Beans, Corn}</td><td>5</td><td>35,71%</td></tr>
+<tr><td>{Asparagus, Squash}</td><td>5</td><td>35,71%</td></tr>
+<tr><td>{Asparagus, Beans}</td><td>5</td><td>35,71%</td></tr></table>
+<p>Lainnya &lt;5 (mis. {Beans,Tomatoes}=4, {Corn,Tomatoes}=4, {Broccoli,Green Peppers}=4). Calon 3-itemset {Asparagus, Beans, Squash} → count 4 (&lt;5) → <b>$F_3=\{\}$</b>.</p>
+<p><b>Rule</b> (confidence):</p>
+<table><tr><th>Rule</th><th>Support</th><th>Confidence</th><th>≥70%?</th></tr>
+<tr><td class="l">Squash → Beans</td><td>42,86%</td><td>6/7 = 85,71%</td><td class="ok">✓</td></tr>
+<tr><td class="l">Beans → Squash</td><td>42,86%</td><td>6/10 = 60%</td><td class="no">✗</td></tr>
+<tr><td class="l">Beans → Corn</td><td>35,71%</td><td>5/10 = 50%</td><td class="no">✗</td></tr>
+<tr><td class="l">Corn → Beans</td><td>35,71%</td><td>5/8 = 62,5%</td><td class="no">✗</td></tr>
+<tr><td class="l">Asparagus → Squash</td><td>35,71%</td><td>5/6 = 83,33%</td><td class="ok">✓</td></tr>
+<tr><td class="l">Squash → Asparagus</td><td>35,71%</td><td>5/7 = 71,43%</td><td class="ok">✓</td></tr>
+<tr><td class="l">Asparagus → Beans</td><td>35,71%</td><td>5/6 = 83,33%</td><td class="ok">✓</td></tr>
+<tr><td class="l">Beans → Asparagus</td><td>35,71%</td><td>5/10 = 50%</td><td class="no">✗</td></tr></table>
+<p><b>Rule akhir:</b> Squash→Beans, Asparagus→Squash, Squash→Asparagus, Asparagus→Beans.</p>
+<p class="tip" style="padding:10px 14px">Kalau soal meminta pilih satu rule terbaik via support × confidence (cara slide): Squash→Beans = 0,4286×0,8571 = <b>0,367</b> → terbesar.</p>
+</details>
+
+<h3>Latihan 2 – FP-Growth: mining pattern untuk item Grape (min support = 4)</h3>
+<figure><img src="img/r-064.jpg" alt="Latihan 2" style="background:#fff"></figure>
+<details open><summary>Pembahasan (dihitung ulang)</summary>
+<ol class="steps">
+<li><b>Hitung support:</b> Cheese 9, Bread 5, Egg 5, Grape 5, Orange 4, Apple 3, Milk 2.<br>Buang Apple &amp; Milk (&lt;4). Urutan: Cheese, Bread, Egg, Grape, Orange.</li>
+<li><b>Transaksi terurut:</b> T01 {Ch,Eg}; T02 {Ch}; T03 {Ch,Br,Gr,Or}; T04 {Br,Eg,Or}; T05 {Ch,Gr}; T06 {Ch,Eg,Or}; T07 {Ch,Br,Or}; T08 {Ch,Eg,Gr}; T09 {Ch,Br,Eg,Gr}; T10 {Ch,Br,Gr}.</li>
+<li><b>Prefix path berakhir di Grape</b> (<em>conditional pattern base</em>): {Ch,Br}:1 (T03), {Ch}:1 (T05), {Ch,Eg}:1 (T08), {Ch,Br,Eg}:1 (T09), {Ch,Br}:1 (T10).</li>
+<li><b>Support count di conditional base:</b> Cheese 5, Bread 3, Egg 2 → hanya <b>Cheese</b> ≥4. Conditional FP-Tree Grape: <code>null → Cheese:5</code> (single path).</li>
+<li><b>Frequent itemset berakhiran Grape:</b> <b>{Grape}:5</b> dan <b>{Cheese, Grape}:5</b>.</li></ol>
+</details>
+</section>
+
+<!-- 13 -->
+<section id="banding">
+<h2 class="t">13. Apriori vs FP-Growth</h2>
+<table>
+<tr><th>Aspek</th><th>Apriori</th><th>FP-Growth</th></tr>
+<tr><td>Candidate generation</td><td class="l">Ya (generate &amp; test)</td><td class="l">Tidak perlu</td></tr>
+<tr><td>Scan database</td><td class="l">Berulang tiap level $k$</td><td class="l">2 kali (hitung item + bangun tree)</td></tr>
+<tr><td>Struktur data</td><td class="l">Tabel / himpunan kandidat</td><td class="l">FP-Tree (pohon terkompresi)</td></tr>
+<tr><td>Strategi</td><td class="l">Level-wise (breadth), prinsip anti-monotone</td><td class="l">Divide &amp; conquer, bottom-up, rekursif</td></tr>
+<tr><td>Kelemahan</td><td class="l"><em>Bottleneck</em>; lambat jika support rendah / pola banyak</td><td class="l">Tree bisa besar (worst case) &amp; butuh memori pointer</td></tr>
+<tr><td>Penemu (slide)</td><td class="l">Agrawal dkk. (1993)</td><td class="l">Zhao et al. (2003)</td></tr>
+</table>
+</section>
+
+<!-- 14 -->
+<section id="cek">
+<h2 class="t">14. Checklist Persiapan UAS</h2>
+<ul>
+<li>☐ Hafal rumus support, confidence, dan support × confidence.</li>
+<li>☐ Bisa membedakan antecedent vs consequent; consequent hanya 1 unsur.</li>
+<li>☐ Bisa menjalankan Apriori: $F_1\to F_2\to\dots$ sampai kosong; terapkan prinsip Apriori.</li>
+<li>☐ Bisa menjumlah 2-itemset ($\binom{n}{2}$ pasangan) dan menghitung jumlah rule ($2\times|F_2|$).</li>
+<li>☐ Bisa membangun FP-Tree: buang item &lt; min, urutkan frekuensi menurun, tambah count bila prefix sama.</li>
+<li>☐ Bisa membuat conditional pattern base &amp; conditional FP-Tree untuk suatu suffix.</li>
+<li>☐ Tahu alasan FP-Tree dibanding Apriori (tanpa candidate generation, hindari scan berulang).</li>
+<li>☐ Tahu best/worst case ukuran FP-Tree.</li>
+</ul>
+</section>
+</main>
+<div id="lb"><img alt=""></div>
+<script src="katex/katex.min.js"></script>
+<script src="katex/contrib/auto-render.min.js"></script>
+<script>
+renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:true},{left:"$",right:"$",display:false}],throwOnError:false});
+const lb=document.getElementById('lb');
+document.querySelectorAll('figure img').forEach(i=>i.onclick=()=>{lb.firstElementChild.src=i.src;lb.style.display='grid'});
+lb.onclick=()=>lb.style.display='none';
+const links=[...document.querySelectorAll('aside a[href^="#"]')];
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){links.forEach(l=>l.classList.toggle('on',l.getAttribute('href')=='#'+e.target.id))}}),{rootMargin:'-30% 0px -60% 0px'});
+document.querySelectorAll('section').forEach(s=>io.observe(s));
+</script>
+</body>
+</html>

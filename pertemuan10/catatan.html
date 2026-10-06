@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Catatan Kertas UAS Data Mining – Pertemuan 10 (Density-Based, Bi-Clustering, Model Evaluation)</title>
+<meta name="description" content="Catatan ringkas gaya kertas bergaris untuk UAS Data Mining Pertemuan 10: DBSCAN, OPTICS, Bi-Clustering (Cheng & Church MSR), Evaluasi Tendensi (Hopkins, VAT), Validasi Klaster (Silhouette, Dunn, Rand Index).">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="katex/katex.min.css">
+<style>
+body{margin:0;background:#cfc7b8;font-family:'Patrick Hand','Comic Sans MS',cursive;color:#1d2a5c;font-size:18px}
+.bar{position:sticky;top:0;background:#1e293b;color:#fff;padding:10px 20px;display:flex;gap:16px;align-items:center;z-index:50;font-family:sans-serif;font-size:14px;box-shadow:0 4px 12px rgba(0,0,0,0.3)}
+.bar a,.bar button{color:#38bdf8;background:none;border:1px solid #38bdf888;border-radius:6px;padding:5px 14px;cursor:pointer;text-decoration:none;font:inherit;font-weight:600}
+.bar a:hover,.bar button:hover{background:#38bdf822}
+.page{
+  width:210mm;min-height:297mm;margin:24px auto;padding:16mm 14mm 14mm 24mm;
+  background:
+    linear-gradient(90deg,transparent 18mm,#e0525266 18mm,#e0525266 18.4mm,transparent 18.4mm),
+    repeating-linear-gradient(#fffef6,#fffef6 27px,#a9c6e6 27px,#a9c6e6 28px);
+  box-shadow:0 8px 30px rgba(0,0,0,0.35);position:relative;line-height:28px;box-sizing:border-box;
+}
+.page:before{
+  content:"";position:absolute;left:7mm;top:30mm;bottom:30mm;width:9px;
+  background:radial-gradient(circle,#cfc7b8 4px,transparent 5px) 0 0/9px 60px repeat-y;
+}
+h1{font-family:Caveat,cursive;font-size:36px;line-height:40px;margin:0 0 6px;color:#c0392b;text-decoration:underline wavy #e0525299;text-underline-offset:6px}
+h2{font-family:Caveat,cursive;font-size:27px;line-height:28px;margin:12px 0 2px;color:#0b5cad;border-bottom:2px dashed #0b5cad77;display:inline-block}
+h3{font-family:Caveat,cursive;font-size:22px;line-height:24px;margin:8px 0 2px;color:#16803c}
+p,li{margin:0}
+ul{margin:0;padding-left:20px;list-style:'➜ '}
+ol{margin:0;padding-left:22px}
+.hl{background:linear-gradient(transparent 55%,#ffe94f99 55%);padding:0 3px}
+.hl2{background:linear-gradient(transparent 55%,#8be8a899 55%);padding:0 3px}
+.hl3{background:linear-gradient(transparent 55%,#ffb4c899 55%);padding:0 3px}
+.red{color:#c0392b;font-weight:700}.grn{color:#16803c;font-weight:700}.blu{color:#0b5cad;font-weight:700}
+.box{border:2px solid #c0392b;border-radius:8px 14px 10px 16px;padding:4px 12px;margin:6px 0;background:#fff8e1bb}
+.box-blue{border:2px solid #0b5cad;border-radius:8px 14px 10px 16px;padding:4px 12px;margin:6px 0;background:#eff6ffbb}
+.sticky{
+  position:absolute;right:10mm;width:52mm;background:#fff176;transform:rotate(2.5deg);
+  padding:8px 12px;line-height:22px;font-size:15px;box-shadow:3px 5px 12px rgba(0,0,0,0.25);border-left:3px solid #f59e0b;z-index:5;
+}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:0 18px}
+table{border-collapse:collapse;line-height:22px;margin:6px 0;font-size:15px;width:100%}
+td,th{border:1.5px solid #1d2a5c;padding:2px 8px;text-align:center}
+th{background:#dbe8ff}
+img.fig{width:100%;border:2px solid #1d2a5c;border-radius:6px;display:block;margin:6px 0;background:#fff;transform:rotate(-.3deg)}
+.katex{font-size:1.05em;color:#14246b}
+.katex-display{margin:3px 0}
+.tag{font-size:14px;color:#777;position:absolute;bottom:6mm;right:14mm}
+@media print{
+  .bar{display:none}body{background:#fff}.page{margin:0;box-shadow:none;page-break-after:always}
+}
+@media(max-width:840px){
+  .page{width:auto;margin:10px;padding-left:22mm}.cols{grid-template-columns:1fr}
+  .sticky{position:static;transform:none;width:auto;margin:8px 0}
+}
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <span style="font-weight:bold">📝 Catatan Kertas UAS Data Mining – Pertemuan 10</span>
+  <span style="opacity:0.7">Politeknik Statistika STIS</span>
+  <a href="index.html">← Buka Modul Lengkap (index.html)</a>
+  <button onclick="window.print()">🖨️ Cetak / Simpan PDF</button>
+</div>
+
+<!-- ==================== HALAMAN 1 ==================== -->
+<div class="page" id="hal1">
+  <div class="sticky" style="top:18mm">
+    📌 <b>DBSCAN INTINYA:</b><br>
+    • Bentuk klaster bebas (spiral/cincin)<br>
+    • Otomatis isolasi noise<br>
+    • Tidak butuh $k$ di awal<br>
+    • 2 Parameter: $(\varepsilon, \text{MinPts})$
+  </div>
+
+  <h1>Pertemuan 10: Density-Based Clustering – DBSCAN</h1>
+  <p><span class="hl">Ester et al. (1996)</span>: Mengelompokkan titik berdasarkan <b>kepadatan spasial</b> (daerah padat dipisahkan oleh daerah renggang/noise).</p>
+
+  <h2>1. Dua Parameter Kunci DBSCAN</h2>
+  <ul>
+    <li><b>$\varepsilon$ (Eps / Epsilon):</b> Jari-jari radius lingkungan tetangga di sekitar suatu titik $p$.</li>
+    <li><b>$\text{MinPts}$:</b> Ambang batas jumlah titik minimum dalam radius $\varepsilon$ (termasuk titik $p$ itu sendiri).</li>
+  </ul>
+  <p style="margin-top:2px">Notasi tetangga: $N_\varepsilon(p) = \{q \in D \mid \text{dist}(p, q) \le \varepsilon\}$.</p>
+
+  <h2>2. Tiga Jenis Titik (Point Categories)</h2>
+  <div class="cols">
+    <div>
+      <ol>
+        <li><b class="red">Core Point:</b> Punya $\ge \text{MinPts}$ dalam radius $\varepsilon$.<br>
+          $\implies |N_\varepsilon(p)| \ge \text{MinPts}$ (Pusat area padat).</li>
+        <li><b class="blu">Border Point:</b> Punya $&lt; \text{MinPts}$ dalam radiusnya, tapi berada di dalam radius $\varepsilon$ dari suatu core point.<br>
+          $\implies |N_\varepsilon(p)| &lt; \text{MinPts}$ tapi $\exists q \in \text{Core}, p \in N_\varepsilon(q)$.</li>
+        <li><b class="grn">Noise Point:</b> Bukan Core dan bukan Border (di area sepi).</li>
+      </ol>
+    </div>
+    <div>
+      <img src="img/slide-06.jpg" class="fig" alt="Slide 6: Core, Border, Noise">
+    </div>
+  </div>
+
+  <h2>3. Tiga Relasi Kepadatan (Sangat Sering Keluar di Ujian!)</h2>
+  <div class="box">
+    <b>A. Directly Density-Reachable:</b> Titik $p$ <em>directly reachable</em> dari $q$ jika:
+    (1) $p \in N_\varepsilon(q)$, dan (2) <span class="red">$q$ adalah Core Point</span>.<br>
+    ⚠️ <span class="red">Sifat: ASIMETRIS!</span> (Border point tidak bisa mendahului core point).
+  </div>
+  <div class="box">
+    <b>B. Density-Reachable:</b> Titik $p$ <em>reachable</em> dari $q$ jika ada rantai titik $p_1, p_2, \dots, p_n$ di mana $p_1 = q, p_n = p$ dan $p_{i+1}$ directly density-reachable dari $p_i$.<br>
+    ⚠️ <span class="blu">Sifat: Transitif tapi ASIMETRIS</span> jika $p$ adalah border point.
+  </div>
+  <div class="box">
+    <b>C. Density-Connected:</b> Titik $p$ dan $q$ <em>density-connected</em> jika ada suatu Core Point $o$ sedemikian rupa sehingga <span class="hl2">keduanya density-reachable dari $o$</span>.<br>
+    ✅ <span class="grn">Sifat: SIMETRIS!</span> ($p$ terhubung ke $q \iff q$ terhubung ke $p$). Menyatukan border points!
+  </div>
+
+  <h2>4. Definisi Klaster DBSCAN &amp; Parameter Heuristik</h2>
+  <ul>
+    <li>Klaster $C$ adalah subset non-kosong yang memenuhi:
+      (1) <b>Maximal:</b> Jika $p \in C$ dan $q$ density-reachable dari $p$, maka $q \in C$.
+      (2) <b>Connected:</b> Semua pasangan titik dalam $C$ saling <em>density-connected</em>.
+    </li>
+    <li><b>Menentukan $\varepsilon$ via $k$-distance plot:</b> Hitung jarak ke tetangga ke-$k$ (di mana $k = \text{MinPts}$), urutkan menurun. Cari titik <span class="hl">"knee" (siku tajam)</span> sebagai nilai $\varepsilon$ optimal!</li>
+    <li><b>Rule of thumb:</b> $\text{MinPts} \ge d + 1$, umumnya $\text{MinPts} = 2 \times \text{dimensi}$.</li>
+    <li><b class="red">Kelemahan DBSCAN:</b> Gagal jika data memiliki kerapatan bervariasi (varying densities) &amp; curse of dimensionality.</li>
+  </ul>
+
+  <div class="tag">Halaman 1 / 5</div>
+</div>
+
+<!-- ==================== HALAMAN 2 ==================== -->
+<div class="page" id="hal2">
+  <div class="sticky" style="top:22mm">
+    💡 <b>KUNCI OPTICS:</b><br>
+    • Mengatasi varying density<br>
+    • Menghasilkan ordering titik<br>
+    • <b>Lembah</b> = Kluster<br>
+    • <b>Lembah bersarang</b> = Hierarki kluster<br>
+    • <b>Puncak</b> = Pemisah / noise
+  </div>
+
+  <h1>Pertemuan 10: OPTICS (Ordering Points...)</h1>
+  <p><span class="hl">Ankerst et al. (1999)</span>: Mengatasi kerapatan bervariasi tanpa perlu mengunci satu $\varepsilon$ global kaku.</p>
+
+  <h2>1. Konsep Dasar OPTICS</h2>
+  <p>OPTICS tidak langsung membagi data ke klaster kaku, melainkan membentuk <b>augmented cluster ordering</b> yang menyimpan struktur kepadatan bertingkat.</p>
+
+  <h2>2. Dua Konsep Jarak Inti (Wajib Hafal Rumus!)</h2>
+  <div class="box-blue">
+    <b>A. Core-Distance ($\text{cd}(p)$):</b> Jarak terkecil dari $p$ ke titik tetangganya yang ke-$\text{MinPts}$.
+    $$\text{cd}(p) = \begin{cases} \text{UNDEFINED}, & \text{jika } |N_\varepsilon(p)| < \text{MinPts} \\ \text{dist}(p, N_\varepsilon^{\text{MinPts}}(p)), & \text{jika } |N_\varepsilon(p)| \ge \text{MinPts} \end{cases}$$
+    <i>Artinya: Jari-jari minimum agar titik $p$ sah menjadi Core Point!</i>
+  </div>
+
+  <div class="box">
+    <b>B. Reachability-Distance ($\text{rd}(p, o)$):</b> Jarak keterjangkauan titik $p$ ditinjau dari core object $o$.
+    $$\text{rd}(p, o) = \begin{cases} \text{UNDEFINED}, & \text{jika } |N_\varepsilon(o)| < \text{MinPts} \\ \max\big(\text{cd}(o),\, \text{dist}(o, p)\big), & \text{jika } o \text{ adalah Core Point} \end{cases}$$
+    <i>Logika $\max$: Jarak keterjangkauan tidak pernah bisa lebih kecil dari core-distance objek asalnya!</i>
+  </div>
+
+  <div class="cols" style="margin-top:4px">
+    <div>
+      <img src="img/slide-15.jpg" class="fig" alt="Slide 15: Core & Reachability distance">
+    </div>
+    <div>
+      <img src="img/slide-17.jpg" class="fig" alt="Slide 17: Reachability Plot">
+    </div>
+  </div>
+
+  <h2>3. Membaca Reachability Plot (Grafik Lembah)</h2>
+  <ul>
+    <li><b>Sumbu X:</b> Urutan pemrosesan objek (Cluster Ordering).</li>
+    <li><b>Sumbu Y:</b> Nilai Reachability Distance.</li>
+    <li><span class="grn"><b>Lembah (Valleys / Basins):</b></span> Kumpulan titik dengan reachability distance rendah $\implies$ <b>KLUSTER PADAT</b>! Semakin dalam lembah, semakin padat.</li>
+    <li><span class="blu"><b>Lembah di dalam Lembah:</b></span> Menandakan <b>Sub-kluster hierarki</b> (kluster bersarang).</li>
+    <li><span class="red"><b>Puncak (Peaks):</b></span> Titik dengan jarak lonjakan tinggi $\implies$ <b>Pemisah antar klaster atau Noise/Outlier</b>.</li>
+    <li><b>Mengekstrak DBSCAN dari OPTICS:</b> Cukup tarik garis horizontal $\varepsilon' \le \varepsilon$. Bagian di bawah garis yang bersambung menjadi klaster DBSCAN yang ekuivalen!</li>
+  </ul>
+
+  <div class="tag">Halaman 2 / 5</div>
+</div>
+
+<!-- ==================== HALAMAN 3 ==================== -->
+<div class="page" id="hal3">
+  <div class="sticky" style="top:22mm">
+    🧬 <b>BI-CLUSTERING:</b><br>
+    • Solusi Curse of Dim.<br>
+    • Baris & Kolom SIMULTAN<br>
+    • Cheng & Church: cari submatriks dengan $H(I,J) \le \delta$
+  </div>
+
+  <h1>Pertemuan 10: Bi-Clustering (Co-Clustering)</h1>
+  <p><span class="hl">Bi-clustering</span>: Mengelompokkan baris (objek/gen) dan kolom (atribut/kondisi) <b>secara simultan</b> pada sub-ruang data (subspace clustering). Mengatasi <i>curse of dimensionality</i> pada microarray/ekspresi gen.</p>
+
+  <h2>1. Lima Tipe Struktur Bicluster</h2>
+  <table style="margin-top:2px">
+    <tr><th style="width:28%">Tipe</th><th style="width:38%">Model Matematis</th><th>Karakteristik Visual</th></tr>
+    <tr><td><b>1. Constant</b></td><td>$a_{ij} = c$</td><td>Semua nilai dalam submatriks sama persis.</td></tr>
+    <tr><td><b>2. Constant Rows / Columns</b></td><td>$a_{ij} = c + \alpha_i$ atau $a_{ij} = c + \beta_j$</td><td>Nilai konstan per baris (atau per kolom), fluktuasi antar baris/kolom.</td></tr>
+    <tr><td><b>3. Coherent Additive</b></td><td>$a_{ij} = \mu + \alpha_i + \beta_j$</td><td>Pola fluktuasi paralel aditif (jarak antar profil gen selalu sama).</td></tr>
+    <tr><td><b>4. Coherent Multiplicative</b></td><td>$a_{ij} = \mu \cdot \alpha_i \cdot \beta_j$</td><td>Pola rasio skala proporsional perkalian.</td></tr>
+    <tr><td><b>5. Coherent Evolutions</b></td><td>Order-preserving submatrix</td><td>Urutan kenaikan/penurunan kolom konsisten (ranking profil sama).</td></tr>
+  </table>
+
+  <h2>2. Algoritma Cheng &amp; Church (2000) – MSR</h2>
+  <div class="box">
+    <b>A. Cell Residue ($r_{ij}$):</b> Mengukur deviasi elemen $a_{ij}$ dari rata-rata baris, kolom, dan total submatriks:
+    $$r_{ij} = a_{ij} - a_{iJ} - a_{Ij} + a_{IJ}$$
+    Di mana: $a_{iJ} = \frac{1}{|J|}\sum_{j \in J} a_{ij}$ (mean baris), $a_{Ij} = \frac{1}{|I|}\sum_{i \in I} a_{ij}$ (mean kolom), $a_{IJ} = \frac{1}{|I||J|}\sum a_{ij}$ (mean matriks).
+  </div>
+
+  <div class="box-blue">
+    <b>B. Mean Squared Residue (MSR) $H(I, J)$:</b>
+    $$H(I, J) = \frac{1}{|I||J|} \sum_{i \in I} \sum_{j \in J} r_{ij}^2 \le \delta$$
+    Submatriks $(I, J)$ disebut <b>$\delta$-bicluster</b> jika $H(I, J) \le \delta$. Jika $H = 0$, bicluster sempurna!
+  </div>
+
+  <h2>3. Alur Algoritma Cheng &amp; Church (3 Tahap Utama)</h2>
+  <ol>
+    <li><b>Node Deletion (Greedy):</b> Hitung rata-rata residu per baris $d(i) = \frac{1}{|J|}\sum r_{ij}^2$ dan per kolom $e(j) = \frac{1}{|I|}\sum r_{ij}^2$. Hapus baris/kolom dengan residu terbesar melebihi $\alpha H(I,J)$ secara iteratif sampai skor $H \le \delta$.</li>
+    <li><b>Node Addition:</b> Masukkan kembali baris atau kolom dari luar yang tidak menyebabkan skor $H(I,J)$ melompat melebihi batas $\delta$ (memaksimalkan ukuran bicluster).</li>
+    <li><span class="red"><b>Masking:</b></span> Ganti seluruh elemen bicluster yang sudah ditemukan dengan <span class="hl3">nilai acak (random numbers)</span> agar tidak terpilih lagi, lalu ulangi proses untuk menemukan bicluster berikutnya!</li>
+  </ol>
+
+  <div class="tag">Halaman 3 / 5</div>
+</div>
+
+<!-- ==================== HALAMAN 4 ==================== -->
+<div class="page" id="hal4">
+  <div class="sticky" style="top:22mm">
+    🔍 <b>EVALUASI TENDENSI:</b><br>
+    Cek dulu sebelum klaster!<br>
+    • $H > 0.75 \implies$ Ada klaster!<br>
+    • $H \approx 0.50 \implies$ Random/uniform<br>
+    • VAT: cari balok hitam diagonal
+  </div>
+
+  <h1>Pertemuan 10: Evaluasi Tendensi &amp; Jenis Validasi</h1>
+  <p><b>Clustering Tendency:</b> Menguji apakah data memang memiliki struktur kluster alami atau hanya seragam/acak (mencegah <i>clustering illusion</i> dari K-Means).</p>
+
+  <h2>1. Hopkins Statistic ($H$) – Pengujian Hipotesis</h2>
+  <ul>
+    <li>Ambil $p$ titik sampel dari data riil $D$: $X = \{x_1, \dots, x_p\}$.</li>
+    <li>Bangkitkan $p$ titik sintetis berdistribusi seragam (uniform): $Y = \{y_1, \dots, y_p\}$.</li>
+    <li>$u_i = \text{jarak } y_i \text{ ke tetangga terdekat di } D$.</li>
+    <li>$w_i = \text{jarak } x_i \text{ ke tetangga terdekat di } D \setminus \{x_i\}$.</li>
+  </ul>
+  <div class="box">
+    $$H = \frac{\sum_{i=1}^p w_i}{\sum_{i=1}^p u_i + \sum_{i=1}^p w_i}$$
+    <b>Kaidah Keputusan UAS STIS:</b><br>
+    • <span class="grn"><b>$H &gt; 0.75$:</b> Data memiliki struktur klaster signifikan</span> (pada taraf nyata 90%). Boleh diklasterkan!<br>
+    • <span class="red"><b>$H \approx 0.50$:</b> Data berdistribusi seragam / acak (uniform/random).</span> JANGAN diklasterkan!<br>
+    • $H \approx 0$: Data reguler/grid berjarak sama persis.
+  </div>
+
+  <h2>2. Visual Assessment of Cluster Tendency (VAT)</h2>
+  <div class="cols">
+    <div>
+      <ul>
+        <li>Hitung matriks disimilaritas antar semua pasangan objek.</li>
+        <li>Urutkan kembali urutan baris &amp; kolom menggunakan algoritma penelusuran minimum spanning tree (mirip Prim's Algorithm).</li>
+        <li>Tampilkan sebagai heatmap <i>Ordered Dissimilarity Image (ODI)</i>.</li>
+        <li><span class="blu"><b>Indikator Klaster:</b></span> Muncul <b>balok-balok persegi hitam pekat</b> di sepanjang diagonal utama!</li>
+      </ul>
+    </div>
+    <div>
+      <img src="img/slide-43.jpg" class="fig" alt="Slide 43: VAT Heatmap">
+    </div>
+  </div>
+
+  <h2>3. Tiga Jenis Validasi Klaster</h2>
+  <div class="box-blue">
+    <b>1. Validasi Internal:</b> Menilai struktur murni dari data itu sendiri tanpa informasi luar.<br>
+    Mengukur: (a) <i>Compactness</i> (kedekatan intra-klaster), (b) <i>Separation</i> (pemisahan inter-klaster), (c) <i>Connectivity</i>. Contoh: Silhouette, Dunn Index.
+  </div>
+  <div class="box-blue">
+    <b>2. Validasi Eksternal:</b> Membandingkan hasil klaster dengan struktur luar yang sudah diketahui (ground truth label). Contoh: Corrected Rand Index, Variation of Information (VI).
+  </div>
+  <div class="box-blue">
+    <b>3. Validasi Relatif:</b> Membandingkan performa klaster dengan variasi parameter yang berbeda (misal mencoba $k=2,3,4,\dots$ atau membandingkan metode linkage).
+  </div>
+
+  <div class="tag">Halaman 4 / 5</div>
+</div>
+
+<!-- ==================== HALAMAN 5 ==================== -->
+<div class="page" id="hal5">
+  <div class="sticky" style="top:22mm">
+    🎯 <b>CHEAT SHEET UJIAN:</b><br>
+    • Silh $\to$ Maksimal $(-1 \text{ s.d. } 1)$<br>
+    • Dunn $\to$ Maksimal $(\ge 0)$<br>
+    • ARI $\to$ Maksimal $(-1 \text{ s.d. } 1)$<br>
+    • VI $\to$ Minimal (Entropi)
+  </div>
+
+  <h1>Pertemuan 10: Metrik Validasi &amp; Kunci Hafalan UAS</h1>
+
+  <h2>1. Metrik Validasi Internal (Kualitas Partisi)</h2>
+  <div class="box">
+    <b>A. Silhouette Coefficient ($s(i)$):</b>
+    $$s(i) = \frac{b(i) - a(i)}{\max(a(i), b(i))}, \quad -1 \le s(i) \le 1$$
+    • $a(i)$: rata-rata jarak $i$ ke semua titik dalam klaster yang sama (intra-cluster).<br>
+    • $b(i)$: rata-rata jarak terkecil $i$ ke titik di klaster tetangga terdekat (inter-cluster).<br>
+    <span class="grn">Interpretasi:</span> $s \to 1$ (sangat baik/tepat); $s \approx 0$ (di perbatasan); $s &lt; 0$ (salah klaster!). Rata-rata $\bar{S} &gt; 0.7$ menunjukkan struktur klaster kuat.
+  </div>
+
+  <div class="box">
+    <b>B. Dunn Index:</b> Rasio jarak terdekat antar klaster terhadap diameter klaster terbesar:
+    $$\text{Dunn Index} = \frac{\min_{i \ne j} d(C_i, C_j)}{\max_k \text{diam}(C_k)}$$
+    <span class="blu">Kaidah:</span> Semakin <span class="hl">BESAR nilai Dunn Index</span>, pemisahan antar klaster semakin bagus dan kompak!
+  </div>
+
+  <h2>2. Metrik Validasi Eksternal (Mencocokkan Label Luar)</h2>
+  <div class="cols">
+    <div>
+      <p>Berdasarkan pasangan titik $(x_i, x_j)$:</p>
+      <ul>
+        <li>$f_{11}$: sama di Klaster &amp; sama di Ground Truth</li>
+        <li>$f_{00}$: beda di Klaster &amp; beda di Ground Truth</li>
+        <li>$f_{10}$: sama di Klaster, beda di Ground Truth</li>
+        <li>$f_{01}$: beda di Klaster, sama di Ground Truth</li>
+      </ul>
+    </div>
+    <div>
+      <div class="box-blue" style="font-size:14.5px">
+        <b>Rand Index (RI):</b> $\text{RI} = \frac{f_{11} + f_{00}}{f_{11}+f_{10}+f_{01}+f_{00}}$<br>
+        <b>Adjusted / Corrected Rand Index (ARI):</b><br>
+        Disesuaikan peluang kebetulan. Nilai $\in [-1, 1]$.<br>
+        $1 = \text{sempurna}$, $0 = \text{acak/random}$.<br>
+        <b>Variation of Information (VI):</b> $\text{VI} = H(C)+H(P)-2I(C,P)$. Semakin kecil semakin mirip!
+      </div>
+    </div>
+  </div>
+
+  <h2>3. Empat Tahap Analisis Klaster (Slide 37)</h2>
+  <ol>
+    <li><b>Evaluasi Tendensi Klaster:</b> Cek apakah data layak diklasterkan (Hopkins Stat $H &gt; 0.75$, VAT heatmap).</li>
+    <li><b>Menentukan Jumlah Kluster ($k$):</b> Elbow method, Average Silhouette, Gap Statistic, $k$-distance plot.</li>
+    <li><b>Pengukuran Kualitas Klaster:</b> Validasi Internal (Silhouette, Dunn) &amp; Validasi Eksternal (ARI, VI).</li>
+    <li><b>Profiling Klaster:</b> Interpretasi karakteristik masing-masing klaster berdasarkan ringkasan statistik (mean/modus).</li>
+  </ol>
+
+  <h2>4. Tabel Komparasi Kilat Algoritma Pertemuan 10</h2>
+  <table>
+    <tr><th>Metode</th><th>Kelebihan</th><th>Kelemahan</th><th>Kata Kunci UAS</th></tr>
+    <tr><td><b>DBSCAN</b></td><td>Bentuk arbitrer, tahan noise, tanpa $k$.</td><td>Gagal jika density bervariasi, sensitif $\varepsilon$.</td><td>Core point, Border, Noise, k-dist knee.</td></tr>
+    <tr><td><b>OPTICS</b></td><td>Mampu mengatasi density bervariasi.</td><td>Komputasi ordering lebih mahal.</td><td>Core-dist, Reachability-dist, grafik lembah.</td></tr>
+    <tr><td><b>Bi-Clustering</b></td><td>Subspace clustering simultan baris &amp; kolom.</td><td>NP-hard, heuristik greedy.</td><td>Cheng &amp; Church, MSR $H \le \delta$, Cell residue.</td></tr>
+    <tr><td><b>Hopkins Stat</b></td><td>Uji formal tendensi klaster.</td><td>Sensitif terhadap outlier acak.</td><td>$H &gt; 0.75$ (ada klaster), $H \approx 0.5$ (random).</td></tr>
+  </table>
+
+  <div class="tag">Halaman 5 / 5</div>
+</div>
+
+<script src="katex/katex.min.js"></script>
+<script src="katex/contrib/auto-render.min.js"></script>
+<script>
+renderMathInElement(document.body, {
+  delimiters: [
+    {left: "$$", right: "$$", display: true},
+    {left: "$", right: "$", display: false}
+  ],
+  throwOnError: false
+});
+</script>
+</body>
+</html>

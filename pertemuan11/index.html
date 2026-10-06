@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pertemuan 11: Teori Fuzzy, Sistem Inferensi Fuzzy, &amp; Fuzzy Clustering – UAS Data Mining STIS</title>
+<meta name="description" content="Modul belajar lengkap UAS Data Mining STIS Pertemuan 11: Teori Himpunan Fuzzy, Fungsi Keanggotaan, t-norm/s-norm, Alpha-cut, Sistem Inferensi Fuzzy (Mamdani vs Sugeno), Fuzzy C-Means (FCM), Gustafson-Kessel, Possibilistic C-Means, dan Regularisasi Spasial.">
+<link rel="stylesheet" href="katex/katex.min.css">
+<style>
+:root{
+  --bg:#0f172a;--surface:#1e293b;--surface2:#334155;--text:#f8fafc;--text-muted:#94a3b8;
+  --primary:#38bdf8;--secondary:#818cf8;--accent:#f43f5e;--green:#34d399;--amber:#fbbf24;
+  --border:#475569;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;padding:0;background:var(--bg);color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,sans-serif;
+  line-height:1.65;font-size:16px;
+}
+header{
+  background:linear-gradient(135deg,#0284c7,#4f46e5);color:#fff;
+  padding:32px 24px;text-align:center;box-shadow:0 4px 20px rgba(0,0,0,0.4);
+}
+header h1{margin:0 0 8px;font-size:28px;letter-spacing:-0.5px}
+header p{margin:0;opacity:0.9;font-size:16px}
+.badge{
+  display:inline-block;background:rgba(255,255,255,0.2);padding:4px 12px;
+  border-radius:99px;font-size:13px;font-weight:600;margin-top:10px;text-transform:uppercase;letter-spacing:1px;
+}
+nav{
+  background:var(--surface);position:sticky;top:0;z-index:100;
+  display:flex;flex-wrap:wrap;justify-content:center;gap:8px;padding:12px 16px;
+  border-bottom:1px solid var(--border);box-shadow:0 2px 10px rgba(0,0,0,0.3);
+}
+nav a{
+  color:var(--text);text-decoration:none;padding:6px 14px;border-radius:6px;
+  font-size:14px;font-weight:500;transition:all 0.2s;background:var(--surface2);
+}
+nav a:hover{background:var(--primary);color:#0f172a}
+nav .catatan-btn{background:#e11d48;color:#fff}
+nav .catatan-btn:hover{background:#be123c;color:#fff}
+
+main{max-width:1100px;margin:24px auto;padding:0 20px}
+section{
+  background:var(--surface);border-radius:12px;padding:28px;margin-bottom:32px;
+  border:1px solid var(--border);box-shadow:0 6px 20px rgba(0,0,0,0.25);
+}
+h2{
+  color:var(--primary);font-size:24px;margin-top:0;padding-bottom:10px;
+  border-bottom:2px solid var(--surface2);display:flex;align-items:center;gap:10px;
+}
+h3{color:var(--amber);font-size:19px;margin:22px 0 10px}
+h4{color:var(--green);font-size:17px;margin:16px 0 6px}
+p{margin:0 0 14px;color:#cbd5e1}
+ul,ol{margin:0 0 16px;padding-left:24px;color:#cbd5e1}
+li{margin-bottom:6px}
+
+.highlight-box{
+  background:rgba(56,189,248,0.08);border-left:4px solid var(--primary);
+  padding:16px 20px;border-radius:0 8px 8px 0;margin:18px 0;
+}
+.warning-box{
+  background:rgba(244,63,94,0.08);border-left:4px solid var(--accent);
+  padding:16px 20px;border-radius:0 8px 8px 0;margin:18px 0;
+}
+.green-box{
+  background:rgba(52,211,153,0.08);border-left:4px solid var(--green);
+  padding:16px 20px;border-radius:0 8px 8px 0;margin:18px 0;
+}
+.amber-box{
+  background:rgba(251,191,36,0.08);border-left:4px solid var(--amber);
+  padding:16px 20px;border-radius:0 8px 8px 0;margin:18px 0;
+}
+
+table{
+  width:100%;border-collapse:collapse;margin:18px 0;font-size:14.5px;
+  background:#131d31;border-radius:8px;overflow:hidden;
+}
+th,td{padding:10px 14px;border:1px solid var(--border);text-align:left}
+th{background:var(--surface2);color:#f1f5f9;font-weight:600}
+tr:nth-child(even){background:rgba(255,255,255,0.02)}
+
+.img-card{
+  background:#0f172a;border:1px solid var(--border);border-radius:8px;
+  padding:12px;margin:16px 0;text-align:center;
+}
+.img-card img{max-width:100%;height:auto;border-radius:6px;box-shadow:0 4px 12px rgba(0,0,0,0.5)}
+.img-card .caption{font-size:13px;color:var(--text-muted);margin-top:8px}
+
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:800px){.grid-2{grid-template-columns:1fr}}
+
+.step-card{
+  background:#182234;border:1px solid #334155;border-radius:8px;padding:16px 18px;margin-bottom:14px;
+}
+.step-title{font-weight:bold;color:var(--primary);margin-bottom:6px;font-size:16px}
+
+code{background:#0b1120;color:#38bdf8;padding:2px 6px;border-radius:4px;font-size:14px;font-family:monospace}
+.katex-display{margin:14px 0;overflow-x:auto;overflow-y:hidden;padding:4px 0}
+.katex{color:#e2e8f0;font-size:1.08em}
+
+footer{
+  text-align:center;padding:30px 20px;color:var(--text-muted);
+  border-top:1px solid var(--border);margin-top:40px;font-size:14px;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Pertemuan 11: Teori Fuzzy, Sistem Inferensi, &amp; Fuzzy Clustering</h1>
+  <p>Materi Pembelajaran Lengkap &amp; Pembahasan Soal Manual UAS Data Mining – Politeknik Statistika STIS</p>
+  <span class="badge">Edisi Persiapan Ujian Akhir Semester (UAS)</span>
+</header>
+
+<nav>
+  <a href="#pengantar">1. Teori Fuzzy Dasar</a>
+  <a href="#operasi">2. Operasi &amp; Alpha-Cut</a>
+  <a href="#inferensi">3. Inferensi (Mamdani vs Sugeno)</a>
+  <a href="#fcm">4. Fuzzy C-Means (FCM)</a>
+  <a href="#lanjutan">5. GK &amp; PCM</a>
+  <a href="#spasial">6. Fuzzy Spasial</a>
+  <a href="#jebakan">7. 10 Jebakan &amp; Glosarium</a>
+  <a href="catatan.html" class="catatan-btn">📝 Versi Catatan Kertas (A4)</a>
+</nav>
+
+<main>
+
+<!-- ================= SECTION 1: TEORI DASAR ================= -->
+<section id="pengantar">
+  <h2>1. Pengantar Teori Himpunan Fuzzy (Zadeh, 1965)</h2>
+  
+  <h3>Mengapa Logika Fuzzy Diperlukan?</h3>
+  <p>
+    Dalam dunia nyata, batas antara kategori jarang sekali bersifat hitam-putih (tegas/<em>crisp</em>). Contohnya: batas garis kemiskinan, status gizi balita, atau tingkat polusi udara. Seseorang dengan pengeluaran Rp 799.000 dan Rp 801.000 pada hakikatnya hidup dalam kondisi yang hampir sama persis. Namun, <b>logika klasik (Aristotelian)</b> memaksanya masuk ke dalam dua kategori yang saling bertolak belakang hanya karena selisih tipis terhadap suatu ambang batas kaku.
+  </p>
+  
+  <div class="grid-2">
+    <div class="highlight-box">
+      <b>Himpunan Tegas (Crisp Set):</b>
+      <p style="margin-top:6px">Fungsi karakteristik biner: hanya ada dua kemungkinan nilai.</p>
+      $$\chi_A(x) = \begin{cases} 1, & \text{jika } x \in A \\ 0, & \text{jika } x \notin A \end{cases}$$
+      <p style="margin-bottom:0">Batas kaku, rentan terhadap distorsi di sekitar garis ambang (<em>threshold effect</em>).</p>
+    </div>
+    <div class="green-box">
+      <b>Himpunan Fuzzy (Fuzzy Set):</b>
+      <p style="margin-top:6px">Fungsi keanggotaan kontinu: derajat kepemilikan bertingkat.</p>
+      $$\mu_A(x) \in [0, 1]$$
+      <p style="margin-bottom:0">Mengakomodasi ketidakpastian linguistik, transisi halus, dan konsep derajat kebenaran.</p>
+    </div>
+  </div>
+
+  <div class="img-card">
+    <img src="img/slide-03.jpg" alt="Slide 3: Batas yang Tidak Pernah Tegas">
+    <div class="caption">Slide 3: Perbandingan batas tegas (crisp thresholding) yang melompat vs fungsi keanggotaan fuzzy yang bertransisi halus.</div>
+  </div>
+
+  <h3>Tiga Istilah Dasar Himpunan Fuzzy</h3>
+  <div class="step-card">
+    <ol>
+      <li><b>Support (Pendukung):</b> Himpunan titik-titik pada semesta pembicaraan $U$ yang memiliki derajat keanggotaan lebih besar dari nol:
+        $$\text{Supp}(A) = \{x \in U \mid \mu_A(x) > 0\}$$
+      </li>
+      <li><b>Core (Inti):</b> Himpunan titik-titik yang memiliki derajat keanggotaan penuh (sama dengan 1):
+        $$\text{Core}(A) = \{x \in U \mid \mu_A(x) = 1\}$$
+      </li>
+      <li><b>Boundary (Batas / Daerah Transisi):</b> Daerah peralihan di mana nilai keanggotaan berada di antara 0 dan 1:
+        $$\text{Boundary}(A) = \{x \in U \mid 0 < \mu_A(x) < 1\}$$
+      </li>
+    </ol>
+  </div>
+
+  <h3>Lima Bentuk Fungsi Keanggotaan yang Umum</h3>
+  <div class="img-card">
+    <img src="img/slide-07.jpg" alt="Slide 7: Bentuk Fungsi Keanggotaan">
+    <div class="caption">Slide 7: Bentuk-bentuk kurva keanggotaan standar (Segitiga, Trapesium, Gauss, Sigmoid, Generalized Bell).</div>
+  </div>
+  <ul>
+    <li><b>Segitiga (Triangular):</b> Didefinisikan oleh 3 parameter $(a, b, c)$. Paling populer karena komputasinya sangat murah dan rumus linear sederhana.</li>
+    <li><b>Trapesium (Trapezoidal):</b> Didefinisikan oleh 4 parameter $(a, b, c, d)$. Memiliki rentang inti (core) berbentuk datar di mana $\mu = 1$ untuk selang $[b, c]$.</li>
+    <li><b>Gaussian:</b> Didefinisikan oleh parameter rata-rata $c$ dan standar deviasi $\sigma$: $\mu(x) = \exp\left(-\frac{(x-c)^2}{2\sigma^2}\right)$. Kurva mulus, dapat diturunkan secara analitis.</li>
+    <li><b>Sigmoid (Sigmoidal):</b> Cocok untuk fungsi terbuka di satu sisi (misalnya konsep "sangat tinggi" atau "sangat rendah").</li>
+    <li><b>Generalized Bell:</b> Kurva lonceng yang lebih fleksibel dengan kontrol kemiringan kurva.</li>
+  </ul>
+
+  <div class="amber-box">
+    <h4>Contoh Manual 1: Menghitung Derajat Keanggotaan (Slide 8-9)</h4>
+    <p><b>Kasus:</b> Tiga himpunan fuzzy pengeluaran per kapita (ribu Rp):</p>
+    <ul>
+      <li><i>Rendah</i>: Trapesium terbuka kiri $(0, 0, 700, 950)$</li>
+      <li><i>Sedang</i>: Segitiga $(700, 950, 1200)$</li>
+      <li><i>Tinggi</i>: Trapesium terbuka kanan $(950, 1200, \infty, \infty)$</li>
+    </ul>
+    <p><b>Pertanyaan Ujian:</b> Hitung derajat keanggotaan untuk $x = 800$ ribu Rp!</p>
+    <div class="step-card">
+      <p><b>Langkah Perhitungan:</b> Karena $700 \le 800 \le 950$, maka $x=800$ berada pada fase peralihan antara himpunan <i>Rendah</i> dan <i>Sedang</i>:</p>
+      <ul>
+        <li><b>Untuk Rendah (bagian menurun):</b>
+          $$\mu_{\text{rendah}}(800) = \frac{d - x}{d - c} = \frac{950 - 800}{950 - 700} = \frac{150}{250} = \mathbf{0{,}60}$$
+        </li>
+        <li><b>Untuk Sedang (bagian menaik):</b>
+          $$\mu_{\text{sedang}}(800) = \frac{x - a}{b - a} = \frac{800 - 700}{950 - 700} = \frac{100}{250} = \mathbf{0{,}40}$$
+        </li>
+        <li><b>Untuk Tinggi:</b> Karena $x = 800 < 950$, maka $\mu_{\text{tinggi}}(800) = \mathbf{0{,}00}$.</li>
+      </ul>
+      <p style="margin-top:8px"><b>Pemeriksaan Konsistensi:</b> Jumlah keanggotaan $\mu_{\text{rendah}} + \mu_{\text{sedang}} + \mu_{\text{tinggi}} = 0{,}60 + 0{,}40 + 0 = 1{,}00$ (pada model ini membentuk partisi fuzzy Ruspini yang ortogonal).</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SECTION 2: OPERASI FUZZY ================= -->
+<section id="operasi">
+  <h2>2. Operasi Himpunan Fuzzy &amp; Potongan-Alfa ($\alpha$-Cut)</h2>
+
+  <h3>Operasi Dasar: t-norm dan s-norm</h3>
+  <p>
+    Jika dalam himpunan tegas kita mengenal operasi Irisan ($\cap$), Gabungan ($\cup$), dan Komplemen ($A^c$), dalam logika fuzzy operasi ini diperluas menjadi keluarga fungsi <b>t-norm</b> (triangular norm untuk konjungsi / AND) dan <b>s-norm</b> (t-conorm untuk disjungsi / OR).
+  </p>
+
+  <table>
+    <tr><th>Keluarga Operator</th><th>t-norm (Irisan / AND: $A \cap B$)</th><th>s-norm (Gabungan / OR: $A \cup B$)</th></tr>
+    <tr><td><b>Standar Zadeh (Baku)</b></td><td>$\min(a, b)$</td><td>$\max(a, b)$</td></tr>
+    <tr><td><b>Perkalian Aljabar (Product)</b></td><td>$a \cdot b$</td><td>$a + b - a \cdot b$</td></tr>
+    <tr><td><b>Łukasiewicz (Bounded)</b></td><td>$\max(0, a + b - 1)$</td><td>$\min(1, a + b)$</td></tr>
+    <tr><td><b>Drastis (Drastic)</b></td><td>$b$ jika $a=1$, $a$ jika $b=1$, selain itu $0$</td><td>$b$ jika $a=0$, $a$ jika $b=0$, selain itu $1$</td></tr>
+  </table>
+
+  <div class="warning-box">
+    <b>PENTING UNTUK TEORI UJIAN: Dua Hukum Logika Klasik yang GUGUR pada Fuzzy!</b>
+    <ol style="margin-top:6px">
+      <li><b>Hukum Pertentangan (Law of Contradiction):</b> Pada himpunan klasik $A \cap A^c = \emptyset$. Namun pada fuzzy:
+        $$\min(\mu_A, 1 - \mu_A) \ne 0 \quad (\text{misal jika } \mu_A = 0{,}5 \implies \min(0{,}5, 0{,}5) = 0{,}5 \ne 0)$$
+        Artinya, suatu amatan bisa <i>agak miskin</i> dan <i>agak tidak miskin</i> sekaligus!
+      </li>
+      <li><b>Hukum Penyisihan Jalan Tengah (Law of Excluded Middle):</b> Pada himpunan klasik $A \cup A^c = U$. Namun pada fuzzy:
+        $$\max(\mu_A, 1 - \mu_A) \ne 1 \quad (\text{misal jika } \mu_A = 0{,}5 \implies \max(0{,}5, 0{,}5) = 0{,}5 \ne 1)$$
+      </li>
+    </ol>
+  </div>
+
+  <h3>Potongan-Alfa ($\alpha$-cut) &amp; Aritmetika Bilangan Fuzzy</h3>
+  <p>
+    <b>Potongan-$\alpha$ ($A_\alpha$):</b> Himpunan tegas (crisp) yang memuat seluruh elemen dengan derajat keanggotaan minimal $\alpha$:
+    $$A_\alpha = \{x \in U \mid \mu_A(x) \ge \alpha\}, \quad \alpha \in (0, 1]$$
+    <i>Strong $\alpha$-cut</i> menggunakan tanda pertidaksamaan tegas ($> \alpha$). $\alpha$-cut berfungsi sebagai <b>jembatan</b> dari dunia fuzzy ke keputusan operasional tegas yang dibutuhkan instansi pengambil kebijakan.
+  </p>
+
+  <div class="amber-box">
+    <h4>Contoh Manual 2: Penjumlahan Bilangan Fuzzy Segitiga (Slide 13-14)</h4>
+    <p>Diberikan dua bilangan fuzzy segitiga: $\tilde{A} = (2, 3, 4)$ dan $\tilde{B} = (5, 6, 8)$.</p>
+    <div class="step-card">
+      <p><b>1. Cari bentuk selang $\alpha$-cut untuk masing-masing bilangan:</b></p>
+      <ul>
+        <li>Untuk $\tilde{A}$: batas bawah $2 + \alpha$, batas atas $4 - \alpha \implies A_\alpha = [2 + \alpha,\, 4 - \alpha]$</li>
+        <li>Untuk $\tilde{B}$: batas bawah $5 + \alpha$, batas atas $8 - 2\alpha \implies B_\alpha = [5 + \alpha,\, 8 - 2\alpha]$</li>
+      </ul>
+      <p><b>2. Penjumlahan interval pada level $\alpha$:</b></p>
+      $$(A \oplus B)_\alpha = [(2 + \alpha) + (5 + \alpha),\, (4 - \alpha) + (8 - 2\alpha)] = [7 + 2\alpha,\, 12 - 3\alpha]$$
+      <p><b>3. Evaluasi puncak ($\alpha = 1$) dan alas ($\alpha = 0$):</b></p>
+      <ul>
+        <li>Saat $\alpha = 0 \implies [7, 12]$ (lebar pendukung = $12 - 7 = 5$)</li>
+        <li>Saat $\alpha = 1 \implies [7 + 2, 12 - 3] = [9, 9]$ (puncak inti $= 9$)</li>
+      </ul>
+      <p><b>Hasil Akhir:</b> $\tilde{A} \oplus \tilde{B} = (7, 9, 12)$ berbentuk bilangan fuzzy segitiga.</p>
+      <p class="red"><b>Catatan Fenomenal:</b> Support dari $\tilde{A}$ lebarnya 2, support $\tilde{B}$ lebarnya 3, sedangkan hasil penjumlahan lebarnya 5. <b>Ketidakpastian selalu menumpuk (akumulasi ketidakpastian)!</b></p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SECTION 3: SISTEM INFERENSI FUZZY ================= -->
+<section id="inferensi">
+  <h2>3. Sistem Inferensi Fuzzy: Mamdani versus Sugeno (TSK)</h2>
+
+  <p>
+    Sistem Inferensi Fuzzy (Fuzzy Inference System / FIS) memetakan ruang masukan (input) ke ruang keluaran (output) menggunakan aturan-aturan IF-THEN berbasis logika fuzzy.
+  </p>
+
+  <div class="img-card">
+    <img src="img/slide-17.jpg" alt="Slide 17: Arsitektur Sistem Inferensi">
+    <div class="caption">Slide 17: Arsitektur FIS — Fuzzifikasi $\to$ Basis Aturan $\to$ Agregasi &amp; Defuzzifikasi.</div>
+  </div>
+
+  <h3>Studi Kasus Soal Manual: Prioritas Penanganan Kecamatan (Slide 18-24)</h3>
+  <p>
+    <b>Input:</b> Pengeluaran per kapita $x = 850$ ribu Rp, Akses Sanitasi Layak $y = 55\%$.<br>
+    <b>Output:</b> Skor Prioritas Bantuan $z \in [0, 100]$.
+  </p>
+
+  <div class="step-card">
+    <div class="step-title">Langkah 1: Fuzzifikasi Nilai Masukan</div>
+    <ul>
+      <li>Fungsi Pengeluaran $x \in [700, 1000]$:
+        $$\mu_{\text{rendah}}(850) = \frac{1000 - 850}{1000 - 700} = \frac{150}{300} = 0{,}500; \quad \mu_{\text{tinggi}}(850) = 0{,}500$$
+      </li>
+      <li>Fungsi Sanitasi $y \in [40, 80]$:
+        $$\mu_{\text{buruk}}(55) = \frac{80 - 55}{80 - 40} = \frac{25}{40} = 0{,}625; \quad \mu_{\text{baik}}(55) = \frac{55 - 40}{80 - 40} = \frac{15}{40} = 0{,}375$$
+      </li>
+    </ul>
+  </div>
+
+  <div class="step-card">
+    <div class="step-title">Langkah 2: Menghitung Kekuatan Penyalaan (Firing Strength $\alpha_i$)</div>
+    <p>Dengan operator AND standar (t-norm minimum), $\alpha_i = \min(\mu_{\text{anteseden}})$:</p>
+    <table>
+      <tr><th>Aturan</th><th>Kondisi Anteseden</th><th>Perhitungan $\alpha_i$</th><th>Nilai $\alpha_i$</th></tr>
+      <tr><td>$R_1$</td><td>JIKA $x$ rendah DAN $y$ buruk</td><td>$\min(0{,}500;\, 0{,}625)$</td><td><b>0,500</b></td></tr>
+      <tr><td>$R_2$</td><td>JIKA $x$ rendah DAN $y$ baik</td><td>$\min(0{,}500;\, 0{,}375)$</td><td><b>0,375</b></td></tr>
+      <tr><td>$R_3$</td><td>JIKA $x$ tinggi DAN $y$ buruk</td><td>$\min(0{,}500;\, 0{,}625)$</td><td><b>0,500</b></td></tr>
+      <tr><td>$R_4$</td><td>JIKA $x$ tinggi DAN $y$ baik</td><td>$\min(0{,}500;\, 0{,}375)$</td><td><b>0,375</b></td></tr>
+      <tr style="background:#1e293b;font-weight:bold"><td colspan="3">Jumlah Total Firing Strength $\sum \alpha_i$</td><td><b>1,750</b></td></tr>
+    </table>
+    <p class="warning-box" style="margin-top:6px;padding:8px 12px">
+      ⚠️ <b>Perhatikan:</b> $\sum \alpha_i = 1{,}750 \ne 1$. Derajat penyalaan tidak otomatis bernilai 1. Oleh karena itu pada metode Sugeno <b>WAJIB membagi dengan $\sum \alpha_i$</b>!
+    </p>
+  </div>
+
+  <div class="grid-2">
+    <div>
+      <h3>A. Metode Mamdani</h3>
+      <ul>
+        <li><b>Konsekuen:</b> Berupa himpunan fuzzy (kurva area).</li>
+        <li><b>Implikasi:</b> Kurva konsekuen dipotong pada ketinggian $\alpha_i$ (metode *min*).</li>
+        <li><b>Agregasi:</b> Penggabungan semua kurva terpotong via operasi *max*.</li>
+        <li><b>Defuzzifikasi:</b> Menghitung titik berat (Centroid / COA):
+          $$z^* = \frac{\int z \cdot \mu(z) \, dz}{\int \mu(z) \, dz} = \mathbf{60{,}45}$$
+        </li>
+        <li>Alternatif: Mean of Maxima (MOM) menghasilkan $z^* = 72{,}5$.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>B. Metode Sugeno (TSK)</h3>
+      <ul>
+        <li><b>Konsekuen:</b> Fungsi tegas (matematis) atau konstanta.</li>
+        <li><b>Defuzzifikasi:</b> Rata-rata terboboti sederhana (sangat cepat!):
+          $$z^* = \frac{\sum_{i=1}^R \alpha_i z_i}{\sum_{i=1}^R \alpha_i}$$
+        </li>
+        <li><b>Sugeno Orde Nol ($z_i = c_i$ konstanta):</b>
+          Konstanta prioritas: $c_1=90, c_2=65, c_3=55, c_4=25$.
+          $$z^* = \frac{0{,}5(90) + 0{,}375(65) + 0{,}5(55) + 0{,}375(25)}{1{,}750} = \frac{106{,}25}{1{,}750} = \mathbf{60{,}714}$$
+        </li>
+        <li><b>Sugeno Orde Satu ($z_i = p_i x + q_i y + r_i$ linear):</b>
+          $$z^* = \frac{107{,}938}{1{,}750} = \mathbf{61{,}679}$$
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Tabel Komparasi Lengkap: Mamdani vs Sugeno</h3>
+  <table>
+    <tr><th>Kriteria Pembanding</th><th>Mamdani</th><th>Sugeno (Takagi-Sugeno-Kang)</th></tr>
+    <tr><td><b>Bentuk Konsekuen</b></td><td>Himpunan fuzzy (kurva luasan)</td><td>Fungsi matematika tegas / konstanta</td></tr>
+    <tr><td><b>Proses Defuzzifikasi</b></td><td>Menghitung integral luas (Centroid/Bisector)</td><td>Rata-rata terbobot sederhana ($\frac{\sum \alpha_i z_i}{\sum \alpha_i}$)</td></tr>
+    <tr><td><b>Beban Komputasi</b></td><td>Lebih berat &amp; lambat</td><td>Sangat ringan, efisien, cepat</td></tr>
+    <tr><td><b>Kemudahan Interpretasi</b></td><td>Sangat mudah dipahami pakar manusia</td><td>Sulit ditafsirkan (koefisien linear kurang intuitif)</td></tr>
+    <tr><td><b>Tuning / Kalibrasi Otomatis</b></td><td>Sulit dioptimasi dengan algoritma</td><td>Sangat mudah (kuadrat terkecil, ANFIS)</td></tr>
+    <tr><td><b>Permukaan Output</b></td><td>Bisa bergelombang/melompat</td><td>Mulus &amp; kontinu (smooth transitions)</td></tr>
+    <tr><td><b>Domain Penggunaan Utama</b></td><td>Sistem pakar, DSS kebijakan sosial</td><td>Sistem kontrol industri, peramalan numerik</td></tr>
+  </table>
+</section>
+
+<!-- ================= SECTION 4: FUZZY C-MEANS ================= -->
+<section id="fcm">
+  <h2>4. Fuzzy Clustering: Fuzzy C-Means (FCM)</h2>
+
+  <p>
+    Dikembangkan oleh <b>Dunn (1973)</b> dan disempurnakan oleh <b>Bezdek (1981)</b>. Berbeda dengan K-Means di mana sebuah titik secara kaku hanya boleh dimiliki oleh satu klaster saja ($u_{ik} \in \{0, 1\}$), pada FCM setiap titik data memiliki derajat keanggotaan bertingkat pada semua klaster ($u_{ij} \in [0, 1]$).
+  </p>
+
+  <div class="highlight-box">
+    <b>Fungsi Objektif FCM:</b>
+    $$J_m(U, V) = \sum_{i=1}^n \sum_{j=1}^c u_{ij}^m \, d^2(x_i, v_j), \quad \text{dengan syarat } \sum_{j=1}^c u_{ij} = 1 \text{ untuk setiap objek } i$$
+    Di mana:
+    <ul>
+      <li>$n$ = jumlah observasi, $c$ = jumlah klaster.</li>
+      <li>$m > 1$ = <b>fuzzifier</b> (derajat kekaburan / pembobot keanggotaan).</li>
+      <li>$d(x_i, v_j)$ = jarak Euclidean antara titik $x_i$ dan pusat klaster $v_j$.</li>
+    </ul>
+  </div>
+
+  <div class="grid-2">
+    <div class="step-card">
+      <div class="step-title">Rumus Pembaruan Pusat Klaster ($v_j$)</div>
+      $$v_j = \frac{\sum_{i=1}^n u_{ij}^m \, x_i}{\sum_{i=1}^n u_{ij}^m}$$
+      <i>Pusat klaster merupakan rata-rata terbobot posisi titik menggunakan bobot $u_{ij}^m$.</i>
+    </div>
+    <div class="step-card">
+      <div class="step-title">Rumus Pembaruan Derajat Keanggotaan ($u_{ij}$)</div>
+      $$u_{ij} = \left[ \sum_{l=1}^c \left( \frac{d(x_i, v_j)}{d(x_i, v_l)} \right)^{\frac{2}{m-1}} \right]^{-1}$$
+      <i>Jika jarak ke pusat $v_j$ makin dekat dibanding ke pusat lain, $u_{ij}$ membesar.</i>
+    </div>
+  </div>
+
+  <div class="amber-box">
+    <h4>Contoh Manual 4: Satu Iterasi FCM dengan Hitungan Tangan (Slide 28-29)</h4>
+    <p><b>Data:</b> 5 amatan 1 dimensi: $x = (2, 3, 4, 8, 9)$. Parameter: $c = 2$, $m = 2$. Pusat awal: $v_1 = 3, v_2 = 8$.</p>
+    <div class="step-card">
+      <p><b>Hitung $u_{11}$ (keanggotaan titik $x_1 = 2$ pada klaster 1):</b></p>
+      <ul>
+        <li>Jarak ke pusat 1: $d_{11} = |2 - 3| = 1$</li>
+        <li>Jarak ke pusat 2: $d_{12} = |2 - 8| = 6$</li>
+        <li>Pangkat eksponen: $\frac{2}{m-1} = \frac{2}{2-1} = 2$</li>
+        <li>Substitusi rumus:
+          $$u_{11} = \frac{(1/d_{11})^2}{(1/d_{11})^2 + (1/d_{12})^2} = \frac{(1/1)^2}{(1/1)^2 + (1/6)^2} = \frac{1}{1 + \frac{1}{36}} = \frac{1}{\frac{37}{36}} = \frac{36}{37} \approx \mathbf{0{,}9730}$$
+        </li>
+        <li>Keanggotaan klaster 2: $u_{12} = 1 - u_{11} = 1 - 0{,}9730 = \mathbf{0{,}0270}$.</li>
+      </ul>
+      <p style="margin-top:8px"><b>Catatan Khusus jika Titik Berimpit dengan Pusat ($x_2 = 3$):</b></p>
+      <p>Jarak $d_{21} = |3 - 3| = 0$. Secara komputasi limit, jika titik berimpit dengan pusat klaster, ia memperoleh keanggotaan penuh: $u_{21} = \mathbf{1{,}0000}$ dan $u_{22} = \mathbf{0{,}0000}$.</p>
+    </div>
+
+    <table style="font-size:14px">
+      <tr><th>Titik $x_i$</th><th>$u_{i1}$ (Iterasi 1)</th><th>$u_{i2}$ (Iterasi 1)</th><th>$u_{i1}$ (Iterasi 2)</th></tr>
+      <tr><td>$x_1 = 2$</td><td>0,9730</td><td>0,0270</td><td>0,9776</td></tr>
+      <tr><td>$x_2 = 3$</td><td>1,0000</td><td>0,0000</td><td>1,0000</td></tr>
+      <tr><td>$x_3 = 4$</td><td>0,9412</td><td>0,0588</td><td>0,9488</td></tr>
+      <tr><td>$x_4 = 8$</td><td>0,0000</td><td>1,0000</td><td>0,0000</td></tr>
+      <tr><td>$x_5 = 9$</td><td>0,0270</td><td>0,9730</td><td>0,0224</td></tr>
+      <tr style="font-weight:bold;background:#1e293b"><td colspan="4">Pusat Klaster Bergerak: Dari $v=(3{,}000;\, 8{,}000) \to v^{(1)}=(2{,}980;\, 8{,}476) \to v^{(2)}=(2{,}982;\, 8{,}493)$</td></tr>
+      <tr style="font-weight:bold;background:#1e293b"><td colspan="4">Fungsi Objektif Selalu Turun: $J^{(0)} = 2{,}887 \to J^{(1)} = 2{,}425$</td></tr>
+    </table>
+  </div>
+
+  <h3>Peran Fuzzifier $m$ (Slide 30)</h3>
+  <ul>
+    <li>Jika $m \to 1^+$: FCM mendekati perilaku <b>Hard K-Means</b> (keanggotaan menjadi biner 0 atau 1).</li>
+    <li>Jika $m \to \infty$: Seluruh titik menjadi sangat kabur, keanggotaan mendekati seragam: $u_{ij} \to \frac{1}{c}$.</li>
+    <li><b>Rekomendasi Praktis:</b> $m = 2{,}0$ adalah standar paling luas dan stabil.</li>
+    <li><b class="red">Peringatan:</b> $m$ mengatur ketegasan batas, bukan ketepatan klasifikasi. <b>Jangan memilih $m$ dengan mengejar Partition Coefficient (PC) tertinggi</b>, karena nilai PC secara otomatis akan selalu naik jika $m$ diturunkan mendekati 1!</li>
+  </ul>
+
+  <h3>Ukuran Validitas Klaster Fuzzy (Slide 31)</h3>
+  <table>
+    <tr><th>Ukuran Validitas</th><th>Arah Optimal</th><th>Penjelasan Matematis &amp; Karakteristik</th></tr>
+    <tr><td><b>Partition Coefficient (PC)</b></td><td><span class="green-text">Maksimal ($\to 1$)</span></td><td>$\text{PC} = \frac{1}{n}\sum_{i=1}^n \sum_{j=1}^c u_{ij}^2$. Mengukur ketegasan partisi (rentang $\left[\frac{1}{c}, 1\right]$).</td></tr>
+    <tr><td><b>Modified PC (MPC)</b></td><td><span class="green-text">Maksimal ($\to 1$)</span></td><td>$\text{MPC} = 1 - \frac{c}{c-1}(1 - \text{PC})$. Menghilangkan ketergantungan rentang PC terhadap jumlah klaster $c$.</td></tr>
+    <tr><td><b>Partition Entropy (PE)</b></td><td><span class="red">Minimal ($\to 0$)</span></td><td>$\text{PE} = -\frac{1}{n}\sum_{i=1}^n \sum_{j=1}^c u_{ij} \log_a(u_{ij})$. Mengukur ketidakteraturan / keacakan partisi.</td></tr>
+    <tr><td><b>Xie-Beni Index (XB)</b></td><td><span class="red">Minimal</span></td><td>$\text{XB} = \frac{J_m / n}{c \cdot \min_{j \ne l} \|v_j - v_l\|^2}$. Rasio variansi total intra-klaster terhadap separasi minimum antar-pusat.</td></tr>
+    <tr><td><b>Fuzzy Silhouette (SIL.F)</b></td><td><span class="green-text">Maksimal</span></td><td>Generalisasi Silhouette dengan membobotkan keanggotaan $u_{ij}^m$.</td></tr>
+  </table>
+
+  <div class="warning-box">
+    <b>Pelajaran Penting Kasus Slide 31: "Semua Ukuran Validitas Bisa Keliru!"</b>
+    <p>
+      Pada eksperimen simulasi di Slide 31, data sebenarnya berasal dari 3 kelompok laten yang saling bertumpang tindih (jarak pusat 1,7–3,5 SD). Seluruh indeks validitas (PC, MPC, PE, XB, SIL.F) <b>secara serempak memilih $k = 2$!</b> Ini bukan kerusakan formula, melainkan fakta matematis bahwa validitas internal berbasis geometri jarak tidak dapat mendeteksi klaster yang saling tumpang tindih. Analis tidak boleh hanya mengandalkan angka indeks, melainkan wajib mengecek substansi domain data.
+    </p>
+  </div>
+</section>
+
+<!-- ================= SECTION 5: VARIAN LANJUTAN ================= -->
+<section id="lanjutan">
+  <h2>5. Varian Lanjutan: Gustafson-Kessel &amp; Possibilistic C-Means</h2>
+
+  <div class="grid-2">
+    <div>
+      <h3>A. Gustafson–Kessel (GK) Clustering</h3>
+      <div class="img-card">
+        <img src="img/slide-33.jpg" alt="Slide 33: Gustafson-Kessel">
+        <div class="caption">Slide 33: FCM memotong melintang gugus elips (kiri), sedangkan GK mengikuti orientasi elips (kanan).</div>
+      </div>
+      <ul>
+        <li><b>Masalah FCM:</b> Menggunakan jarak Euclidean biasa, sehingga mengasumsikan bentuk klaster selalu <b>hiper-bola (spherical)</b> dengan ukuran seragam.</li>
+        <li><b>Solusi GK:</b> Mengestimasi <b>matriks kovarians klaster $F_j$</b> secara lokal dan menggunakan <b>jarak Mahalanobis</b> terinduksi:
+          $$D_{ij}^2 = (x_i - v_j)^T A_j (x_i - v_j), \quad A_j = [\rho_j \det(F_j)]^{1/p} F_j^{-1}$$
+        </li>
+        <li><b>Kelebihan:</b> Sangat akurat untuk klaster lonjong, miring, atau memiliki orientasi korelasi berbeda ($ARI = 0{,}934$ vs FCM $0{,}427$).</li>
+        <li><b class="red">Kelemahan &amp; Biaya:</b> Menaksir $c \times \frac{p(p+1)}{2}$ parameter matriks kovarians tambahan. Pada data dengan gugus bulat, GK rawan <i>overfitting</i> dan menyerap noise!</li>
+      </ul>
+    </div>
+
+    <div>
+      <h3>B. Possibilistic C-Means (PCM)</h3>
+      <div class="img-card">
+        <img src="img/slide-34.jpg" alt="Slide 34: Possibilistic C-Means">
+        <div class="caption">Slide 34: Outlier jauh dari pusat tetap diberi membership tinggi oleh FCM, tetapi tipikalitas PCM mendekati 0.</div>
+      </div>
+      <ul>
+        <li><b>Kelemahan Fatal FCM:</b> Kendala probabilitik $\sum_{j=1}^c u_{ij} = 1$ memaksa setiap data membagikan total nilai 1 ke semua klaster. Akibatnya, titik outlier ekstrim yang sangat jauh pun akan memiliki membership tinggi pada klaster yang sedikit lebih dekat!</li>
+        <li><b>Solusi PCM (Krishnapuram &amp; Keller, 1993):</b> Melepaskan kendala $\sum u_{ij} = 1$. Keanggotaan diganti menjadi <b>tipikalitas mutlak ($t_{ij} \in [0, 1]$)</b>.</li>
+        <li><b>Karakteristik Outlier:</b> Titik outlier akan mendapat nilai tipikalitas rendah pada <i>semua</i> klaster ($t_{i1} \approx 0, t_{i2} \approx 0$).</li>
+        <li><b class="red">Peringatan Penggunaan:</b> PCM rentan menghasilkan klaster identik/menumpuk (<em>coincident clusters</em>). Praktik terbaik: Jalankan FCM terlebih dahulu untuk menemukan pusat klaster awal, lalu gunakan PCM untuk memurnikan keanggotaan dan mendeteksi outlier!</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SECTION 6: FUZZY SPASIAL ================= -->
+<section id="spasial">
+  <h2>6. Fuzzy Clustering Spasial (Data Geografis / Kewilayahan)</h2>
+
+  <h3>Mengapa FCM Biasa Menghasilkan Peta "Berbintik" (Salt-and-Pepper)?</h3>
+  <p>
+    FCM standar memperlakukan setiap observasi (kecamatan/kabupaten) sebagai amatan independen. Dalam realitas geografis, berlaku <b>Hukum Pertama Geografi Tobler</b>: <i>"Segala sesuatu berhubungan dengan hal lain, tetapi hal yang dekat lebih berhubungan daripada hal yang jauh."</i> Mengabaikan struktur spasial menghasilkan partisi berbintik (<em>salt-and-pepper noise</em>), di mana banyak kecamatan terisolasi padahal wilayah di sekitarnya homogen.
+  </p>
+
+  <div class="img-card">
+    <img src="img/slide-36.jpg" alt="Slide 36: Masalah Peta Berbintik FCM">
+    <div class="caption">Slide 36: Proporsi tetangga beda kelompok naik drastis dari 0,234 (fakta) menjadi 0,370 akibat noise FCM standar.</div>
+  </div>
+
+  <h3>Regularisasi Spasial (Spatial Regularization)</h3>
+  <div class="highlight-box">
+    <b>Rumus Penyesuaian Keanggotaan Berbobot Tetangga:</b>
+    $$u_{ij}^* \propto u_{ij} \cdot (\bar{u}_{ij})^\alpha, \quad \text{dengan } \bar{u}_{ij} = \sum_{k \in N(i)} w_{ik} u_{kj}$$
+    Di mana:
+    <ul>
+      <li>$\bar{u}_{ij}$ = rata-rata derajat keanggotaan tetangga spasial dari unit amatan $i$.</li>
+      <li>$w_{ik}$ = matriks bobot spasial ternormalisasi ($\sum_k w_{ik} = 1$).</li>
+      <li>$\alpha \ge 0$ = parameter kekuatan regularisasi spasial (jika $\alpha = 0$, kembali menjadi FCM biasa).</li>
+      <li>Langkah akhir: Normalkan kembali agar $\sum_{j=1}^c u_{ij}^* = 1$.</li>
+    </ul>
+  </div>
+
+  <div class="amber-box">
+    <h4>Peringatan Penting: "Peta Mulus Bukan Bukti Pengelompokan yang Benar!" (Slide 38-39)</h4>
+    <div class="img-card">
+      <img src="img/slide-39.jpg" alt="Slide 39: Memilih Alfa Spasial">
+      <div class="caption">Slide 39: Trade-off nilai alfa vs akurasi klasifikasi (ARI).</div>
+    </div>
+    <p>
+      Ketika $\alpha$ dinaikkan dari $0 \to 0{,}25$, skor ARI meningkat dari $0{,}689 \to 0{,}811$ karena noise berhasil diredam. Namun saat $\alpha$ dinaikkan lebih lanjut hingga $2{,}0$, peta memang terlihat sangat mulus dan indah, tetapi nilai ARI justru anjlok ke $0{,}588$ (lebih buruk dari FCM biasa!).
+    </p>
+    <p><b>Mengapa demikian?</b> Regularisasi spasial yang terlalu agresif akan "membunuh" kantong-kantong anomali riil (<em>genuine enclaves</em>) seperti kawasan industri atau pusat perkotaan kecil di tengah pedesaan. <b>Prosedur yang benar:</b> Jangan memilih $\alpha$ yang menghasilkan peta paling mulus, melainkan pilih $\alpha$ yang mendekati koherensi spasial historis/substantif dari data pembanding!
+    </p>
+  </div>
+
+  <div class="green-box">
+    <h4>Menyajikan Hasil Beserta Keraguannya (Slide 40)</h4>
+    <p>
+      Sumbangan terpenting pendekatan fuzzy dalam analisis kebijakan publik <b>bukanlah membuat label klaster menjadi lebih tepat</b>, melainkan <b>membuat ketidakpastian / ambiguitas menjadi terlihat</b>. Menyajikan peta dengan tingkat keanggotaan tertinggi yang rendah ($< 0{,}6$) memungkinkan pembuat kebijakan memberikan perlakuan khusus bagi daerah perbatasan transisi!
+    </p>
+  </div>
+</section>
+
+<!-- ================= SECTION 7: JEBAKAN & GLOSARIUM ================= -->
+<section id="jebakan">
+  <h2>7. Matriks Keputusan, 10 Jebakan Ujian STIS, &amp; Glosarium</h2>
+
+  <h3>Matriks Pemilihan Metode (Kapan Pakai Apa?)</h3>
+  <table>
+    <tr><th>Kondisi Masalah Data</th><th>Metode Pilihan</th><th>Alasan Ilmiah</th></tr>
+    <tr><td>Aturan berasal dari pengetahuan pakar; keputusan harus dijelaskan ke publik</td><td><b>Mamdani</b></td><td>Struktur aturan menggunakan bahasa linguistik manusia (IF-THEN kata-kata).</td></tr>
+    <tr><td>Model diintegrasikan ke sistem kendali / peramalan; parameter ditaksir data</td><td><b>Sugeno (TSK)</b></td><td>Komputasi cepat, permukaan output mulus, mudah dituning via ANFIS.</td></tr>
+    <tr><td>Gugus klaster berbentuk bulat / sferis, ukuran seimbang, tanpa outlier</td><td><b>FCM Baku</b></td><td>Domain alami jarak Euclidean dengan biaya komputasi rendah.</td></tr>
+    <tr><td>Gugus klaster berbentuk lonjong, miring, atau memiliki orientasi kovarians</td><td><b>Gustafson–Kessel</b></td><td>Menggunakan jarak Mahalanobis adaptif per klaster.</td></tr>
+    <tr><td>Terdapat banyak pencilan (outlier) ekstrem yang merusak posisi pusat</td><td><b>Possibilistic C-Means</b></td><td>Tipikalitas mutlak melepaskan kendala $\sum u = 1$; outlier bernilai 0 di semua gugus.</td></tr>
+    <tr><td>Data wilayah geografis (spasial) yang menghasilkan peta berbintik</td><td><b>Regularisasi Spasial</b></td><td>Memanfaatkan kedekatan spasial tetangga (Tobler's First Law).</td></tr>
+  </table>
+
+  <h3>Sepuluh Jebakan Klasik UAS Data Mining (Slide 43)</h3>
+  <ol>
+    <li><b class="red">Jebakan 1:</b> Menganggap derajat keanggotaan fuzzy $\mu(x)$ sebagai nilai peluang/probabilitas. (Fuzzy mengukur derajat kesesuaian konsep, bukan frekuensi kejadian acak!).</li>
+    <li><b class="red">Jebakan 2:</b> Memilih bentuk fungsi keanggotaan sembarangan tanpa justifikasi bidang, lalu tidak melaporkannya di laporan.</li>
+    <li><b class="red">Jebakan 3:</b> Memakai t-norm bawaan (min) tanpa menyadari bahwa t-norm perkalian menghasilkan sifat interaksi yang berbeda.</li>
+    <li><b class="red">Jebakan 4:</b> Lupa membagi dengan $\sum \alpha_i$ pada defuzzifikasi model Sugeno.</li>
+    <li><b class="red">Jebakan 5:</b> Tidak menyatakan metode defuzzifikasi yang digunakan (Centroid vs MOM memberikan nilai numerik yang jauh berbeda!).</li>
+    <li><b class="red">Jebakan 6:</b> Memilih fuzzifier $m$ dengan mengejar Partition Coefficient (PC) tertinggi (PC selalu naik jika $m \to 1$).</li>
+    <li><b class="red">Jebakan 7:</b> Menentukan jumlah klaster $c$ hanya dari satu ukuran validitas internal saja.</li>
+    <li><b class="red">Jebakan 8:</b> Memaksakan Gustafson-Kessel pada data bergugus bulat, atau memakai PCM secara mandiri sejak awal tanpa inisialisasi FCM.</li>
+    <li><b class="red">Jebakan 9:</b> Memilih $\alpha$ regularisasi spasial dengan kriteria "peta paling mulus" (menghilangkan enclave riil).</li>
+    <li><b class="red">Jebakan 10:</b> Menyajikan peta hasil klasterisasi tegas (defuzzified) tanpa menampilkan peta keraguan/ambiguitas wilayah transisi.</li>
+  </ol>
+
+  <h3>Glosarium Istilah Baku Statistika &amp; Data Mining</h3>
+  <div class="grid-2">
+    <ul>
+      <li><b>Support:</b> Daerah semesta dengan $\mu(x) > 0$.</li>
+      <li><b>Core:</b> Daerah semesta dengan $\mu(x) = 1$.</li>
+      <li><b>Boundary:</b> Daerah transisi $0 < \mu(x) < 1$.</li>
+      <li><b>$\alpha$-cut:</b> Potongan tegas dengan $\mu(x) \ge \alpha$.</li>
+      <li><b>Firing strength ($\alpha_i$):</b> Kekuatan penyalaan aturan fuzzy.</li>
+      <li><b>Centroid:</b> Titik berat pusat massa kurva output.</li>
+    </ul>
+    <ul>
+      <li><b>Fuzzifier ($m$):</b> Parameter derajat kekaburan klaster.</li>
+      <li><b>Typicality ($t_{ij}$):</b> Derajat kecocokan mutlak dalam PCM.</li>
+      <li><b>Enclave:</b> Wilayah kantong berbeda di tengah kawasan homogen.</li>
+      <li><b>Anteseden:</b> Klausul premis bagian "JIKA (IF)".</li>
+      <li><b>Konsekuen:</b> Klausul kesimpulan bagian "MAKA (THEN)".</li>
+      <li><b>Tobler's Law:</b> Objek berdekatan memiliki kemiripan lebih tinggi.</li>
+    </ul>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <p>© 2026 Modul Belajar UAS Data Mining – Politeknik Statistika STIS | Pertemuan 11: Fuzzy Sets, Inference &amp; Clustering</p>
+</footer>
+
+<script src="katex/katex.min.js"></script>
+<script src="katex/contrib/auto-render.min.js"></script>
+<script>
+renderMathInElement(document.body, {
+  delimiters: [
+    {left: "$$", right: "$$", display: true},
+    {left: "$", right: "$", display: false}
+  ],
+  throwOnError: false
+});
+</script>
+</body>
+</html>

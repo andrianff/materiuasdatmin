@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Catatan Kertas UAS Data Mining – Pertemuan 11 (Teori Fuzzy, FIS Mamdani-Sugeno, FCM, &amp; Fuzzy Spasial)</title>
+<meta name="description" content="Catatan ringkas gaya kertas bergaris untuk UAS Data Mining Pertemuan 11: Teori Fuzzy, Fungsi Keanggotaan, t-norm/s-norm, Potongan-Alfa, FIS Mamdani vs Sugeno, FCM 1 Iterasi Manual, GK, PCM, Regularisasi Spasial, dan 10 Jebakan Ujian.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="katex/katex.min.css">
+<style>
+body{margin:0;background:#cfc7b8;font-family:'Patrick Hand','Comic Sans MS',cursive;color:#1d2a5c;font-size:18px}
+.bar{position:sticky;top:0;background:#1e293b;color:#fff;padding:10px 20px;display:flex;gap:16px;align-items:center;z-index:50;font-family:sans-serif;font-size:14px;box-shadow:0 4px 12px rgba(0,0,0,0.3)}
+.bar a,.bar button{color:#38bdf8;background:none;border:1px solid #38bdf888;border-radius:6px;padding:5px 14px;cursor:pointer;text-decoration:none;font:inherit;font-weight:600}
+.bar a:hover,.bar button:hover{background:#38bdf822}
+.page{
+  width:210mm;min-height:297mm;margin:24px auto;padding:16mm 14mm 14mm 24mm;
+  background:
+    linear-gradient(90deg,transparent 18mm,#e0525266 18mm,#e0525266 18.4mm,transparent 18.4mm),
+    repeating-linear-gradient(#fffef6,#fffef6 27px,#a9c6e6 27px,#a9c6e6 28px);
+  box-shadow:0 8px 30px rgba(0,0,0,0.35);position:relative;line-height:28px;box-sizing:border-box;
+}
+.page:before{
+  content:"";position:absolute;left:7mm;top:30mm;bottom:30mm;width:9px;
+  background:radial-gradient(circle,#cfc7b8 4px,transparent 5px) 0 0/9px 60px repeat-y;
+}
+h1{font-family:Caveat,cursive;font-size:36px;line-height:40px;margin:0 0 6px;color:#c0392b;text-decoration:underline wavy #e0525299;text-underline-offset:6px}
+h2{font-family:Caveat,cursive;font-size:27px;line-height:28px;margin:12px 0 2px;color:#0b5cad;border-bottom:2px dashed #0b5cad77;display:inline-block}
+h3{font-family:Caveat,cursive;font-size:22px;line-height:24px;margin:8px 0 2px;color:#16803c}
+p,li{margin:0}
+ul{margin:0;padding-left:20px;list-style:'➜ '}
+ol{margin:0;padding-left:22px}
+.hl{background:linear-gradient(transparent 55%,#ffe94f99 55%);padding:0 3px}
+.hl2{background:linear-gradient(transparent 55%,#8be8a899 55%);padding:0 3px}
+.hl3{background:linear-gradient(transparent 55%,#ffb4c899 55%);padding:0 3px}
+.red{color:#c0392b;font-weight:700}.grn{color:#16803c;font-weight:700}.blu{color:#0b5cad;font-weight:700}
+.box{border:2px solid #c0392b;border-radius:8px 14px 10px 16px;padding:4px 12px;margin:6px 0;background:#fff8e1bb}
+.box-blue{border:2px solid #0b5cad;border-radius:8px 14px 10px 16px;padding:4px 12px;margin:6px 0;background:#eff6ffbb}
+.sticky{
+  position:absolute;right:10mm;width:52mm;background:#fff176;transform:rotate(2.5deg);
+  padding:8px 12px;line-height:22px;font-size:15px;box-shadow:3px 5px 12px rgba(0,0,0,0.25);border-left:3px solid #f59e0b;z-index:5;
+}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:0 18px}
+table{border-collapse:collapse;line-height:22px;margin:6px 0;font-size:15px;width:100%}
+td,th{border:1.5px solid #1d2a5c;padding:2px 8px;text-align:center}
+th{background:#dbe8ff}
+img.fig{width:100%;border:2px solid #1d2a5c;border-radius:6px;display:block;margin:6px 0;background:#fff;transform:rotate(-.3deg)}
+.katex{font-size:1.05em;color:#14246b}
+.katex-display{margin:3px 0}
+.tag{font-size:14px;color:#777;position:absolute;bottom:6mm;right:14mm}
+@media print{
+  .bar{display:none}body{background:#fff}.page{margin:0;box-shadow:none;page-break-after:always}
+}
+@media(max-width:840px){
+  .page{width:auto;margin:10px;padding-left:22mm}.cols{grid-template-columns:1fr}
+  .sticky{position:static;transform:none;width:auto;margin:8px 0}
+}
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <span style="font-weight:bold">📝 Catatan Kertas UAS Data Mining – Pertemuan 11</span>
+  <span style="opacity:0.7">Politeknik Statistika STIS</span>
+  <a href="index.html">← Buka Modul Lengkap (index.html)</a>
+  <button onclick="window.print()">🖨️ Cetak / Simpan PDF</button>
+</div>
+
+<!-- ==================== HALAMAN 1 ==================== -->
+<div class="page" id="hal1">
+  <div class="sticky" style="top:18mm">
+    📌 <b>KUNCI DASAR FUZZY:</b><br>
+    • $\mu(x) \in [0, 1]$ kontinu<br>
+    • <b>Support:</b> $\mu > 0$<br>
+    • <b>Core:</b> $\mu = 1$<br>
+    • <b>Boundary:</b> $0 < \mu < 1$<br>
+    • BUKAN probabilitas!
+  </div>
+
+  <h1>Pertemuan 11: Teori Himpunan Fuzzy &amp; Fungsi Keanggotaan</h1>
+  <p><span class="hl">Lotfi A. Zadeh (1965)</span>: Menjembatani presisi biner matematika klasik dengan ketidakpastian informasi dunia nyata (batas yang bertransisi halus).</p>
+
+  <h2>1. Crisp Set vs. Fuzzy Set</h2>
+  <ul>
+    <li><b>Crisp (Tegas):</b> Karakteristik biner $\chi_A(x) \in \{0, 1\}$. Melompat kaku di batas ambang.</li>
+    <li><b>Fuzzy (Kabur):</b> Fungsi keanggotaan $\mu_A(x) \in [0, 1]$. Gradasi bertingkat / kontinum kebenaran.</li>
+  </ul>
+
+  <h2>2. Tiga Istilah Wilayah Keanggotaan</h2>
+  <div class="box-blue">
+    1. <b class="grn">Support:</b> $\{x \in U \mid \mu_A(x) > 0\}$ (semua daerah yang punya derajat keanggotaan).<br>
+    2. <b class="red">Core:</b> $\{x \in U \mid \mu_A(x) = 1\}$ (daerah dengan keanggotaan penuh mutlak).<br>
+    3. <b class="blu">Boundary:</b> $\{x \in U \mid 0 < \mu_A(x) < 1\}$ (zona transisi atau ketidakpastian).
+  </div>
+
+  <h2>3. Bentuk Fungsi Keanggotaan Populer</h2>
+  <ul>
+    <li><b>Segitiga $(a, b, c)$:</b> Paling hemat komputasi, rumus linear sederhana.</li>
+    <li><b>Trapesium $(a, b, c, d)$:</b> Memiliki rentang *core* datar $[b, c]$ bernilai 1.</li>
+    <li><b>Gaussian $(c, \sigma)$:</b> $\mu(x) = \exp(-(x-c)^2 / 2\sigma^2)$, kurva mulus dan analitis.</li>
+  </ul>
+
+  <h2>4. Contoh Manual 1: Menghitung Derajat Keanggotaan (Slide 8-9)</h2>
+  <div class="cols">
+    <div>
+      <p><b>Himpunan Pengeluaran:</b></p>
+      <ul>
+        <li><i>Rendah</i>: Trapesium $(0, 0, 700, 950)$</li>
+        <li><i>Sedang</i>: Segitiga $(700, 950, 1200)$</li>
+        <li><i>Tinggi</i>: Trapesium $(950, 1200, \infty, \infty)$</li>
+      </ul>
+      <p><b>Titik uji: $x = 800$ ribu Rp</b></p>
+    </div>
+    <div>
+      <img src="img/slide-08.jpg" class="fig" alt="Slide 8: Kurva Pengeluaran">
+    </div>
+  </div>
+
+  <div class="box">
+    <b>Hitungan Tangan:</b> Lebar peralihan $= 950 - 700 = 250$.
+    $$\mu_{\text{rendah}}(800) = \frac{950 - 800}{950 - 700} = \frac{150}{250} = \mathbf{0{,}60}$$
+    $$\mu_{\text{sedang}}(800) = \frac{800 - 700}{950 - 700} = \frac{100}{250} = \mathbf{0{,}40}; \quad \mu_{\text{tinggi}}(800) = \mathbf{0{,}00}$$
+    Pemeriksaan: $\sum \mu = 0{,}60 + 0{,}40 + 0 = 1{,}00$ (partisi fuzzy ortogonal).
+  </div>
+
+  <div class="tag">Halaman 1 / 5</div>
+</div>
+
+<!-- ==================== HALAMAN 2 ==================== -->
+<div class="page" id="hal2">
+  <div class="sticky" style="top:22mm">
+    ⚠️ <b>HUKUM YANG GUGUR:</b><br>
+    • $A \cap A^c \ne \emptyset$<br>
+    • $A \cup A^c \ne U$<br>
+    Pada $\mu = 0{,}5$:<br>
+    $\min(0.5, 0.5) = 0.5 \ne 0$<br>
+    $\max(0.5, 0.5) = 0.5 \ne 1$
+  </div>
+
+  <h1>Pertemuan 11: Operasi Fuzzy &amp; Potongan-Alfa ($\alpha$-Cut)</h1>
+
+  <h2>1. Operasi Dasar: t-norm dan s-norm</h2>
+  <table style="margin-top:2px">
+    <tr><th>Keluarga Operator</th><th>t-norm (Irisan / AND)</th><th>s-norm (Gabungan / OR)</th></tr>
+    <tr><td><b>Baku (Zadeh)</b></td><td>$\min(a, b)$</td><td>$\max(a, b)$</td></tr>
+    <tr><td><b>Perkalian Aljabar</b></td><td>$a \cdot b$</td><td>$a + b - a \cdot b$</td></tr>
+    <tr><td><b>Łukasiewicz</b></td><td>$\max(0, a + b - 1)$</td><td>$\min(1, a + b)$</td></tr>
+    <tr><td><b>Drastis</b></td><td>$b$ jika $a=1$, else $0$</td><td>$b$ jika $a=0$, else $1$</td></tr>
+  </table>
+
+  <h2>2. Dua Hukum Logika Klasik yang Gugur di Fuzzy</h2>
+  <div class="box">
+    1. <b class="red">Hukum Pertentangan (Law of Contradiction):</b> Dalam klasik $A \cap A^c = \emptyset$. Namun di fuzzy, $\min(\mu, 1-\mu) \ne 0$. Suatu nilai bisa <i>agak miskin</i> dan <i>agak tidak miskin</i> sekaligus!<br>
+    2. <b class="blu">Hukum Penyisihan Jalan Tengah (Law of Excluded Middle):</b> Dalam klasik $A \cup A^c = U$. Di fuzzy, $\max(\mu, 1-\mu) \ne 1$.
+  </div>
+
+  <h2>3. Potongan-Alfa ($\alpha$-cut)</h2>
+  <p><b>Definisi:</b> $A_\alpha = \{x \in U \mid \mu_A(x) \ge \alpha\}$. Himpunan tegas yang menjadi <span class="hl">jembatan menuju keputusan operasional</span> instansi kebijakan.</p>
+
+  <h2>4. Contoh Manual 2: Penjumlahan Bilangan Fuzzy Segitiga (Slide 13-14)</h2>
+  <div class="box-blue">
+    $\tilde{A} = (2, 3, 4)$ dan $\tilde{B} = (5, 6, 8)$. Cari $\tilde{A} \oplus \tilde{B}$!<br>
+    • Selang pada $\alpha$: $A_\alpha = [2 + \alpha,\, 4 - \alpha]$ dan $B_\alpha = [5 + \alpha,\, 8 - 2\alpha]$<br>
+    • Jumlah selang: $(A \oplus B)_\alpha = [(2+\alpha)+(5+\alpha),\, (4-\alpha)+(8-2\alpha)] = [7 + 2\alpha,\, 12 - 3\alpha]$<br>
+    • Saat $\alpha = 0 \implies [7, 12]$ (lebar pendukung $= 12 - 7 = 5$ satuan)<br>
+    • Saat $\alpha = 1 \implies [9, 9]$ (puncak inti $= 9$)<br>
+    $\implies$ Hasil: <span class="grn">$\tilde{A} \oplus \tilde{B} = (7, 9, 12)$</span> berbentuk segitiga kembali!
+  </div>
+
+  <div class="cols" style="margin-top:2px">
+    <div>
+      <img src="img/slide-14.jpg" class="fig" alt="Slide 14: Penjumlahan Bilangan Fuzzy">
+    </div>
+    <div style="font-size:16px;line-height:24px;padding-top:8px">
+      💡 <b>Inti Filosofi UAS:</b><br>
+      Support $\tilde{A}$ lebarnya 2, support $\tilde{B}$ lebarnya 3. Hasilnya lebarnya 5.<br>
+      <span class="red">Ketidakpastian selalu terakumulasi / menumpuk</span> saat operasi aritmetika dilakukan!
+    </div>
+  </div>
+
+  <div class="tag">Halaman 2 / 5</div>
+</div>
+
+<!-- ==================== HALAMAN 3 ==================== -->
+<div class="page" id="hal3">
+  <div class="sticky" style="top:22mm">
+    ⚖️ <b>MAMDANI VS SUGENO:</b><br>
+    • <b>Mamdani:</b> konsekuen kurva, defuzzifikasi luasan (Centroid)<br>
+    • <b>Sugeno:</b> konsekuen angka/fungsi, rata-rata terbobot:<br>
+    $z^* = \frac{\sum \alpha_i z_i}{\sum \alpha_i}$<br>
+    • JANGAN lupa bagi $\sum \alpha_i$!
+  </div>
+
+  <h1>Pertemuan 11: Sistem Inferensi Fuzzy (Mamdani vs Sugeno)</h1>
+
+  <h2>1. Arsitektur FIS 4 Tahap</h2>
+  <ol>
+    <li><b>Fuzzifikasi:</b> Masukan numerik tegas $x, y \to$ derajat keanggotaan $\mu(x), \mu(y)$.</li>
+    <li><b>Evaluasi Aturan:</b> Hitung firing strength $\alpha_i = \min(\mu_{\text{anteseden}})$.</li>
+    <li><b>Agregasi Konsekuen:</b> Gabungkan seluruh konsekuensi aturan yang aktif.</li>
+    <li><b>Defuzzifikasi:</b> Ubah kembali hasil fuzzy menjadi keluaran numerik tegas ($z^*$).</li>
+  </ol>
+
+  <h2>2. Contoh Manual 3: Kasus Prioritas Kecamatan ($x=850, y=55$)</h2>
+  <p>Masukan: Pengeluaran $x = 850$ rb, Sanitasi $y = 55\%$. $\mu_{\text{rendah}}(850)=0{,}500; \mu_{\text{tinggi}}(850)=0{,}500$. Sanitasi: $\mu_{\text{buruk}}(55)=0{,}625; \mu_{\text{baik}}(55)=0{,}375$.</p>
+  <table>
+    <tr><th>Aturan</th><th>Kondisi IF</th><th>Kekuatan Firing $\alpha_i$</th><th>Konsekuen Sugeno (Orde 0)</th><th>$\alpha_i \cdot c_i$</th></tr>
+    <tr><td>$R_1$</td><td>$x$ rendah AND $y$ buruk</td><td>$\min(0{,}500;\, 0{,}625) = \mathbf{0{,}500}$</td><td>$c_1 = 90$ (Sangat Tinggi)</td><td>45,000</td></tr>
+    <tr><td>$R_2$</td><td>$x$ rendah AND $y$ baik</td><td>$\min(0{,}500;\, 0{,}375) = \mathbf{0{,}375}$</td><td>$c_2 = 65$ (Tinggi)</td><td>24,375</td></tr>
+    <tr><td>$R_3$</td><td>$x$ tinggi AND $y$ buruk</td><td>$\min(0{,}500;\, 0{,}625) = \mathbf{0{,}500}$</td><td>$c_3 = 55$ (Sedang)</td><td>27,500</td></tr>
+    <tr><td>$R_4$</td><td>$x$ tinggi AND $y$ baik</td><td>$\min(0{,}500;\, 0{,}375) = \mathbf{0{,}375}$</td><td>$c_4 = 25$ (Rendah)</td><td>9,375</td></tr>
+    <tr style="font-weight:bold;background:#dbe8ff"><td colspan="2">TOTAL</td><td>$\sum \alpha_i = \mathbf{1{,}750}$</td><td>—</td><td>$\sum \alpha_i c_i = \mathbf{106{,}250}$</td></tr>
+  </table>
+
+  <h2>3. Perbandingan Hasil Defuzzifikasi</h2>
+  <div class="cols">
+    <div class="box">
+      <b>Mamdani (Luasan Area):</b><br>
+      • Centroid: $z^* = \frac{\int z \mu(z) dz}{\int \mu(z) dz} = \mathbf{60{,}45}$<br>
+      • MOM: $z^* = \mathbf{72{,}5}$ (pilihan metode mengubah hasil!).
+    </div>
+    <div class="box-blue">
+      <b>Sugeno Orde Nol (Rata-rata Terboboti):</b><br>
+      $$z^* = \frac{\sum \alpha_i c_i}{\sum \alpha_i} = \frac{106{,}250}{1{,}750} = \mathbf{60{,}714}$$
+      <i>(Sangat dekat Mamdani tanpa integral!)</i>
+    </div>
+  </div>
+
+  <h2>4. Kaidah Memilih Mamdani vs Sugeno</h2>
+  <ul>
+    <li>Pakai <span class="red"><b>Mamdani</b></span> bila aturan berasal dari <b>pakar manusia</b> dan keputusannya harus dijelaskan secara transparan kepada publik/pembuat kebijakan.</li>
+    <li>Pakai <span class="blu"><b>Sugeno</b></span> bila model untuk <b>sistem kontrol kendali/peramalan cepat</b> atau jika parameter ditaksir otomatis dari data (ANFIS).</li>
+  </ul>
+
+  <div class="tag">Halaman 3 / 5</div>
+</div>
+
+<!-- ==================== HALAMAN 4 ==================== -->
+<div class="page" id="hal4">
+  <div class="sticky" style="top:22mm">
+    🎯 <b>RUMUS KUNCI FCM:</b><br>
+    $J_m = \sum \sum u_{ij}^m d_{ij}^2$<br>
+    Pusat: $v_j = \frac{\sum u_{ij}^m x_i}{\sum u_{ij}^m}$<br>
+    Derajat: $u_{ij} \propto (1/d_{ij})^{\frac{2}{m-1}}$<br>
+    Syarat: $\sum_j u_{ij} = 1$
+  </div>
+
+  <h1>Pertemuan 11: Fuzzy Clustering – Fuzzy C-Means (FCM)</h1>
+  <p><span class="hl">Bezdek (1981)</span>: Menempatkan objek ke dalam klaster dengan derajat keanggotaan bertingkat $u_{ij} \in [0, 1]$.</p>
+
+  <h2>1. Fungsi Objektif &amp; Pembaruan Berselang-seling</h2>
+  <div class="box">
+    $$J_m(U, V) = \sum_{i=1}^n \sum_{j=1}^c u_{ij}^m \, d^2(x_i, v_j), \quad \sum_{j=1}^c u_{ij} = 1$$
+    • Update Keanggotaan: $u_{ij} = \left[ \sum_{l=1}^c \left( \frac{d(x_i, v_j)}{d(x_i, v_l)} \right)^{\frac{2}{m-1}} \right]^{-1}$<br>
+    • Update Pusat: $v_j = \frac{\sum_{i=1}^n u_{ij}^m x_i}{\sum_{i=1}^n u_{ij}^m}$
+  </div>
+
+  <h2>2. Contoh Manual 4: Satu Iterasi FCM (Slide 28-29)</h2>
+  <p>Data $x = (2, 3, 4, 8, 9)$, $c = 2, m = 2$, Pusat awal: $v = (3, 8)$. Eksponen $\frac{2}{m-1} = 2$.</p>
+  <div class="box-blue">
+    <b>Hitung $u_{11}$ untuk $x_1 = 2$:</b> $d_{11} = |2 - 3| = 1$; $d_{12} = |2 - 8| = 6$.
+    $$u_{11} = \frac{(1/1)^2}{(1/1)^2 + (1/6)^2} = \frac{1}{1 + \frac{1}{36}} = \frac{36}{37} = \mathbf{0{,}9730}; \quad u_{12} = 1 - 0{,}9730 = \mathbf{0{,}0270}$$
+    <b>Untuk titik $x_2 = 3$ (berimpit pusat $v_1$):</b> $d_{21} = 0 \implies u_{21} = \mathbf{1{,}0000}, u_{22} = \mathbf{0{,}0000}$.
+  </div>
+
+  <h2>3. Peran Fuzzifier $m$ (Slide 30)</h2>
+  <ul>
+    <li>$m \to 1^+$: Mendekati <b>Hard K-Means</b> (batas tegas).</li>
+    <li>$m \to \infty$: Seluruh $u_{ij} \to 1/c$ (semua titik sangat kabur dan seragam). Standar: $m = 2$.</li>
+    <li><span class="red">Peringatan Ujian:</span> $m$ mengatur ketegasan, bukan ketepatan! <b>Jangan mengejar Partition Coefficient (PC) tertinggi</b> untuk memilih $m$ (PC otomatis naik jika $m$ diperkecil).</li>
+  </ul>
+
+  <h2>4. Ukuran Validitas Klaster Fuzzy (Slide 31)</h2>
+  <table style="margin-top:2px">
+    <tr><th>Ukuran</th><th>Arah</th><th>Formula &amp; Keterangan</th></tr>
+    <tr><td><b>Partition Coefficient (PC)</b></td><td><span class="grn">Maks ($\to 1$)</span></td><td>$\frac{1}{n}\sum \sum u_{ij}^2$ (mengukur ketegasan partisi).</td></tr>
+    <tr><td><b>Modified PC (MPC)</b></td><td><span class="grn">Maks ($\to 1$)</span></td><td>$1 - \frac{c}{c-1}(1 - \text{PC})$ (bebas dari efek jumlah $c$).</td></tr>
+    <tr><td><b>Partition Entropy (PE)</b></td><td><span class="red">Min ($\to 0$)</span></td><td>$-\frac{1}{n}\sum \sum u_{ij} \log(u_{ij})$ (entropi kekacauan).</td></tr>
+    <tr><td><b>Xie-Beni Index (XB)</b></td><td><span class="red">Min</span></td><td>$\frac{J_m / n}{c \cdot \min \|v_j - v_l\|^2}$ (rasio variansi / separasi).</td></tr>
+  </table>
+  <p style="margin-top:2px;font-size:15px">⚠️ <b>Catatan Slide 31:</b> Jika gugus bertumpang tindih, seluruh ukuran validitas bisa terkecoh memilih $k$ yang salah!</p>
+
+  <div class="tag">Halaman 4 / 5</div>
+</div>
+
+<!-- ==================== HALAMAN 5 ==================== -->
+<div class="page" id="hal5">
+  <div class="sticky" style="top:22mm">
+    🗺️ <b>FUZZY SPASIAL:</b><br>
+    $u_{ij}^* \propto u_{ij} \cdot (\bar{u}_{ij})^\alpha$<br>
+    • Redam bintik wilayah<br>
+    • Jangan cari peta termulus!<br>
+    • Laporkan ambiguitas transisi
+  </div>
+
+  <h1>Pertemuan 11: Varian Lanjutan, Fuzzy Spasial, &amp; Kunci Ujian</h1>
+
+  <h2>1. Varian FCM Lanjutan: Gustafson-Kessel &amp; Possibilistic</h2>
+  <div class="cols">
+    <div class="box">
+      <b>Gustafson–Kessel (GK):</b><br>
+      • Mengatasi gugus lonjong / elips.<br>
+      • Pakai jarak Mahalanobis adaptif &amp; kovarians klaster.<br>
+      • <span class="red">Bahaya:</span> Menaksir banyak parameter tambahan; overfit di gugus bulat!
+    </div>
+    <div class="box-blue">
+      <b>Possibilistic C-Means (PCM):</b><br>
+      • Lepaskan syarat $\sum u_{ij} = 1$.<br>
+      • Ukur tipikalitas mutlak $t_{ij} \in [0, 1]$.<br>
+      • <span class="grn">Tahan Outlier:</span> Titik jauh bernilai 0 di semua gugus! (FCM tertipu memberi skor tinggi).
+    </div>
+  </div>
+
+  <h2>2. Fuzzy Clustering Spasial (Slide 36-39)</h2>
+  <ul>
+    <li><b>Masalah FCM biasa pada peta:</b> Menghasilkan pola berbintik (<em>salt-and-pepper</em>) karena mengabaikan tetangga geografis (Tobler's First Law).</li>
+    <li><b>Regularisasi Spasial:</b> $u_{ij}^* \propto u_{ij} \cdot (\bar{u}_{ij})^\alpha$ di mana $\bar{u}_{ij} = \sum_{k \in N(i)} w_{ik} u_{kj}$ (rata-rata keanggotaan tetangga).</li>
+    <li><b class="red">Jebakan $\alpha$ Spasial:</b> $\alpha = 0{,}25$ memberi ARI terbaik ($0{,}811$). Bila $\alpha = 2{,}0$, peta sangat mulus tapi ARI anjlok ($0{,}588$) karena kantong anomali asli (enclave) terhapus! <b>Peta mulus $\ne$ klaster benar!</b></li>
+  </ul>
+
+  <h2>3. Sepuluh Jebakan Ujian Data Mining STIS (Slide 43)</h2>
+  <div class="box" style="font-size:14.5px;line-height:21px">
+    1. Mengira derajat keanggotaan adalah nilai peluang.<br>
+    2. Memilih bentuk kurva tanpa alasan bidang &amp; tidak dilaporkan.<br>
+    3. Memakai t-norm default tanpa tahu sifat operator lain.<br>
+    4. <span class="red">Lupa membagi $\sum \alpha_i$ pada Sugeno.</span><br>
+    5. Tidak menyatakan metode defuzzifikasi (Centroid vs MOM beda hasil).<br>
+    6. Memilih $m$ dengan mengejar PC tertinggi.<br>
+    7. Menentukan $k$ hanya dari satu ukuran validitas.<br>
+    8. Memakai GK pada gugus bulat atau PCM mandiri tanpa FCM.<br>
+    9. Memilih $\alpha$ spasial dengan kriteria peta paling mulus.<br>
+    10. Menyajikan peta klaster tegas tanpa menampilkan daerah keraguan transisi.
+  </div>
+
+  <h2>4. Matriks Ringkas: Kapan Pakai Metode Apa?</h2>
+  <table style="font-size:13.5px">
+    <tr><th>Kondisi Masalah</th><th>Metode</th><th>Kata Kunci Alasan</th></tr>
+    <tr><td>Aturan pakar, harus dijelaskan publik</td><td><b>Mamdani</b></td><td>Bahasa manusia, defuzzifikasi luas</td></tr>
+    <tr><td>Kendali cepat, peramalan numerik</td><td><b>Sugeno</b></td><td>Murah, rata-rata terbobot, kontinu</td></tr>
+    <tr><td>Gugus bulat sferis, tanpa outlier</td><td><b>FCM</b></td><td>Jarak Euclidean, efisien</td></tr>
+    <tr><td>Gugus lonjong / miring berkorelasi</td><td><b>GK</b></td><td>Jarak Mahalanobis &amp; matriks kovarians</td></tr>
+    <tr><td>Banyak outlier ekstrem</td><td><b>PCM</b></td><td>Tipikalitas mutlak, bebas $\sum u = 1$</td></tr>
+    <tr><td>Data wilayah geografis berbintik</td><td><b>Spasial FCM</b></td><td>Regularisasi tetangga $u \cdot \bar{u}^\alpha$</td></tr>
+  </table>
+
+  <div class="tag">Halaman 5 / 5</div>
+</div>
+
+<script src="katex/katex.min.js"></script>
+<script src="katex/contrib/auto-render.min.js"></script>
+<script>
+renderMathInElement(document.body, {
+  delimiters: [
+    {left: "$$", right: "$$", display: true},
+    {left: "$", right: "$", display: false}
+  ],
+  throwOnError: false
+});
+</script>
+</body>
+</html>
